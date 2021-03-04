@@ -1,6 +1,7 @@
 import { transaction } from 'objection'
 
 import User from '../models/user'
+import Role from '../models/role'
 import FreeDelivery from '../models/free-delivery'
 
 import { encryptPassword } from '../helpers'
@@ -13,11 +14,15 @@ export const newUserService = async (
     async (
       User,
     ) => {
+      const customerRole = await Role.query().find({
+        name:'CUSTOMER',
+      });
       const [
         user,
       ] = await Promise.all([
         User.query().insert({
-          phone_number:phone_number
+          phone_number,
+          role_id: customerRole.id
         }),
       ])
 
