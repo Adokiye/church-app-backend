@@ -8,7 +8,7 @@ const router = new Router()
 
 router.put('/users/:id', Auth.update)
 
-router.post('/guest/register', UserValidator.create(), Auth.verifyOtp, Auth.create)
+router.post('/guest/authenticate', UserValidator.create(), Auth.verifyOtp, Auth.create)
 
 router.post(
   '/internal/send-otp',

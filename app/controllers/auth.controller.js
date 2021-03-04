@@ -70,17 +70,31 @@ export const sendOtp = async ctx => {
       phone_number,
     } = ctx.request.body
 
-    const userData = await newUserService(
+    const userInDb = await User.query().where({
       phone_number,
-    )
-  
-    return {
-      status: 'success',
-      message: 'Registration successful',
-      ...userData,
-      token: JwtService.sign(
-        { phone_number, id: userData.user.id},
+    });
+
+    if (!userInDb) {
+      const userData = await newUserService(
+        phone_number,
       )
+      return {
+        status: 'success',
+        message: 'Success!',
+        ...userData,
+        token: JwtService.sign(
+          { phone_number, id: userData.user.id},
+        )
+      }
+    }else{
+      return {
+      status: 'success',
+      message: 'Success!',
+      ...userInDb,
+      token: JwtService.sign(
+        { phone_number, id: userInDb.id},
+      )
+    }
     }
   }
 
