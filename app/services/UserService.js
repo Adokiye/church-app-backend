@@ -6,7 +6,7 @@ import FreeDelivery from '../models/free-delivery'
 
 import { encryptPassword } from '../helpers'
 
-export const newUserService = async (
+export const newCustomerService = async (
   phone_number,
 ) => {
   return await transaction(
@@ -65,6 +65,6 @@ export const updateNewUserService = async (
 }
 
 export default {
-  newUserService,
+  newCustomerService,
   updatenewUserService,
 }

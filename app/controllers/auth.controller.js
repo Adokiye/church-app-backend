@@ -78,7 +78,7 @@ export const sendOtp = async ctx => {
     });
 
     if (!userInDb) {
-      const userData = await newUserService(
+      const userData = await newCustomerService(
         phone_number,
       )
       return {
@@ -86,7 +86,7 @@ export const sendOtp = async ctx => {
         message,
         ...userData,
         token: JwtService.sign(
-          { phone_number, id: userData.user.id},
+          { phone_number, id: userData.user.id,},
         )
       }
     }else{
