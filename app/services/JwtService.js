@@ -1,10 +1,13 @@
 import Jwt from 'jsonwebtoken';
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const {
+  JWT_SECRET,
+  EXPIRE_TIME,
+} = require('../config')
 
 export default class JwtService {
-  static sign(data, options) {
-    return Jwt.sign(data, SECRET_KEY, options);
+  static sign(data) {
+    return Jwt.sign(data, JWT_SECRET, { expiresIn: EXPIRE_TIME });
   }
 
   static verify(token) {

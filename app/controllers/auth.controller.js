@@ -1,13 +1,7 @@
 import User from '../models/user';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
-import {
-  UnprocessableEntity,
-  NotFound,
-  MailHelper,
-  ApiLogger,
-  Unauthorized,
-} from 'helpers'
+import {newUserService} from '../services/NewUserService'
 
 
 export const sendOtp = async ctx => {
@@ -71,17 +65,48 @@ export const sendOtp = async ctx => {
     return next();
   }
 
-  export const register = async (ctx,next) => {
-    const { body } = ctx.request
+  export const create = async ctx => {
+    const {
+      phone_number,
+    } = ctx.request.body
 
-    await OtpService.sendOtp({
-      phone_number: body.phone_number,
-      action: body.action,
-    });
-
-    return res.status(200).json({
+    const userData = await newUserService(
+      phone_number,
+    )
+  
+    return {
       status: 'success',
-      message: 'Otp sent successfully',
-    });
+      message: 'Registration successful',
+      ...userData,
+      token: JwtService.sign(
+        { phone_number, id: userData.user.id},
+      )
+    }
   }
+
+  export const update = async ctx => {
+    const {
+      personal_details,
+    } = ctx.request.body
+    const { id } = ctx.state.user
+  
+    const [user] = await User.query()
+      .where({ id })
+      .catch(() => {
+        throw Unauthorized('User not found please register')
+      })
+  
+    const userData = await updateIppisServices(
+      personal_details,
+      user
+    )
+  
+    return {
+      status: 'success',
+      message: 'Update Successful',
+      ...userData
+    }
+  }
+
+
 
