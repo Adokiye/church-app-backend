@@ -5,7 +5,7 @@ export const up = knex =>
     .foreign('created_by')
     .references('id')
     .inTable('users')
-    .onDelete('CASCADE')
+    .onDelete('CASCADE').notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.string("name").notNullable();
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));

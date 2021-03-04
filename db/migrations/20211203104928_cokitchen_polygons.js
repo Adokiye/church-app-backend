@@ -5,14 +5,14 @@ export const up = knex =>
     .foreign('created_by')
     .references('id')
     .inTable('users')
-    .onDelete('CASCADE')
+    .onDelete('CASCADE').notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.specificType("polygon", "geometry(point, 4326)");
     table
     .foreign('cokitchen_id')
     .references('id')
     .inTable('cokitchens')
-    .onDelete('CASCADE')
+    .onDelete('CASCADE').notNullable()
     table.string("name");
     table.timestamps(true,true);
 

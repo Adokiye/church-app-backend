@@ -10,7 +10,7 @@ exports.up = function (knex) {
       .foreign('role_id')
       .references('id')
       .inTable('roles')
-      .onDelete('CASCADE')
+      .onDelete('CASCADE').notNullable()
     table.string("first_name");
     table.string("last_name");
     table.string("other_name");

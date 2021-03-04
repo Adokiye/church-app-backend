@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('otp', table => {
+    return knex.schema.createTable('otps', table => {
         table.uuid('id')
         table.string('action').notNullable()
         table.string('phone_number').notNullable()
@@ -12,5 +12,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('otp')
+    return knex.schema.dropTable('otps')
 };
