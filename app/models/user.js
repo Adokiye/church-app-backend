@@ -1,12 +1,17 @@
-const { Model } = require("objection");
-const knex = require("../../db/knex");
-const bcrypt = require("bcrypt");
-Model.knex(knex);
+import { Model } from 'objection'
 
-class User extends Model {
-  static get tableName() {
-    return "users";
-  }
+import { baseModel, modelUuid, modelUnique } from './index'
+
+import bcrypt from 'bcrypt'
+
+class User extends modelUuid(baseModel) {
+  static tableName = "users";
+
+  static hidden = [
+    'password',
+    'password_reset_token',
+    'email_confirm_token'
+  ]
 
   // Encrypt the password before it is stored in the database
   async $beforeInsert() {
@@ -16,17 +21,7 @@ class User extends Model {
   }
 
   //link user to auth token,
-  static get relationMappings() {
-    const AuthToken = require('./authToken')
-    return {
-        auth_tokens: {
-            relation: Model.HasManyRelation,
-            modelClass: AuthToken,
-            join: {
-                from: 'users.id',
-                to: 'authToken.user_id'
-            }
-        }
-    }
+  static relationMappings = {
 }
 }
+export default User

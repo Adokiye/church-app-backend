@@ -1,10 +1,7 @@
-const { Model } = require('objection');
-const knex = require('../../db/knex')
+import { Model } from 'objection'
 
-Model.knex(knex)
+import { baseModel, modelUuid, modelUnique } from './index'
 
-class Otp extends Model {
-  static get tableName() {
-    return 'otp';
-  }
+class User extends modelUuid(baseModel) {
+  static tableName = "users";
 }

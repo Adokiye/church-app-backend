@@ -5,21 +5,74 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "pretest": "yarn eslint",
+    "start": "nodemon index.js",
+    "eslint": "eslint --ignore-path .gitignore .",
+    "prettier": "prettier --write '**/*.js' --ignore-path .gitignore ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@koa/cors": "^3.1.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "knex": "^0.21.17",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-helmet": "^6.0.0",
+    "koa-jwt": "^4.0.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0",
+    "koa-unless": "celsomarques/koa-unless#koa-v2",
+    "moment": "^2.29.1",
     "nodemon": "^2.0.7",
     "objection": "^2.2.14",
+    "objection-db-errors": "^1.1.2",
+    "objection-guid": "^3.0.2",
+    "objection-unique": "^1.2.1",
     "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "@babel/node": "^7.0.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
+    "chance": "^1.1.7",
+    "commitlint": "^8.2.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.3",
+    "jest": "^25.3.0",
+    "jsdoc": "^3.6.6",
+    "lint-staged": "10.1.2",
+    "prettier": "^2.0.4",
+    "supertest": "^4.0.2"
+  },
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "prettier --write"
+    ]
+  },
+  "resolutions": {
+    "koa-jwt/koa-unless": "celsomarques/koa-unless#koa-v2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

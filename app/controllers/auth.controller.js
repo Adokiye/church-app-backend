@@ -1,10 +1,17 @@
 import User from '../models/user';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
+import {
+  UnprocessableEntity,
+  NotFound,
+  MailHelper,
+  ApiLogger,
+  Unauthorized,
+} from 'helpers'
 
-export default class  AuthController {
-  async sendOtp(  req,res,next ) {
-    const body = req.body;
+
+export const sendOtp = async ctx => {
+  const { body } = ctx.request
 
     await OtpService.sendOtp({
       phone_number: body.phone_number,
@@ -17,8 +24,8 @@ export default class  AuthController {
     });
   }
 
-  async verifyOtp( res, req,next) {
-    const body = req.body;
+  export const verifyOtp = async (ctx,next) => {
+    const { body } = ctx.request
 
     if (!body.otp) {
       return res.status(400).json({
@@ -63,4 +70,18 @@ export default class  AuthController {
     
     return next();
   }
-}
+
+  export const register = async (ctx,next) => {
+    const { body } = ctx.request
+
+    await OtpService.sendOtp({
+      phone_number: body.phone_number,
+      action: body.action,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Otp sent successfully',
+    });
+  }
+

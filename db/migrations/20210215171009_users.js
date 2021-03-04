@@ -1,10 +1,13 @@
 exports.up = function (knex) {
-  return knex.schema.createTable("users", (table) => {
-    table.increments("id");
+  return knex.schema.raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
+  .createTable("users", (table) => {
+    table.uuid('id').primary()
     table.string("username").unique();
-    table.string("email").unique();
+    table.specificType('email', 'CITEXT').unique()
+    table.boolean('email_confirmed').notNullable().defaultTo(false)
+    table.string('email_confirm_token').unique()
     table
-      .enum("role", [
+      .enu("role", [
         "customer",
         "rider",
         "marketing",
@@ -12,14 +15,16 @@ exports.up = function (knex) {
         "admin",
         "super-admin",
       ])
-      .defaultTo("customer");
+      .notNullable().defaultTo("customer");
     table.string("first_name");
     table.string("last_name");
     table.string("other_name");
     table.string("phone_number").unique().notNullable();
-    table.string("gender");
+    table.enu('gender', ['male', 'female'])
+    table.string('dob')
     table.string("password");
-    table.timestamps(true);
+    table.string('password_reset_token').unique()
+    table.timestamps(true,true);
   });
 };
 
