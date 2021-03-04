@@ -6,7 +6,8 @@ exports.up = function(knex) {
         table.string('phone_number').notNullable()
         table.string('otp_token').notNullable();
         table.boolean('verified').notNullable().defaultTo(false);
-        table.timestamps(true);
+        table.timestamps(true,true);
+
     })
 };
 

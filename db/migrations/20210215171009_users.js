@@ -6,16 +6,11 @@ exports.up = function (knex) {
     table.specificType('email', 'CITEXT').unique()
     table.boolean('email_confirmed').notNullable().defaultTo(false)
     table.string('email_confirm_token').unique()
-    table
-      .enu("role", [
-        "customer",
-        "rider",
-        "marketing",
-        "logistics-admin",
-        "admin",
-        "super-admin",
-      ])
-      .notNullable().defaultTo("customer");
+      table
+      .foreign('role_id')
+      .references('id')
+      .inTable('roles')
+      .onDelete('CASCADE')
     table.string("first_name");
     table.string("last_name");
     table.string("other_name");

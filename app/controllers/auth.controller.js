@@ -1,7 +1,7 @@
 import User from '../models/user';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
-import {newUserService} from '../services/NewUserService'
+import {newUserService,updateNewUserService} from '../services/UserService'
 
 
 export const sendOtp = async ctx => {
@@ -70,6 +70,9 @@ export const sendOtp = async ctx => {
       phone_number,
     } = ctx.request.body
 
+    const status =  'success';
+    const message = 'Success!';
+
     const userInDb = await User.query().where({
       phone_number,
     });
@@ -79,8 +82,8 @@ export const sendOtp = async ctx => {
         phone_number,
       )
       return {
-        status: 'success',
-        message: 'Success!',
+        status,
+        message,
         ...userData,
         token: JwtService.sign(
           { phone_number, id: userData.user.id},
@@ -88,8 +91,8 @@ export const sendOtp = async ctx => {
       }
     }else{
       return {
-      status: 'success',
-      message: 'Success!',
+      status,
+      message,
       ...userInDb,
       token: JwtService.sign(
         { phone_number, id: userInDb.id},
@@ -110,7 +113,7 @@ export const sendOtp = async ctx => {
         throw Unauthorized('User not found please register')
       })
   
-    const userData = await updateIppisServices(
+    const userData = await updateNewUserService(
       personal_details,
       user
     )

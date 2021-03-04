@@ -7,6 +7,8 @@ export const up = knex =>
     .inTable('users')
     .onDelete('CASCADE')
     table.boolean('active').notNullable().defaultTo(true)
+    table.timestamps(true,true);
+
   })
 
 export const down = knex => knex.schema.dropTableIfExists('free_deliveries')

@@ -1,7 +1,9 @@
 import { transaction } from 'objection'
 
 import User from '../models/user'
-import FreeDelivery from '../models/free-deliveries'
+import FreeDelivery from '../models/free-delivery'
+
+import { encryptPassword } from '../helpers'
 
 export const newUserService = async (
   phone_number,
@@ -31,7 +33,7 @@ export const newUserService = async (
   )
 }
 
-export const updatenewUserService = async (
+export const updateNewUserService = async (
   personal_details,
   user
 ) => {
@@ -40,6 +42,10 @@ export const updatenewUserService = async (
     async (
       User,
     ) => {
+
+      //  clean up data
+      delete personal_details.phone_number
+      personal_details.password = await encryptPassword(personal_details.password);
 
       const user_data = await User.query().patchAndFetchById(
         user.id,
@@ -55,5 +61,5 @@ export const updatenewUserService = async (
 
 export default {
   newUserService,
-  updatenewUserService
+  updatenewUserService,
 }

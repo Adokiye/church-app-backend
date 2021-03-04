@@ -24,7 +24,7 @@ export const authMiddleware = jwt({
     '/v1/auth/login',
     '/v1/auth/forget',
     '/v1/auth/reset',
-    '/v1/guest/register',
+    '/v1/guest/authenticate',
     '/v1/auth/resend',
     '/public',
     '/',
