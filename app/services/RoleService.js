@@ -1,16 +1,14 @@
-import { transaction } from 'objection'
-
-import Role from '../models/role'
-
 // users that can carry out marketing tasks
 const marketing = ['MARKETING','ADMIN'];
 
 const admin = ['ADMIN'];
 
 // users that can carry out logisitcs admin tasks
-const logisitcsAdmin = ['LOGISTICS_ADMIN', 'ADMIN']
+const logisitcsAdmin = ['LOGISTICS_ADMIN','LOGISTICS_SUPER_ADMIN', 'ADMIN']
 
-const 
+//users that can carry out logistics super admin tasks
+const logisticsSuperAdmin = ['LOGISTICS_SUPER_ADMIN','ADMIN']
+
 
 export const checkIfMarketing = async (
   role_name,
@@ -25,8 +23,13 @@ export const checkIfAdmin = async (
     role_name,
   ) => logisitcsAdmin.includes(role_name)
 
+  export const checkIfLogisticsSuperAdmin = async (
+    role_name,
+  ) => logisticsSuperAdmin.includes(role_name)
+
 export default {
   checkIfAdmin,
   checkIfLogisticsAdmin,
-  checkIfMarketing
+  checkIfMarketing,
+  checkIfLogisticsSuperAdmin
 }
