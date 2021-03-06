@@ -40,6 +40,7 @@ export const newCustomerService = async (
   )
 }
 
+
 export const updateNewUserService = async (
   personal_details,
   user
@@ -52,6 +53,7 @@ export const updateNewUserService = async (
 
       //  clean up data
       delete personal_details.phone_number
+      delete personal_details.role_id
       personal_details.password = await encryptPassword(personal_details.password);
 
       const user_data = await User.query().patchAndFetchById(

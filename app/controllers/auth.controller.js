@@ -1,8 +1,12 @@
 import User from '../models/user';
+import Role from '../models/role';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
 import {newCustomerService,updateNewUserService} from '../services/UserService'
-
+import {
+  checkIfAdmin,
+  checkIfMarketing
+} from '../services/RoleService'
 
 export const sendOtp = async ctx => {
   const { body } = ctx.request
@@ -122,6 +126,60 @@ export const sendOtp = async ctx => {
       status: 'success',
       message: 'Update Successful',
       ...userData
+    }
+  }
+
+
+  //admin
+  export const adminUpdateUser = async ctx => {
+    const { body } = ctx.request
+    const { role } = ctx.state.user
+  
+    if (checkIfAdmin(role.name)) {
+    
+      const user_data = await User.query().patchAndFetchById(
+        body.user_id,
+        body
+      ).withGraphFetched('[role]')
+      return {
+        status: 'success',
+        message: 'Update Successful',
+        ...user_data
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
+    }
+  }
+
+  export const adminGetUsers = async ctx => {
+    const { role } = ctx.state.user
+  
+    if (checkIfAdmin(role.name)) {
+    
+      const data = await User.query().withGraphFetched('[role]')
+      return {
+        status: 'success',
+        message: 'Update Successful',
+        data
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
+    }
+  }
+
+  export const adminGetUserRoles = async ctx => {
+    const { role } = ctx.state.user
+  
+    if (checkIfAdmin(role.name)) {
+    
+      const data = await Role.query()
+      return {
+        status: 'success',
+        message: 'Update Successful',
+        data
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
     }
   }
 

@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-import { validationMiddleware } from 'middlewares'
+import { validationMiddleware } from '../middlewares'
 
 let point = Joi.object().keys({
     lat: Joi.number().required(),

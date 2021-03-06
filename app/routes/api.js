@@ -19,6 +19,16 @@ router.post(
   Auth.sendOtp
 )
 
+//admin routes
+router.post('/admin/update-user',Auth.adminUpdateUser)
+
+router.get('/admin/get-users', Auth.adminGetUsers)
+
+router.get('/admin/get-user-roles', Auth.adminGetUserRoles)
+
+
+
+
 //marketing routes
 router.put('/marketing/update-cokitchen/:id', CokitchenValidator.update(), Cokitchen.updateCokitchen)
 

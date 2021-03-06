@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-import { validationMiddleware } from 'middlewares'
+import { validationMiddleware } from '../middlewares'
 
 let point = Joi.array().items(Joi.number()).min(2).max(2)
 
