@@ -1,6 +1,7 @@
 import { baseModel, modelUuid } from './index'
 
 import { Model } from 'objection'
+import Cokitchen from './cokitchen'
 
 class Brand extends modelUuid(baseModel) {
   static tableName = 'brands'
@@ -9,23 +10,16 @@ class Brand extends modelUuid(baseModel) {
   ]
 
   static relationMappings = {
-    brands: {
+    cokitchen: {
       relation: Model.HasManyRelation,
-      modelClass: Brand,
+      modelClass: Cokitchen,
       join: {
         from: 'brands.cokitchen_id',
         to: 'cokitchens.id'
       }
     },
 
-    cokitchen_polygons: {
-      relation: Model.HasManyRelation,
-      modelClass: CokitchenPolygon,
-      join: {
-        from: 'cokitchen_polygons.cokitchen_id',
-        to: 'cokitchens.id'
-      }
-    },
+  
   }
 }
 
