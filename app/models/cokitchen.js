@@ -1,4 +1,5 @@
 import { baseModel, modelUuid } from './index'
+import { Model } from 'objection'
 
 import Brand from './brand'
 import CokitchenPolygon from './cokitchen_polygon'

@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import {Auth, } from '../controllers/'
+import {Auth, Cokitchen, Brand} from '../controllers/'
 import {
   UserValidator,
   CokitchenValidator,
@@ -9,7 +9,7 @@ import {
 const router = new Router()
 
 //authentication and user routes
-router.put('/users/:id',UserValidator.update(), Auth.update)
+router.put('/user',UserValidator.update(), Auth.update)
 
 router.post('/guest/authenticate', UserValidator.create(), Auth.verifyOtp, Auth.create)
 
@@ -19,6 +19,19 @@ router.post(
 )
 
 //marketing routes
+router.put('/marketing/update-cokitchen/:id', CokitchenValidator.update(), Cokitchen.updateCokitchen)
+
+router.put('/marketing/update-cokitchen-polygon/:id', CokitchenPolygonValidator.update(), Brand.updateBrand)
+
+router.post('/marketing/create-cokitchen-polygon', CokitchenPolygonValidator.create(), Cokitchen.createCokitchenPolygon)
+
+router.put('/marketing/update-cokitchen-polygon/:id', CokitchenPolygonValidator.update(), Cokitchen.updateCokitchenPolygon)
+
+router.get('/cokitchens', Cokitchen.getAllCokitchen )
+
+// user brand routes
+router.post('/user/brands',BrandValidator.getUserBrands(), Brand.getBrandsForCustomer)
+
 
 
 

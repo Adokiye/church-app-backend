@@ -7,17 +7,18 @@ import {
 import { Unauthorized } from '../helpers'
 
 export const updateCokitchen = async ctx => {
+  const { id } = ctx.params
   const { body } = ctx.request
-  const { id, role } = ctx.state.user
+  const { role } = ctx.state.user
 
   if (checkIfMarketing(role.name)) {
     if (body.posist_data) {
       delete body.posist_data
     }
     const cokitchen_data = await Cokitchen.query().patchAndFetchById(
-      body.id,
+      id,
       body
-    )
+    ).withGraphFetched('[brands, cokitchen_polygon]')
     return {
       status: 'success',
       message: 'Update Successful',
@@ -35,7 +36,7 @@ export const createCokitchenPolygon = async ctx => {
     if (checkIfMarketing(role.name)) {
       const cokitchen_polygon_data = await CokitchenPolygon.query().insert(
         ...body
-      )
+      ).withGraphFetched('[cokitchen]')
       return {
         status: 'success',
         message: 'Update Successful',
@@ -47,14 +48,15 @@ export const createCokitchenPolygon = async ctx => {
   }
 
 export const updateCokitchenPolygon = async ctx => {
+    const { id } = ctx.params
     const { body } = ctx.request
-    const { id, role } = ctx.state.user
+    const { role } = ctx.state.user
   
     if (checkIfMarketing(role.name)) {
       const cokitchen_polygon_data = await CokitchenPolygon.query().patchAndFetchById(
-        body.id,
+        id,
         body
-      )
+      ).withGraphFetched('[cokitchen]')
       return {
         status: 'success',
         message: 'Update Successful',
@@ -66,7 +68,7 @@ export const updateCokitchenPolygon = async ctx => {
   }
 
 export const getAllCokitchen = async ctx =>{
-    const cokitchens = await Cokitchen.query()
+    const cokitchens = await Cokitchen.query().withGraphFetched('[brands,cokitchen_polygons]')
     return {
       status: 'success',
       cokitchens

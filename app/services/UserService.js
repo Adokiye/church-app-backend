@@ -23,8 +23,10 @@ export const newCustomerService = async (
         User.query().insert({
           phone_number,
           role_id: customerRole.id
-        }),
+        }).withGraphFetched('[role]'),
       ])
+
+      console.log(user)
 
       const free_delivery = await FreeDelivery.query().insert({
         user_id: user.id,
@@ -55,7 +57,7 @@ export const updateNewUserService = async (
       const user_data = await User.query().patchAndFetchById(
         user.id,
         personal_details
-      )
+      ).withGraphFetched('[role]')
 
       return {
         user_data

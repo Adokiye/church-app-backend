@@ -75,7 +75,7 @@ export const sendOtp = async ctx => {
 
     const userInDb = await User.query().where({
       phone_number,
-    });
+    }).withGraphFetched('[role]');
 
     if (!userInDb) {
       const userData = await newCustomerService(
