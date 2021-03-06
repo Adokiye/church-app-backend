@@ -29,6 +29,6 @@ export const authMiddleware = jwt({
     '/public',
     '/',
     '/v1/banks',
-    /^\/v1\/internal\/.*/
+    /^\/v1\/internal\/.*/,
   ]
 })

@@ -3,7 +3,8 @@ import {Auth, Cokitchen, Brand} from '../controllers/'
 import {
   UserValidator,
   CokitchenValidator,
-  CokitchenPolygonValidator
+  CokitchenPolygonValidator,
+  BrandValidator
 } from '../validators/'
 
 const router = new Router()
@@ -27,10 +28,10 @@ router.post('/marketing/create-cokitchen-polygon', CokitchenPolygonValidator.cre
 
 router.put('/marketing/update-cokitchen-polygon/:id', CokitchenPolygonValidator.update(), Cokitchen.updateCokitchenPolygon)
 
-router.get('/cokitchens', Cokitchen.getAllCokitchen )
+router.get('/internal/cokitchens', Cokitchen.getAllCokitchens )
 
-// user brand routes
-router.post('/user/brands',BrandValidator.getUserBrands(), Brand.getBrandsForCustomer)
+// user brand routes,
+router.post('/internal/brands',BrandValidator.getUserBrands(), Brand.getBrandsForCustomer)
 
 
 

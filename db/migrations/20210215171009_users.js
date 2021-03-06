@@ -6,6 +6,7 @@ exports.up = function (knex) {
     table.specificType('email', 'CITEXT').unique()
     table.boolean('email_confirmed').notNullable().defaultTo(false)
     table.string('email_confirm_token').unique()
+    table.uuid('role_id').notNullable()
       table
       .foreign('role_id')
       .references('id')

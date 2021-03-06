@@ -4,12 +4,15 @@ exports.up = function (knex) {
     table.uuid('id').primary()
     table.string("name").unique();
     table.timestamps(true,true);
-    table
-    .foreign('created_by')
-    .references('id')
-    .inTable('users')
-    .onDelete('CASCADE').notNullable()
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
+    table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}));
+    table.uuid('suoer_meal_category_id').notNullable()
+
+    table
+    .foreign('super_meal_category_id')
+    .references('id')
+    .inTable('super_meal_categories')
+    .onDelete('CASCADE')
   });
 };
 

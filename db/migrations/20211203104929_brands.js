@@ -1,11 +1,7 @@
 export const up = knex =>
   knex.schema.createTable('brands', table => {
     table.uuid('id').primary()
-    table
-    .foreign('created_by')
-    .references('id')
-    .inTable('users')
-    .onDelete('CASCADE')
+    table.uuid('cokitchen_id').notNullable()
     table
     .foreign('cokitchen_id')
     .references('id')
