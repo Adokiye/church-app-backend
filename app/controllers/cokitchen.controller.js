@@ -35,7 +35,7 @@ export const createCokitchenPolygon = async ctx => {
   
     if (checkIfMarketing(role.name)) {
       const cokitchen_polygon_data = await CokitchenPolygon.query().insert(
-        ...body
+        body
       ).withGraphFetched('[cokitchen]')
       return {
         status: 'success',

@@ -1,10 +1,11 @@
 import Router from 'koa-router'
-import {Auth, Cokitchen, Brand} from '../controllers/'
+import {Auth, Cokitchen, Brand, Logistics} from '../controllers/'
 import {
   UserValidator,
   CokitchenValidator,
   CokitchenPolygonValidator,
-  BrandValidator
+  BrandValidator,
+  LogisticsValidator
 } from '../validators/'
 
 const router = new Router()
@@ -44,6 +45,14 @@ router.get('/internal/cokitchens', Cokitchen.getAllCokitchens )
 router.post('/internal/brands',BrandValidator.getUserBrands(), Brand.getBrandsForCustomer)
 
 
+//logistics routes
+router.post('/logistics/super/create-logistics-company',LogisticsValidator.createLogisticsCompany(), Logistics.createLogisticsCompany)
+
+router.post('/logistics/super/create-logistics-admin',LogisticsValidator.createLogisticsAdmin(), Logistics.createLogisticsAdmin)
+
+router.post('/logistics/super/create-logistics-admin',LogisticsValidator.createLogisticsStaff(), Logistics.createLogisticsAdmin)
+
+router.post('/logistics/create-logistics-rider',LogisticsValidator.createLogisticsStaff(), Logistics.createLogisticsRider)
 
 
 export default router.routes()

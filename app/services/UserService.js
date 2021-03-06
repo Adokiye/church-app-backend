@@ -22,7 +22,8 @@ export const newCustomerService = async (
       ] = await Promise.all([
         User.query().insert({
           phone_number,
-          role_id: customerRole.id
+          role_id: customerRole.id,
+          active:true
         }).withGraphFetched('[role]'),
       ])
 
@@ -70,5 +71,5 @@ export const updateNewUserService = async (
 
 export default {
   newCustomerService,
-  updatenewUserService,
+  updateNewUserService,
 }
