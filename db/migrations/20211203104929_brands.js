@@ -5,7 +5,7 @@ export const up = knex =>
     .foreign('created_by')
     .references('id')
     .inTable('users')
-    .onDelete('CASCADE').notNullable()
+    .onDelete('CASCADE')
     table
     .foreign('cokitchen_id')
     .references('id')

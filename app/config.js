@@ -15,7 +15,7 @@ export const DATABASE_TEST =
 
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 export const URL_FRONT =
-  process.env.URL_FRONT || 'https://staging-mkobo-loan.netlify.app'
+  process.env.URL_FRONT || 'https://test.com'
 export const EXPIRE_TIME = process.env.JWT_EXPIRE_TIME || '2d'
 export const PAYSTACK_SECRET =
   process.env.PAYSTACK_SECRET ||

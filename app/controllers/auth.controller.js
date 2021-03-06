@@ -1,7 +1,7 @@
 import User from '../models/user';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
-import {newUserService,updateNewUserService} from '../services/UserService'
+import {newCustomerService,updateNewUserService} from '../services/UserService'
 
 
 export const sendOtp = async ctx => {
@@ -86,7 +86,7 @@ export const sendOtp = async ctx => {
         message,
         ...userData,
         token: JwtService.sign(
-          { phone_number, id: userData.user.id,},
+          { user: userData.user},
         )
       }
     }else{
@@ -95,7 +95,7 @@ export const sendOtp = async ctx => {
       message,
       ...userInDb,
       token: JwtService.sign(
-        { phone_number, id: userInDb.id},
+        {  ...userData.user},
       )
     }
     }

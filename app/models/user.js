@@ -3,6 +3,7 @@ import { Model } from 'objection'
 import { baseModel, modelUuid, modelUnique } from './index'
 
 import bcrypt from 'bcrypt'
+import Role from './role'
 
 class User extends modelUuid(baseModel) {
   static tableName = "users";
@@ -10,11 +11,20 @@ class User extends modelUuid(baseModel) {
   static hidden = [
     'password',
     'password_reset_token',
-    'email_confirm_token'
+    'email_confirm_token',
+    'role_id'
   ]
 
 
   static relationMappings = {
-}
+    role: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Role,
+      join: {
+        from: 'users.role_id',
+        to: 'roles.id'
+      }
+    },
+  }
 }
 export default User

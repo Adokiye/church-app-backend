@@ -7,13 +7,15 @@ export const up = knex =>
     .inTable('users')
     .onDelete('CASCADE').notNullable()
     table.boolean('active').notNullable().defaultTo(true)
-    table.specificType("polygon", "geometry(point, 4326)");
+    table.jsonb("polygon").notNullable().defaultTo(JSON.stringify([]));
     table
     .foreign('cokitchen_id')
     .references('id')
     .inTable('cokitchens')
     .onDelete('CASCADE').notNullable()
     table.string("name");
+    table.integer('delivery_fee');
+
     table.timestamps(true,true);
 
   })

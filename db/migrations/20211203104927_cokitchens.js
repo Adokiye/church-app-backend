@@ -5,7 +5,7 @@ export const up = knex =>
     .foreign('created_by')
     .references('id')
     .inTable('users')
-    .onDelete('CASCADE').notNullable()
+    .onDelete('CASCADE')
     table.boolean('active').notNullable().defaultTo(true)
     table.string("name").notNullable();
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
@@ -13,6 +13,7 @@ export const up = knex =>
     table.float('lng', 14, 10).notNullable();
     table.string("address").notNullable();
     table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}));
+    table.integer('delivery_fee');
     table.timestamps(true,true);
 
   })
