@@ -5,7 +5,7 @@ import OtpService from '../services/OtpService';
 import {newCustomerService,updateNewUserService} from '../services/UserService'
 import {
   checkIfAdmin,
-  checkIfMarketing
+  checkIfMarketingAdmin
 } from '../services/RoleService'
 
 export const sendOtp = async ctx => {
@@ -136,7 +136,6 @@ export const sendOtp = async ctx => {
     const { role } = ctx.state.user
   
     if (checkIfAdmin(role.name)) {
-    
       const user_data = await User.query().patchAndFetchById(
         body.user_id,
         body
@@ -151,6 +150,30 @@ export const sendOtp = async ctx => {
     }
   }
 
+    //marketing admin
+    export const marketingCreateStaff = async ctx => {
+      const { body } = ctx.request
+      const { role } = ctx.state.user
+    
+      if (checkIfMarketingAdmin(role.name)) {
+        const marketing = await Role.query().find({
+          name:'MARKETING',
+        });
+        body.role_id = marketing.role_id
+        body.active = false
+        const user_data = await User.query().insert(
+          body
+        ).withGraphFetched('[role]')
+        return {
+          status: 'success',
+          message: 'Update Successful',
+          ...user_data
+        }
+      } else {
+        throw Unauthorized('Unauthorized')
+      }
+    }
+
   export const adminGetUsers = async ctx => {
     const { role } = ctx.state.user
   
@@ -159,7 +182,7 @@ export const sendOtp = async ctx => {
       const data = await User.query().withGraphFetched('[role]')
       return {
         status: 'success',
-        message: 'Update Successful',
+        message: 'Users returned Successfully',
         data
       }
     } else {

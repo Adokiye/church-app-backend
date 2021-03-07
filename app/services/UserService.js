@@ -55,6 +55,7 @@ export const updateNewUserService = async (
       //  clean up data
       delete personal_details.phone_number
       delete personal_details.role_id
+      delete personal_details.logistics_company_id
       personal_details.password = await encryptPassword(personal_details.password);
 
       const user_data = await User.query().patchAndFetchById(

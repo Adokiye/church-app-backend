@@ -2,9 +2,15 @@ import { baseModel, modelUuid } from './index'
 import { Model } from 'objection'
 
 import DealType from './dealType'
+import Brand from './brand'
 
 class Deal extends modelUuid(baseModel) {
-  static tableName = 'deal_types'
+  static tableName = 'deals'
+
+  static hidden = [
+    'deal_type_id',
+    'brand_id',
+  ]
 
   static relationMappings = {
     deal_type: {
@@ -15,6 +21,14 @@ class Deal extends modelUuid(baseModel) {
         to: 'deal_types.id'
       }
     },
+    brand: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Brand,
+        join: {
+          from: 'deals.brand_id',
+          to: 'brands.id'
+        }
+      },
   }
 }
 

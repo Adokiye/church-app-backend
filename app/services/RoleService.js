@@ -1,5 +1,7 @@
 // users that can carry out marketing tasks
-const marketing = ['MARKETING','ADMIN'];
+const marketing = ['MARKETING','ADMIN','MARKETING_ADMIN'];
+
+const marketingAdmin = ['ADMIN','MARKETING_ADMIN'];
 
 const admin = ['ADMIN'];
 
@@ -13,6 +15,10 @@ const logisticsSuperAdmin = ['LOGISTICS_SUPER_ADMIN','ADMIN']
 export const checkIfMarketing = async (
   role_name,
 ) => marketing.includes(role_name)
+
+export const checkIfMarketingAdmin = async (
+  role_name,
+) => marketingAdmin.includes(role_name)
 
 
 export const checkIfAdmin = async (
@@ -31,5 +37,6 @@ export default {
   checkIfAdmin,
   checkIfLogisticsAdmin,
   checkIfMarketing,
-  checkIfLogisticsSuperAdmin
+  checkIfLogisticsSuperAdmin,
+  checkIfMarketingAdmin
 }
