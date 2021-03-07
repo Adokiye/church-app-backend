@@ -2,11 +2,16 @@ import User from '../models/user';
 import Role from '../models/role';
 import JwtService from '../services/JwtService';
 import OtpService from '../services/OtpService';
+import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import {newCustomerService,updateNewUserService} from '../services/UserService'
 import {
   checkIfAdmin,
   checkIfMarketingAdmin
 } from '../services/RoleService'
+
+const status =  'success';
+const message = 'Success!';
 
 export const sendOtp = async ctx => {
   const { body } = ctx.request
@@ -74,8 +79,7 @@ export const sendOtp = async ctx => {
       phone_number,
     } = ctx.request.body
 
-    const status =  'success';
-    const message = 'Success!';
+
 
     const userInDb = await User.query().where({
       phone_number,
@@ -136,6 +140,9 @@ export const sendOtp = async ctx => {
     const { role } = ctx.state.user
   
     if (checkIfAdmin(role.name)) {
+      if(body.password){
+        body.password = await encryptPassword(body.password)
+      }
       const user_data = await User.query().patchAndFetchById(
         body.user_id,
         body
@@ -161,6 +168,7 @@ export const sendOtp = async ctx => {
         });
         body.role_id = marketing.role_id
         body.active = false
+      body.password = await encryptPassword(body.password)
         const user_data = await User.query().insert(
           body
         ).withGraphFetched('[role]')
@@ -204,6 +212,59 @@ export const sendOtp = async ctx => {
     } else {
       throw Unauthorized('Unauthorized')
     }
+  }
+
+  export const login = async ctx => {
+    const { body } = ctx.request
+  
+    const user = await User.query()
+      .findOne({
+        email: body.email
+      })
+      .catch(() => {
+        throw Unauthorized('User not found. Please sign up')
+      })
+  
+    const isValid = await bcrypt.compare(body.password, user.password)
+  
+    if (!isValid) {
+      throw Unauthorized('Unauthorized, invalid password')
+    }
+  
+    if (!user.active) {
+      return {
+        status,
+        message:'User account inactive, please verify your phone number to continue',
+        ...user,
+      }
+    }else{
+      return {
+        status,
+        message,
+        ...user,
+        token: JwtService.sign(
+          {  ...user},
+        )
+      }
+    }
+  }
+
+  export const verifyUser = async ctx => {
+    const {body} = ctx.request
+    body.active = true
+    const user_data = await User.query().patchAndFetchById(
+      body.user_id,
+      body
+    ).withGraphFetched('[role]')
+    return {
+      status,
+      message,
+      ...user_data,
+      token: JwtService.sign(
+        {  ...user},)
+    }
+
+    
   }
 
 

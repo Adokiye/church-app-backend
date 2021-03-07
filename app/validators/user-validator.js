@@ -10,6 +10,21 @@ const UserValidator = {
         otp: Joi.string().required(),
       }
     }),
+    login: () =>
+    validationMiddleware({
+      body: {
+        email: Joi.string().email().required(),
+        password: Joi.string().min(1).required()
+      }
+    }),
+    verifyUser: () =>
+    validationMiddleware({
+      body: {
+        user_id: Joi.string().required(),
+        phone_number: Joi.string().min(11).max(11).required(),
+        otp: Joi.string().required(),
+      }
+    }),
   createMarketingStaff:() =>
   validationMiddleware({
     body: {

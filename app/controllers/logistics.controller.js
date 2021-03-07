@@ -7,7 +7,7 @@ import {
   checkIfLogisticsSuperAdmin,
   checkIfLogisticsAdmin
 } from '../services/RoleService'
-import { Unauthorized } from '../helpers'
+import { Unauthorized,encryptPassword } from '../helpers'
 
 export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
@@ -36,6 +36,7 @@ export const createLogisticsAdmin = async ctx => {
     if (checkIfLogisticsSuperAdmin(role.name)) {
       body.active = false
       body.role_id = logisticsAdminRole.id
+      body.password = await encryptPassword(body.password)
       const logistics_admin_data = await User.query()
       .insert(body)
       return {
@@ -56,6 +57,7 @@ export const createLogisticsAdmin = async ctx => {
       });
     if (checkIfLogisticsAdmin(role.name)) {
       body.active = false
+      body.password = await encryptPassword(body.password)
       body.role_id = riderRole.id
       const rider_data = await User.query()
       .insert(body)

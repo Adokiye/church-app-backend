@@ -12,14 +12,20 @@ import {
 const router = new Router()
 
 //authentication and user routes
-router.put('/user',UserValidator.update(), Auth.update)
+router.put('/auth/user',UserValidator.update(), Auth.update)
 
-router.post('/guest/authenticate', UserValidator.create(), Auth.verifyOtp, Auth.create)
+router.post('/auth/guest/authenticate', UserValidator.create(), Auth.verifyOtp, Auth.create)
+
+router.post('/auth/login', UserValidator.login(), Auth.login)
+
+router.post('/auth/verify', UserValidator.verifyUser(), Auth.verifyOtp, Auth.verifyUser)
 
 router.post(
   '/internal/send-otp',
   Auth.sendOtp
 )
+
+
 
 //admin routes
 router.post('/admin/update-user',Auth.adminUpdateUser)
