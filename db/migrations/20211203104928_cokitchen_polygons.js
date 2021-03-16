@@ -1,6 +1,6 @@
 export const up = knex =>
   knex.schema.createTable('cokitchen_polygons', table => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.jsonb("polygon").notNullable().defaultTo(JSON.stringify([]));
     table.uuid('cokitchen_id').notNullable()

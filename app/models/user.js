@@ -4,7 +4,7 @@ import { baseModel, modelUuid, modelUnique } from './index'
 
 import bcrypt from 'bcrypt'
 import Role from './role'
-import LogisticsCompany from './logistics-company';
+import LogisticsCompany from './logistics_company';
 
 class User extends modelUuid(baseModel) {
   static tableName = "users";

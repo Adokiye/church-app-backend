@@ -1,6 +1,6 @@
 export const up = knex =>
   knex.schema.createTable('brands', table => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.uuid('cokitchen_id').notNullable()
     table
     .foreign('cokitchen_id')

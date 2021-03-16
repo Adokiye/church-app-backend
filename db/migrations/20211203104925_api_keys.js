@@ -1,6 +1,6 @@
 export const up = knex =>
   knex.schema.createTable('api_keys', table => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table
       .string('key')
       .unique()

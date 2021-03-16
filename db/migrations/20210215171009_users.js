@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
   .createTable("users", (table) => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.boolean('active').notNullable().defaultTo(true)
 
     table.string("username").unique();

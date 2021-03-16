@@ -1,7 +1,7 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('otps', table => {
-        table.uuid('id')
+        table.uuid('id').unique().primary().notNullable();
         table.string('action').notNullable()
         table.string('phone_number').notNullable()
         table.string('otp_token').notNullable();

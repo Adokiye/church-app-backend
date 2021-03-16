@@ -1,6 +1,6 @@
 export const up = knex =>
   knex.schema.createTable('api_logs', table => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.string('info').notNullable()
     table.string('type').notNullable()
     table.json('api_data').notNullable()

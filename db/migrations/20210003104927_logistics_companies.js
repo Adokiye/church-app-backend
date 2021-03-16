@@ -1,7 +1,7 @@
 export const up = knex =>
   knex.schema.raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
   .createTable('logistics_companies', table => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.string("name").notNullable();
     table.string("logo");

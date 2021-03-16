@@ -1,7 +1,7 @@
 import { baseModel, modelUuid } from './index'
 import { Model } from 'objection'
 
-import DealType from './dealType'
+import DealType from './deal_type'
 import Brand from './brand'
 
 class Deal extends modelUuid(baseModel) {

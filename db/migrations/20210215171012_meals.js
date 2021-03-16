@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
   .createTable("meals", (table) => {
-    table.uuid('id').primary()
+    table.uuid('id').primary().notNullable()
     table.string("name").unique();
     table.timestamps(true,true);
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
@@ -14,8 +14,8 @@ exports.up = function (knex) {
     .onDelete('CASCADE')
     table.boolean('is_addon').notNullable().defaultTo(false)
     table.boolean('is_combo').notNullable().defaultTo(false)
-    table.decimal('amount', 8, 2).notNullable()
-    table.interger('preparation_time').notNullable()
+    table.bigInteger('amount').notNullable()
+    table.integer('preparation_time').notNullable()
   });
 };
 
