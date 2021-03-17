@@ -4,7 +4,7 @@ exports.up = function (knex) {
     table.uuid('id').primary().notNullable()
     table.string("name").notNullable().unique();
     table.timestamps(true,true);
-    table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
+    table.jsonb("images").notNullable();
   });
 };
 

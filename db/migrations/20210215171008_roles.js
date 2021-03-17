@@ -1,8 +1,7 @@
 exports.up = function (knex) {
-  return knex.schema.raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
-  .createTable("roles", (table) => {
+  return knex.schema.createTable("roles", (table) => {
     table.uuid('id').primary().notNullable()
-    table.string("name").unique();
+    table.string("name").notNullable().unique();
     table.timestamps(true,true);
   });
 };

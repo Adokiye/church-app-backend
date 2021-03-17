@@ -10,7 +10,7 @@ export const up = knex =>
     table.bigInteger("min",).notNullable().defaultTo(0);
     table.bigInteger("max",).notNullable().defaultTo(0);
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
-    table.decimal('rate', 1, 2).notNullable()
+    table.integer('rate',).notNullable()
     table.string('to_expire').notNullable()
    
     table.timestamps(true,true);

@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-import SuperMealCategory from './superMealCategory'
+import SuperMealCategory from './supermeal_category'
 
 import { baseModel, modelUuid, modelUnique } from './index'
 
@@ -13,7 +13,7 @@ class MealCategory extends modelUuid(baseModel) {
       modelClass: SuperMealCategory,
       join: {
         from: 'meal_categories.super_meal_category_id',
-        to: 'super_meal_category.id'
+        to: 'super_meal_categories.id'
       }
     },
   }

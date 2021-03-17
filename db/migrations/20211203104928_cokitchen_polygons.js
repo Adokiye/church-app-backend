@@ -3,14 +3,9 @@ export const up = knex =>
     table.uuid('id').primary().notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.jsonb("polygon").notNullable().defaultTo(JSON.stringify([]));
-    table.uuid('cokitchen_id').notNullable()
-    table
-    .foreign('cokitchen_id')
-    .references('id')
-    .inTable('cokitchens')
-    .onDelete('CASCADE').notNullable()
+    table.uuid('cokitchen_id').references('id').inTable('cokitchens').onDelete('CASCADE').notNullable();
     table.string("name");
-    table.integer('delivery_fee');
+    table.bigInteger('delivery_fee').notNullable();
     table.timestamps(true,true);
 
   })

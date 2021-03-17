@@ -5,13 +5,9 @@ exports.up = function (knex) {
     table.string("name").unique();
     table.timestamps(true,true);
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
-    table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}))
-    table.uuid('meal_category_id').notNullable()
-    table
-    .foreign('meal_category_id')
-    .references('id')
-    .inTable('meal_categories')
-    .onDelete('CASCADE')
+    table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}));
+    table.uuid('meal_category_id').references('id').inTable('meal_categories').onDelete('CASCADE').notNullable();
+
     table.boolean('is_addon').notNullable().defaultTo(false)
     table.boolean('is_combo').notNullable().defaultTo(false)
     table.bigInteger('amount').notNullable()

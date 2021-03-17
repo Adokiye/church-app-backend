@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
     table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}));
 
+
   });
 };
 

@@ -4,11 +4,11 @@ export const up = knex =>
     table.boolean('active').notNullable().defaultTo(true)
     table.string("name").notNullable();
     table.jsonb("images").notNullable().defaultTo(JSON.stringify([]));
-    table.float('lat', 14, 10).notNullable();
-    table.float('lng', 14, 10).notNullable();
+    table.bigInteger('lat',).notNullable();
+    table.bigInteger('lng', ).notNullable();
     table.string("address").notNullable();
     table.jsonb("posist_data").notNullable().defaultTo(JSON.stringify({}));
-    table.integer('delivery_fee');
+    table.bigInteger('delivery_fee');
     table.timestamps(true,true);
 
   })

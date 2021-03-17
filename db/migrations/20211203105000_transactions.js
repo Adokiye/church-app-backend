@@ -2,16 +2,16 @@ export const up = knex =>
     knex.schema.createTable('transactions', (table) => {
       table.uuid('id').unique().primary().notNullable();
       table.bigInteger('amount');
-      table.enum('transaction_type', ['Deposit', 'Transfer', 'Withdraw'], {
+      table.enu('transaction_type', ['Deposit', 'Transfer', 'Withdraw'], {
         useNative: true,
         enumName: 'transaction_type',
       });
-      table.enum('transaction_action', ['Credit', 'Debit'], {
+      table.enu('transaction_action', ['Credit', 'Debit'], {
         useNative: true,
         enumName: 'transaction_action',
       });
       table
-        .enum('status', ['Pending', 'Success', 'Failed'], {
+        .enu('transaction_status', ['Pending', 'Success', 'Failed'], {
           useNative: true,
           enumName: 'transaction_status',
         })

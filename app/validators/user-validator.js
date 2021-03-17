@@ -48,7 +48,7 @@ const UserValidator = {
         first_name: Joi.string(),
         last_name: Joi.string(),
         other_name: Joi.string(),
-        dob: Joi.string(),
+        dob: Joi.date(),
         gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email(),
         password: Joi.string()

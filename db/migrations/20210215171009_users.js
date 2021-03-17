@@ -8,34 +8,33 @@ exports.up = function (knex) {
     table.specificType('email', 'CITEXT').unique()
     table.boolean('email_confirmed').notNullable().defaultTo(false)
     table.string('email_confirm_token').unique()
-    table.uuid('role_id').notNullable()
-      table
-      .foreign('role_id')
-      .references('id')
-      .inTable('roles')
-      .onDelete('CASCADE').notNullable()
-      table.uuid('logisitics_company_id').notNullable()
-      table
-      .foreign('logisitics_company_id')
-      .references('id')
-      .inTable('logistics_companies')
-      .onDelete('CASCADE').notNullable()
+    table.uuid('role_id').references('id').inTable('roles').onDelete('CASCADE').notNullable();
+
     table.string("first_name");
     table.string("last_name");
-    table.string("username").unique();
 
     table.string("other_name");
     table.string("phone_number").unique().notNullable();
-    table.enu('gender', ['male', 'female'])
-    table.string('dob')
+    table
+    .enu('user_gender', ['Male', 'Female', 'Unspecified'], {
+      useNative: true,
+      enumName: 'user_gender',
+    })
+    .defaultTo('Unspecified');
+    table.date('dob')
     table.string("password");
     table.string('password_reset_token').unique()
-    table.float('lat', 14, 10);
-    table.float('lng', 14, 10);
+    table.bigInteger('lat',);
+    table.bigInteger('lng',);
     table.timestamps(true,true);
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("users");
+  knex.schema.dropTable("users");
+  knex.raw(
+    `
+    DROP TYPE "user_gender";
+    `
+  );
 };
