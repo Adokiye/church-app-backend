@@ -4,9 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon src/app/index.js --exec babel-node --inspect src/app/index.js",
+    "start": "node build/app/index.js",
+    "build": "rm -rf build && mkdir build && babel src -s -d build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretest": "yarn eslint",
-    "start": "nodemon index.js",
+    "pretest": "npm eslint",
+    "knex_": "babel-node node_modules/.bin/knex --knexfile src/db/knexfile.js",
+    "db:migrate-production": "npm knex --knexfile build/db/knexfile.js db:rollback && npm knex --knexfile build/db/knexfile.js migrate:latest",
+    "db:seed-production": "knex --knexfile build/db/knexfile.js seed:run",
+    "db:rollback-production": "npm knex --knexfile build/db/knexfile.js migrate:rollback",
+    "db:migrate": "npm run knex_ migrate:latest",
+    "db:seed": "npm run knex_ seed:run",
+    "db:rollback": "npm run knex_ migrate:rollback",
+    "db:initialize": "npm run db:rollback && npm run db:migrate && npm run db:seed",
+    "db:initialize-production": "npm db:rollback-production && npm db:migrate-production && npm db:seed-production",
     "eslint": "eslint --ignore-path .gitignore .",
     "prettier": "prettier --write '**/*.js' --ignore-path .gitignore ."
   },
@@ -14,12 +25,37 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-do-expressions": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-regenerator": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "@hapi/joi": "^17.1.1",
     "@koa/cors": "^3.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "jshint": "^2.12.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "knex": "^0.21.17",
@@ -30,14 +66,19 @@
     "koa-jwt": "^4.0.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.0.0",
+    "koa-swagger-decorator": "^1.7.4",
     "koa-unless": "celsomarques/koa-unless#koa-v2",
     "moment": "^2.29.1",
+    "mv": "^2.1.1",
     "nodemon": "^2.0.7",
     "objection": "^2.2.14",
     "objection-db-errors": "^1.1.2",
     "objection-guid": "^3.0.2",
     "objection-unique": "^1.2.1",
-    "pg": "^8.5.1"
+    "objection-visibility": "^1.1.0",
+    "pg": "^8.5.1",
+    "uuid": "^7.0.3",
+    "xhr2": "^0.2.0"
   },
   "devDependencies": {
     "@babel/node": "^7.0.0",
@@ -63,6 +104,14 @@
     "prettier": "^2.0.4",
     "supertest": "^4.0.2"
   },
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ]
+  ],
   "lint-staged": {
     "*.{js, jsx}": [
       "prettier --write"
