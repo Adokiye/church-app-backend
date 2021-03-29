@@ -1,29 +1,29 @@
-'use strict'
+"use strict";
 
-var _interopRequireWildcard = require('@babel/runtime/helpers/interopRequireWildcard')
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0
+});
+exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0;
 
-var _Auth = _interopRequireWildcard(require('./auth.controller'))
+var _Auth = _interopRequireWildcard(require("./auth.controller"));
 
-exports.Auth = _Auth
+exports.Auth = _Auth;
 
-var _Cokitchen = _interopRequireWildcard(require('./cokitchen.controller'))
+var _Cokitchen = _interopRequireWildcard(require("./cokitchen.controller"));
 
-exports.Cokitchen = _Cokitchen
+exports.Cokitchen = _Cokitchen;
 
-var _Brand = _interopRequireWildcard(require('./brand.controller'))
+var _Brand = _interopRequireWildcard(require("./brand.controller"));
 
-exports.Brand = _Brand
+exports.Brand = _Brand;
 
-var _Logistics = _interopRequireWildcard(require('./logistics.controller'))
+var _Logistics = _interopRequireWildcard(require("./logistics.controller"));
 
-exports.Logistics = _Logistics
+exports.Logistics = _Logistics;
 
-var _Deals = _interopRequireWildcard(require('./deal.controller'))
+var _Deals = _interopRequireWildcard(require("./deal.controller"));
 
-exports.Deals = _Deals
+exports.Deals = _Deals;
 //# sourceMappingURL=index.js.map

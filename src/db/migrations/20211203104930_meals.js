@@ -13,11 +13,23 @@ exports.up = function (knex) {
         .inTable('meal_categories')
         .onDelete('CASCADE')
         .notNullable()
-
+        table
+        .uuid('brand_id')
+        .references('id')
+        .inTable('brands')
+        .onDelete('CASCADE')
+        .notNullable()
       table.boolean('is_addon').notNullable().defaultTo(false)
       table.boolean('is_combo').notNullable().defaultTo(false)
       table.bigInteger('amount').notNullable()
       table.integer('preparation_time').notNullable()
+      table.jsonb('meal_tags').notNullable().defaultTo(JSON.stringify([]))
+      table.jsonb('meal_keywords').notNullable().defaultTo(JSON.stringify([]))
+      table.jsonb('meal_descriptive_metadatas').notNullable().defaultTo(JSON.stringify([]))
+      table.jsonb('meal_business_metadatas').notNullable().defaultTo(JSON.stringify([]))
+      table.jsonb('meal_dietary_metadatas').notNullable().defaultTo(JSON.stringify([]))
+      table.jsonb('meal_allergy_metadatas').notNullable().defaultTo(JSON.stringify([]))
+
     })
 }
 

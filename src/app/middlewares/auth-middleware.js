@@ -30,6 +30,7 @@ export const authMiddleware = jwt({
     '/public',
     '/',
     '/v1/banks',
+    '/v1/api/swagger-html',
     /^\/v1\/internal\/.*/
   ]
 })

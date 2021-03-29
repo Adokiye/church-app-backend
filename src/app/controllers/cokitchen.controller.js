@@ -6,9 +6,9 @@ import { Unauthorized } from '../helpers'
 export const updateCokitchen = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     if (body.posist_data) {
       delete body.posist_data
     }
@@ -27,9 +27,9 @@ export const updateCokitchen = async ctx => {
 
 export const createCokitchenPolygon = async ctx => {
   const { body } = ctx.request
-  const { id, role } = ctx.state.user
+  const { id, role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .insert(body)
       .withGraphFetched('[cokitchen]')
@@ -46,9 +46,9 @@ export const createCokitchenPolygon = async ctx => {
 export const updateCokitchenPolygon = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .patchAndFetchById(id, body)
       .withGraphFetched('[cokitchen]')

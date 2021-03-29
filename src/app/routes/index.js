@@ -4,9 +4,9 @@ import global_router from './api.js'
 
 import { SwaggerRouter } from 'koa-swagger-decorator'
 
-//const router = new Router()
+const router = new Router()
 
-const router = new SwaggerRouter()
+
 
 const api = new Router()
 

@@ -10,10 +10,7 @@ exports.up = function (knex) {
       table.boolean('email_confirmed').notNullable().defaultTo(false)
       table.string('email_confirm_token').unique()
       table
-        .uuid('role_id')
-        .references('id')
-        .inTable('roles')
-        .onDelete('CASCADE')
+        .string('role')
         .notNullable()
 
       table.string('first_name')

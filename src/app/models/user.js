@@ -5,6 +5,8 @@ import { baseModel, modelUuid, modelUnique } from './index'
 import bcrypt from 'bcrypt'
 import Role from './role'
 import LogisticsCompany from './logistics_company'
+import FreeDelivery from './free_delivery'
+import UserSetting from './user_setting'
 
 class User extends modelUuid(baseModel) {
   static tableName = 'users'
@@ -13,19 +15,11 @@ class User extends modelUuid(baseModel) {
     'password',
     'password_reset_token',
     'email_confirm_token',
-    'role_id',
-    'logistics_company_id'
+    'logistics_company_id',
+    
   ]
 
   static relationMappings = {
-    role: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: Role,
-      join: {
-        from: 'users.role_id',
-        to: 'roles.id'
-      }
-    },
     logistics_company: {
       relation: Model.BelongsToOneRelation,
       modelClass: LogisticsCompany,
@@ -33,7 +27,15 @@ class User extends modelUuid(baseModel) {
         from: 'users.logistics_company_id',
         to: 'logistics_companies.id'
       }
-    }
+    },
+    free_deliveries: {
+      relation: Model.HasManyRelation,
+      modelClass: FreeDelivery,
+      join: {
+        from: 'free_deliveries.user_id',
+        to: 'users.id'
+      }
+    },
   }
 }
 export default User

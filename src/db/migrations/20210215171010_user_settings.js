@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('user_settings', table => {
       table.uuid('id').unique().primary().notNullable()
-      table.uuid('user_id').references('id').inTable('users')
+      table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE').notNullable()
       table.boolean('email_notification').defaultTo(true)
       table.boolean('sms_notification').defaultTo(true)
       table.boolean('order_statement').defaultTo(true)

@@ -21,6 +21,11 @@ router.post(
 
 router.post('/auth/login', UserValidator.login(), Auth.login)
 
+router.post('/auth/login-marketing', UserValidator.login(), Auth.loginMarketing)
+
+router.post('/auth/login-logistics-admin', UserValidator.login(), Auth.loginLogisticsAdmin)
+
+
 router.post(
   '/auth/verify',
   UserValidator.verifyUser(),

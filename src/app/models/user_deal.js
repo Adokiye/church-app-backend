@@ -7,7 +7,7 @@ import User from './user'
 class UserDeal extends modelUuid(baseModel) {
   static tableName = 'user_deals'
 
-  static hidden = ['deal_id']
+  static hidden = ['deal_id', 'user_id']
 
   static relationMappings = {
     deal: {

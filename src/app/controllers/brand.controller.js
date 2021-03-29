@@ -7,9 +7,9 @@ import { Unauthorized, insidePolygon } from '../helpers'
 export const updateBrand = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     if (body.posist_data) {
       delete body.posist_data
     }

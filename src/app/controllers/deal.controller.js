@@ -6,9 +6,9 @@ import { Unauthorized } from '../helpers'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     const deal_type_data = await DealType.query()
       .findById(body.deal_type_id)
       .catch(() => false)
@@ -69,9 +69,9 @@ export const createDeal = async ctx => {
 export const updateDeal = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role.name)) {
+  if (checkIfMarketing(role)) {
     const deal_data = await Deal.query()
       .patchAndFetchById(id, body)
       .withGraphFetched('[deal_type]')
@@ -86,8 +86,8 @@ export const updateDeal = async ctx => {
 }
 
 export const getDealTypes = async ctx => {
-  const { role } = ctx.state.user
-  if (checkIfMarketing(role.name)) {
+  const { role } = ctx.state.user.user
+  if (checkIfMarketing(role)) {
     const deal_types = DealType.query()
     return {
       status: 'success',

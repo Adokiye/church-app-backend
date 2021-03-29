@@ -9,8 +9,8 @@ import {
   newCustomerService,
   updateNewUserService
 } from '../services/UserService'
-import { checkIfAdmin, checkIfMarketingAdmin } from '../services/RoleService'
-
+import { checkIfAdmin, checkIfMarketingAdmin, checkIfMarketing, checkIfLogisticsAdmin } from '../services/RoleService'
+import { Unauthorized, insidePolygon } from '../helpers'
 const status = 'success'
 const message = 'Success!'
 
@@ -42,18 +42,14 @@ export const verifyOtp = async (ctx, next) => {
   }
 
   const otpInDb = await Otp.query()
-    .where({
+    .findOne({
       phone_number: body.phone_number,
       action: body.action
     })
     .catch(() => false)
 
-  if (otpInDb) {
-    ctx.throw(404, 'NOT FOUND', {
-      errors: {
-        phone_number: ['no otp has been sent to this number']
-      }
-    })
+  if (!otpInDb) {
+    ctx.throw(404, 'no otp has been sent to this number', )
   }
 
   const { status, message, decoded } = JwtService.verify(otpInDb.otp_token)
@@ -63,10 +59,7 @@ export const verifyOtp = async (ctx, next) => {
   }
 
   if (decoded.otp !== body.otp) {
-    return {
-      status: 'error',
-      message: 'Invalid otp'
-    }
+    ctx.throw(400, 'Invalid otp')
   }
 
   return next()
@@ -75,11 +68,11 @@ export const verifyOtp = async (ctx, next) => {
 export const create = async ctx => {
   const { phone_number } = ctx.request.body
 
-  const userInDb = await User.query()
-    .where({
+  let userInDb = await User.query()
+    .findOne({
       phone_number
     })
-    .withGraphFetched('[role]')
+    
     .catch(() => false)
 
   if (!userInDb) {
@@ -91,26 +84,30 @@ export const create = async ctx => {
       token: JwtService.sign({ user: userData.user })
     }
   } else {
+    // set user to active
+   userInDb = await User.query()
+    .patchAndFetchById(userInDb.id, {
+      active:true
+    })
     return {
       status,
       message,
       ...userInDb,
-      token: JwtService.sign({ ...userData.user })
+      token: JwtService.sign({ user: userInDb })
     }
   }
 }
 
 export const update = async ctx => {
-  const { personal_details } = ctx.request.body
-  const { id } = ctx.state.user
-
-  const [user] = await User.query()
-    .where({ id })
+  const { body } = ctx.request
+  const { id } = ctx.state.user.user
+  const user = await User.query()
+    .findOne({ id })
     .catch(() => {
       throw Unauthorized('User not found please register')
     })
 
-  const userData = await updateNewUserService(personal_details, user)
+  const userData = await updateNewUserService(body, user)
 
   return {
     status: 'success',
@@ -122,15 +119,15 @@ export const update = async ctx => {
 //admin
 export const adminUpdateUser = async ctx => {
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role.name)) {
+  if (checkIfAdmin(role)) {
     if (body.password) {
       body.password = await encryptPassword(body.password)
     }
     const user_data = await User.query()
       .patchAndFetchById(body.user_id, body)
-      .withGraphFetched('[role]')
+      
     return {
       status: 'success',
       message: 'Update Successful',
@@ -144,16 +141,13 @@ export const adminUpdateUser = async ctx => {
 //marketing admin
 export const marketingCreateStaff = async ctx => {
   const { body } = ctx.request
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfMarketingAdmin(role.name)) {
-    const marketing = await Role.query().find({
-      name: 'MARKETING'
-    })
-    body.role_id = marketing.role_id
+  if (checkIfMarketingAdmin(role)) {
+    body.role = 'MARKETING'
     body.active = false
     body.password = await encryptPassword(body.password)
-    const user_data = await User.query().insert(body).withGraphFetched('[role]')
+    const user_data = await User.query().insert(body)
     return {
       status: 'success',
       message: 'Update Successful',
@@ -165,10 +159,10 @@ export const marketingCreateStaff = async ctx => {
 }
 
 export const adminGetUsers = async ctx => {
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role.name)) {
-    const data = await User.query().withGraphFetched('[role]')
+  if (checkIfAdmin(role)) {
+    const data = await User.query()
     return {
       status: 'success',
       message: 'Users returned Successfully',
@@ -180,9 +174,9 @@ export const adminGetUsers = async ctx => {
 }
 
 export const adminGetUserRoles = async ctx => {
-  const { role } = ctx.state.user
+  const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role.name)) {
+  if (checkIfAdmin(role)) {
     const data = await Role.query()
     return {
       status: 'success',
@@ -228,12 +222,92 @@ export const login = async ctx => {
   }
 }
 
+export const loginMarketing = async ctx => {
+  const { body } = ctx.request
+
+  const user = await User.query()
+    .findOne({
+      email: body.email
+    })
+    
+    .catch(() => {
+      throw Unauthorized('User not found. Please sign up')
+    })
+
+  const isValid = await bcrypt.compare(body.password, user.password)
+
+  if (!isValid) {
+    throw Unauthorized('Unauthorized, invalid password')
+  }
+
+  if (!user.active) {
+    return {
+      status,
+      message:
+        'User account inactive, please verify your phone number to continue',
+      ...user
+    }
+  } else {
+    if (checkIfMarketing(user.role)) {
+      return {
+        status,
+        message,
+        ...user,
+        token: JwtService.sign({ ...user })
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
+    }
+
+  }
+}
+
+export const loginLogisticsAdmin = async ctx => {
+  const { body } = ctx.request
+
+  const user = await User.query()
+    .findOne({
+      email: body.email
+    })
+    
+    .catch(() => {
+      throw Unauthorized('User not found. Please sign up')
+    })
+
+  const isValid = await bcrypt.compare(body.password, user.password)
+
+  if (!isValid) {
+    throw Unauthorized('Unauthorized, invalid password')
+  }
+
+  if (!user.active) {
+    return {
+      status,
+      message:
+        'User account inactive, please verify your phone number to continue',
+      ...user
+    }
+  } else {
+    if (checkIfLogisticsAdmin(user.role)) {
+      return {
+        status,
+        message,
+        ...user,
+        token: JwtService.sign({ ...user })
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
+    }
+
+  }
+}
+
 export const verifyUser = async ctx => {
   const { body } = ctx.request
   body.active = true
   const user_data = await User.query()
     .patchAndFetchById(body.user_id, body)
-    .withGraphFetched('[role]')
+    
   return {
     status,
     message,

@@ -21,7 +21,6 @@ export default class JwtService {
 
         return response
       }
-      console.log(decoded)
       response.decoded = decoded
       response.status = true
       response.message = 'valid'

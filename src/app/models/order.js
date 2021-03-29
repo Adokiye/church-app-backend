@@ -8,7 +8,7 @@ import CalculatedOrder from './calculated_order'
 class Order extends modelUuid(baseModel) {
   static tableName = 'orders'
 
-  static hidden = ['order_type_id', 'card_id']
+  static hidden = ['order_type_id', 'user_card_id', 'calculated_order_id']
 
   static relationMappings = {
     order_type: {

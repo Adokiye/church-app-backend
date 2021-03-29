@@ -1,216 +1,143 @@
-'use strict'
+"use strict";
 
-var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports[
-  'default'
-] = exports.updateNewUserService = exports.newCustomerService = void 0
+});
+exports["default"] = exports.updateNewUserService = exports.newCustomerService = void 0;
 
-var _regenerator = _interopRequireDefault(require('@babel/runtime/regenerator'))
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _slicedToArray2 = _interopRequireDefault(
-  require('@babel/runtime/helpers/slicedToArray')
-)
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
-var _asyncToGenerator2 = _interopRequireDefault(
-  require('@babel/runtime/helpers/asyncToGenerator')
-)
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var _objection = require('objection')
+var _objection = require("objection");
 
-var _user = _interopRequireDefault(require('../models/user'))
+var _user = _interopRequireDefault(require("../models/user"));
 
-var _role = _interopRequireDefault(require('../models/role'))
+var _role = _interopRequireDefault(require("../models/role"));
 
-var _free_delivery = _interopRequireDefault(require('../models/free_delivery'))
+var _free_delivery = _interopRequireDefault(require("../models/free_delivery"));
 
-var _helpers = require('../helpers')
+var _user_setting = _interopRequireDefault(require("../models/user_setting"));
 
-var newCustomerService = /*#__PURE__*/ (function () {
-  var _ref = (0, _asyncToGenerator2['default'])(
-    /*#__PURE__*/ _regenerator['default'].mark(function _callee2(phone_number) {
-      return _regenerator['default'].wrap(function _callee2$(_context2) {
-        while (1) {
-          switch ((_context2.prev = _context2.next)) {
-            case 0:
-              _context2.next = 2
-              return (0, _objection.transaction)(
-                _user['default'],
-                /*#__PURE__*/ (function () {
-                  var _ref2 = (0, _asyncToGenerator2['default'])(
-                    /*#__PURE__*/ _regenerator['default'].mark(function _callee(
-                      User
-                    ) {
-                      var customerRole,
-                        _yield$Promise$all,
-                        _yield$Promise$all2,
-                        user,
-                        free_delivery
+var _referral_code = _interopRequireDefault(require("../models/referral_code"));
 
-                      return _regenerator['default'].wrap(function _callee$(
-                        _context
-                      ) {
-                        while (1) {
-                          switch ((_context.prev = _context.next)) {
-                            case 0:
-                              _context.next = 2
-                              return _role['default'].query().find({
-                                name: 'CUSTOMER'
-                              })
+var _helpers = require("../helpers");
 
-                            case 2:
-                              customerRole = _context.sent
-                              _context.next = 5
-                              return Promise.all([
-                                User.query()
-                                  .insert({
-                                    phone_number: phone_number,
-                                    role_id: customerRole.id,
-                                    active: true
-                                  })
-                                  .withGraphFetched('[role]')
-                              ])
+var newCustomerService = /*#__PURE__*/function () {
+  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(phone_number) {
+    var _yield$Promise$all, _yield$Promise$all2, user, makeCode, _yield$Promise$all3, _yield$Promise$all4, free_delivery, user_setting, referral_code;
 
-                            case 5:
-                              _yield$Promise$all = _context.sent
-                              _yield$Promise$all2 = (0,
-                              _slicedToArray2['default'])(_yield$Promise$all, 1)
-                              user = _yield$Promise$all2[0]
-                              console.log(user)
-                              _context.next = 11
-                              return _free_delivery['default'].query().insert({
-                                user_id: user.id
-                              })
+    return _regenerator["default"].wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            makeCode = function _makeCode(length) {
+              var result = '';
+              var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+              var charactersLength = characters.length;
 
-                            case 11:
-                              free_delivery = _context.sent
-                              return _context.abrupt('return', {
-                                user: user,
-                                free_delivery: free_delivery
-                              })
+              for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+              }
 
-                            case 13:
-                            case 'end':
-                              return _context.stop()
-                          }
-                        }
-                      },
-                      _callee)
-                    })
-                  )
+              return result;
+            };
 
-                  return function (_x2) {
-                    return _ref2.apply(this, arguments)
-                  }
-                })()
-              )
+            _context.next = 3;
+            return Promise.all([_user["default"].query().insert({
+              phone_number: phone_number,
+              role: 'CUSTOMER',
+              active: true
+            })]);
 
-            case 2:
-              return _context2.abrupt('return', _context2.sent)
+          case 3:
+            _yield$Promise$all = _context.sent;
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 1);
+            user = _yield$Promise$all2[0];
+            _context.next = 8;
+            return Promise.all([_free_delivery["default"].query().insert({
+              user_id: user.id
+            }), _user_setting["default"].query().insert({
+              user_id: user.id
+            }), _referral_code["default"].query().insert({
+              user_id: user.id,
+              code: makeCode(6).toUpperCase()
+            })]);
 
-            case 3:
-            case 'end':
-              return _context2.stop()
-          }
+          case 8:
+            _yield$Promise$all3 = _context.sent;
+            _yield$Promise$all4 = (0, _slicedToArray2["default"])(_yield$Promise$all3, 3);
+            free_delivery = _yield$Promise$all4[0];
+            user_setting = _yield$Promise$all4[1];
+            referral_code = _yield$Promise$all4[2];
+            return _context.abrupt("return", {
+              user: user
+            });
+
+          case 14:
+          case "end":
+            return _context.stop();
         }
-      }, _callee2)
-    })
-  )
+      }
+    }, _callee);
+  }));
 
   return function newCustomerService(_x) {
-    return _ref.apply(this, arguments)
-  }
-})()
+    return _ref.apply(this, arguments);
+  };
+}();
 
-exports.newCustomerService = newCustomerService
+exports.newCustomerService = newCustomerService;
 
-var updateNewUserService = /*#__PURE__*/ (function () {
-  var _ref3 = (0, _asyncToGenerator2['default'])(
-    /*#__PURE__*/ _regenerator['default'].mark(function _callee4(
-      personal_details,
-      user
-    ) {
-      return _regenerator['default'].wrap(function _callee4$(_context4) {
-        while (1) {
-          switch ((_context4.prev = _context4.next)) {
-            case 0:
-              _context4.next = 2
-              return (0, _objection.transaction)(
-                _user['default'],
-                /*#__PURE__*/ (function () {
-                  var _ref4 = (0, _asyncToGenerator2['default'])(
-                    /*#__PURE__*/ _regenerator['default'].mark(
-                      function _callee3(User) {
-                        var user_data
-                        return _regenerator['default'].wrap(function _callee3$(
-                          _context3
-                        ) {
-                          while (1) {
-                            switch ((_context3.prev = _context3.next)) {
-                              case 0:
-                                //  clean up data
-                                delete personal_details.phone_number
-                                delete personal_details.role_id
-                                delete personal_details.logistics_company_id
-                                _context3.next = 5
-                                return (0, _helpers.encryptPassword)(
-                                  personal_details.password
-                                )
+var updateNewUserService = /*#__PURE__*/function () {
+  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(personal_details, user) {
+    var user_data;
+    return _regenerator["default"].wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!personal_details.password) {
+              _context2.next = 4;
+              break;
+            }
 
-                              case 5:
-                                personal_details.password = _context3.sent
-                                _context3.next = 8
-                                return User.query()
-                                  .patchAndFetchById(user.id, personal_details)
-                                  .withGraphFetched('[role]')
+            _context2.next = 3;
+            return (0, _helpers.encryptPassword)(personal_details.password);
 
-                              case 8:
-                                user_data = _context3.sent
-                                return _context3.abrupt('return', {
-                                  user_data: user_data
-                                })
+          case 3:
+            personal_details.password = _context2.sent;
 
-                              case 10:
-                              case 'end':
-                                return _context3.stop()
-                            }
-                          }
-                        },
-                        _callee3)
-                      }
-                    )
-                  )
+          case 4:
+            _context2.next = 6;
+            return _user["default"].query().patchAndFetchById(user.id, personal_details);
 
-                  return function (_x5) {
-                    return _ref4.apply(this, arguments)
-                  }
-                })()
-              )
+          case 6:
+            user_data = _context2.sent;
+            return _context2.abrupt("return", {
+              user_data: user_data
+            });
 
-            case 2:
-              return _context4.abrupt('return', _context4.sent)
-
-            case 3:
-            case 'end':
-              return _context4.stop()
-          }
+          case 8:
+          case "end":
+            return _context2.stop();
         }
-      }, _callee4)
-    })
-  )
+      }
+    }, _callee2);
+  }));
 
-  return function updateNewUserService(_x3, _x4) {
-    return _ref3.apply(this, arguments)
-  }
-})()
+  return function updateNewUserService(_x2, _x3) {
+    return _ref2.apply(this, arguments);
+  };
+}();
 
-exports.updateNewUserService = updateNewUserService
+exports.updateNewUserService = updateNewUserService;
 var _default = {
   newCustomerService: newCustomerService,
   updateNewUserService: updateNewUserService
-}
-exports['default'] = _default
+};
+exports["default"] = _default;
 //# sourceMappingURL=UserService.js.map
