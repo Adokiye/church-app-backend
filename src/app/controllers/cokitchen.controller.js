@@ -8,7 +8,7 @@ export const updateCokitchen = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role)) {
+  if (await checkIfMarketing(role)) {
     if (body.posist_data) {
       delete body.posist_data
     }
@@ -29,7 +29,7 @@ export const createCokitchenPolygon = async ctx => {
   const { body } = ctx.request
   const { id, role } = ctx.state.user.user
 
-  if (checkIfMarketing(role)) {
+  if (await checkIfMarketing(role)) {
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .insert(body)
       .withGraphFetched('[cokitchen]')
@@ -48,7 +48,7 @@ export const updateCokitchenPolygon = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role)) {
+  if (await checkIfMarketing(role)) {
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .patchAndFetchById(id, body)
       .withGraphFetched('[cokitchen]')

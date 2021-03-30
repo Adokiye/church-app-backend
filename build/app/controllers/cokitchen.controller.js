@@ -35,9 +35,12 @@ var updateCokitchen = /*#__PURE__*/function () {
             id = ctx.params.id;
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context.next = 5;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context.next = 11;
+          case 5:
+            if (!_context.sent) {
+              _context.next = 13;
               break;
             }
 
@@ -45,20 +48,20 @@ var updateCokitchen = /*#__PURE__*/function () {
               delete body.posist_data;
             }
 
-            _context.next = 7;
+            _context.next = 9;
             return _cokitchen["default"].query().patchAndFetchById(id, body).withGraphFetched('[brands, cokitchen_polygon]');
 
-          case 7:
+          case 9:
             cokitchen_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, cokitchen_data));
 
-          case 11:
+          case 13:
             throw (0, _helpers.Unauthorized)('Unauthorized Update');
 
-          case 12:
+          case 14:
           case "end":
             return _context.stop();
         }
@@ -83,26 +86,29 @@ var createCokitchenPolygon = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             _ctx$state$user$user = ctx.state.user.user, id = _ctx$state$user$user.id, role = _ctx$state$user$user.role;
+            _context2.next = 4;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context2.next = 9;
+          case 4:
+            if (!_context2.sent) {
+              _context2.next = 11;
               break;
             }
 
-            _context2.next = 5;
+            _context2.next = 7;
             return _cokitchen_polygon["default"].query().insert(body).withGraphFetched('[cokitchen]');
 
-          case 5:
+          case 7:
             cokitchen_polygon_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, cokitchen_polygon_data));
 
-          case 9:
+          case 11:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 10:
+          case 12:
           case "end":
             return _context2.stop();
         }
@@ -127,26 +133,29 @@ var updateCokitchenPolygon = /*#__PURE__*/function () {
             id = ctx.params.id;
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context3.next = 5;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context3.next = 10;
+          case 5:
+            if (!_context3.sent) {
+              _context3.next = 12;
               break;
             }
 
-            _context3.next = 6;
+            _context3.next = 8;
             return _cokitchen_polygon["default"].query().patchAndFetchById(id, body).withGraphFetched('[cokitchen]');
 
-          case 6:
+          case 8:
             cokitchen_polygon_data = _context3.sent;
             return _context3.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, cokitchen_polygon_data));
 
-          case 10:
+          case 12:
             throw (0, _helpers.Unauthorized)('Unauthorized Update');
 
-          case 11:
+          case 13:
           case "end":
             return _context3.stop();
         }

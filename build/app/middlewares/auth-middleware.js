@@ -39,7 +39,7 @@ var authMiddleware = (0, _koaJwt["default"])({
   secret: _config.JWT_SECRET,
   getToken: getToken
 }).unless({
-  path: ['/v1/auth/login', '/v1/auth/forget', '/v1/auth/reset', '/v1/auth/guest/authenticate', '/v1/auth/verify', '/v1/auth/resend', '/public', '/', '/v1/banks', '/v1/api/swagger-html', /^\/v1\/internal\/.*/]
+  path: ['/v1/auth/login', '/v1/auth/login-marketing', '/v1/auth/login-logistics-admin', '/v1/auth/forget', '/v1/auth/reset', '/v1/auth/guest/authenticate', '/v1/auth/verify', '/v1/auth/resend', '/public', '/', '/v1/banks', '/v1/api/swagger-html', /^\/v1\/internal\/.*/]
 });
 exports.authMiddleware = authMiddleware;
 //# sourceMappingURL=auth-middleware.js.map

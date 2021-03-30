@@ -37,9 +37,12 @@ var updateBrand = /*#__PURE__*/function () {
             id = ctx.params.id;
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context.next = 5;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context.next = 11;
+          case 5:
+            if (!_context.sent) {
+              _context.next = 13;
               break;
             }
 
@@ -47,20 +50,20 @@ var updateBrand = /*#__PURE__*/function () {
               delete body.posist_data;
             }
 
-            _context.next = 7;
+            _context.next = 9;
             return _brand["default"].query().patchAndFetchById(id, body);
 
-          case 7:
+          case 9:
             brand_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, brand_data));
 
-          case 11:
+          case 13:
             throw (0, _helpers.Unauthorized)('Unauthorized Update');
 
-          case 12:
+          case 14:
           case "end":
             return _context.stop();
         }

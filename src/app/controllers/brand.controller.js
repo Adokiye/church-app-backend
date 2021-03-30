@@ -9,7 +9,7 @@ export const updateBrand = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfMarketing(role)) {
+  if (await checkIfMarketing(role)) {
     if (body.posist_data) {
       delete body.posist_data
     }

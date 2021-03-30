@@ -13,7 +13,7 @@ export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfLogisticsSuperAdmin(role)) {
+  if (await checkIfLogisticsSuperAdmin(role)) {
     const logistics_company_data = await LogisticsCompany.query().insert(body)
     return {
       status: 'success',
@@ -31,7 +31,7 @@ export const createLogisticsAdmin = async ctx => {
   const logisticsAdminRole = await Role.query().findOne({
     name: 'LOGISTICS_ADMIN'
   })
-  if (checkIfLogisticsSuperAdmin(role)) {
+  if (await checkIfLogisticsSuperAdmin(role)) {
     body.active = false
     body.role_id = logisticsAdminRole.id
     body.password = await encryptPassword(body.password)
@@ -52,7 +52,7 @@ export const createLogisticsRider = async ctx => {
   const riderRole = await Role.query().findOne({
     name: 'RIDER'
   })
-  if (checkIfLogisticsAdmin(role)) {
+  if (await checkIfLogisticsAdmin(role)) {
     body.active = false
     body.password = await encryptPassword(body.password)
     body.role_id = riderRole.id

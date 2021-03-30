@@ -38,26 +38,29 @@ var createLogisticsCompany = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context.next = 4;
+            return (0, _RoleService.checkIfLogisticsSuperAdmin)(role);
 
-            if (!(0, _RoleService.checkIfLogisticsSuperAdmin)(role)) {
-              _context.next = 9;
+          case 4:
+            if (!_context.sent) {
+              _context.next = 11;
               break;
             }
 
-            _context.next = 5;
+            _context.next = 7;
             return _logistics_company["default"].query().insert(body);
 
-          case 5:
+          case 7:
             logistics_company_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Creation Successful'
             }, logistics_company_data));
 
-          case 9:
+          case 11:
             throw (0, _helpers.Unauthorized)('Unauthorized Creation');
 
-          case 10:
+          case 12:
           case "end":
             return _context.stop();
         }
@@ -88,33 +91,36 @@ var createLogisticsAdmin = /*#__PURE__*/function () {
 
           case 4:
             logisticsAdminRole = _context2.sent;
+            _context2.next = 7;
+            return (0, _RoleService.checkIfLogisticsSuperAdmin)(role);
 
-            if (!(0, _RoleService.checkIfLogisticsSuperAdmin)(role)) {
-              _context2.next = 17;
+          case 7:
+            if (!_context2.sent) {
+              _context2.next = 19;
               break;
             }
 
             body.active = false;
             body.role_id = logisticsAdminRole.id;
-            _context2.next = 10;
+            _context2.next = 12;
             return (0, _helpers.encryptPassword)(body.password);
 
-          case 10:
+          case 12:
             body.password = _context2.sent;
-            _context2.next = 13;
+            _context2.next = 15;
             return _user["default"].query().insert(body);
 
-          case 13:
+          case 15:
             logistics_admin_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Creation Successful'
             }, logistics_admin_data));
 
-          case 17:
+          case 19:
             throw (0, _helpers.Unauthorized)('Unauthorized Creation');
 
-          case 18:
+          case 20:
           case "end":
             return _context2.stop();
         }
@@ -145,33 +151,36 @@ var createLogisticsRider = /*#__PURE__*/function () {
 
           case 4:
             riderRole = _context3.sent;
+            _context3.next = 7;
+            return (0, _RoleService.checkIfLogisticsAdmin)(role);
 
-            if (!(0, _RoleService.checkIfLogisticsAdmin)(role)) {
-              _context3.next = 17;
+          case 7:
+            if (!_context3.sent) {
+              _context3.next = 19;
               break;
             }
 
             body.active = false;
-            _context3.next = 9;
+            _context3.next = 11;
             return (0, _helpers.encryptPassword)(body.password);
 
-          case 9:
+          case 11:
             body.password = _context3.sent;
             body.role_id = riderRole.id;
-            _context3.next = 13;
+            _context3.next = 15;
             return _user["default"].query().insert(body);
 
-          case 13:
+          case 15:
             rider_data = _context3.sent;
             return _context3.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Creation Successful'
             }, rider_data));
 
-          case 17:
+          case 19:
             throw (0, _helpers.Unauthorized)('Unauthorized Creation');
 
-          case 18:
+          case 20:
           case "end":
             return _context3.stop();
         }

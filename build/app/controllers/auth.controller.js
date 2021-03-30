@@ -263,38 +263,41 @@ var adminUpdateUser = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context5.next = 4;
+            return (0, _RoleService.checkIfAdmin)(role);
 
-            if (!(0, _RoleService.checkIfAdmin)(role)) {
-              _context5.next = 13;
+          case 4:
+            if (!_context5.sent) {
+              _context5.next = 15;
               break;
             }
 
             if (!body.password) {
-              _context5.next = 7;
+              _context5.next = 9;
               break;
             }
 
-            _context5.next = 6;
+            _context5.next = 8;
             return encryptPassword(body.password);
 
-          case 6:
+          case 8:
             body.password = _context5.sent;
 
-          case 7:
-            _context5.next = 9;
+          case 9:
+            _context5.next = 11;
             return _user["default"].query().patchAndFetchById(body.user_id, body);
 
-          case 9:
+          case 11:
             user_data = _context5.sent;
             return _context5.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, user_data));
 
-          case 13:
+          case 15:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 14:
+          case 16:
           case "end":
             return _context5.stop();
         }
@@ -319,33 +322,36 @@ var marketingCreateStaff = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context6.next = 4;
+            return (0, _RoleService.checkIfMarketingAdmin)(role);
 
-            if (!(0, _RoleService.checkIfMarketingAdmin)(role)) {
-              _context6.next = 14;
+          case 4:
+            if (!_context6.sent) {
+              _context6.next = 16;
               break;
             }
 
             body.role = 'MARKETING';
             body.active = false;
-            _context6.next = 7;
+            _context6.next = 9;
             return encryptPassword(body.password);
 
-          case 7:
+          case 9:
             body.password = _context6.sent;
-            _context6.next = 10;
+            _context6.next = 12;
             return _user["default"].query().insert(body);
 
-          case 10:
+          case 12:
             user_data = _context6.sent;
             return _context6.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, user_data));
 
-          case 14:
+          case 16:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 15:
+          case 17:
           case "end":
             return _context6.stop();
         }
@@ -368,16 +374,19 @@ var adminGetUsers = /*#__PURE__*/function () {
         switch (_context7.prev = _context7.next) {
           case 0:
             role = ctx.state.user.user.role;
+            _context7.next = 3;
+            return (0, _RoleService.checkIfAdmin)(role);
 
-            if (!(0, _RoleService.checkIfAdmin)(role)) {
-              _context7.next = 8;
+          case 3:
+            if (!_context7.sent) {
+              _context7.next = 10;
               break;
             }
 
-            _context7.next = 4;
+            _context7.next = 6;
             return _user["default"].query();
 
-          case 4:
+          case 6:
             data = _context7.sent;
             return _context7.abrupt("return", {
               status: 'success',
@@ -385,10 +394,10 @@ var adminGetUsers = /*#__PURE__*/function () {
               data: data
             });
 
-          case 8:
+          case 10:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 9:
+          case 11:
           case "end":
             return _context7.stop();
         }
@@ -411,16 +420,19 @@ var adminGetUserRoles = /*#__PURE__*/function () {
         switch (_context8.prev = _context8.next) {
           case 0:
             role = ctx.state.user.user.role;
+            _context8.next = 3;
+            return (0, _RoleService.checkIfAdmin)(role);
 
-            if (!(0, _RoleService.checkIfAdmin)(role)) {
-              _context8.next = 8;
+          case 3:
+            if (!_context8.sent) {
+              _context8.next = 10;
               break;
             }
 
-            _context8.next = 4;
+            _context8.next = 6;
             return _role["default"].query();
 
-          case 4:
+          case 6:
             data = _context8.sent;
             return _context8.abrupt("return", {
               status: 'success',
@@ -428,10 +440,10 @@ var adminGetUserRoles = /*#__PURE__*/function () {
               data: data
             });
 
-          case 8:
+          case 10:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 9:
+          case 11:
           case "end":
             return _context8.stop();
         }
@@ -552,8 +564,12 @@ var loginMarketing = /*#__PURE__*/function () {
             }, user));
 
           case 13:
-            if (!(0, _RoleService.checkIfMarketing)(user.role)) {
-              _context10.next = 17;
+            _context10.next = 15;
+            return (0, _RoleService.checkIfMarketing)(user.role);
+
+          case 15:
+            if (!_context10.sent) {
+              _context10.next = 19;
               break;
             }
 
@@ -564,10 +580,10 @@ var loginMarketing = /*#__PURE__*/function () {
               token: _JwtService["default"].sign(_objectSpread({}, user))
             }));
 
-          case 17:
+          case 19:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 18:
+          case 20:
           case "end":
             return _context10.stop();
         }
@@ -624,8 +640,12 @@ var loginLogisticsAdmin = /*#__PURE__*/function () {
             }, user));
 
           case 13:
-            if (!(0, _RoleService.checkIfLogisticsAdmin)(user.role)) {
-              _context11.next = 17;
+            _context11.next = 15;
+            return (0, _RoleService.checkIfLogisticsAdmin)(user.role);
+
+          case 15:
+            if (!_context11.sent) {
+              _context11.next = 19;
               break;
             }
 
@@ -636,10 +656,10 @@ var loginLogisticsAdmin = /*#__PURE__*/function () {
               token: _JwtService["default"].sign(_objectSpread({}, user))
             }));
 
-          case 17:
+          case 19:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 18:
+          case 20:
           case "end":
             return _context11.stop();
         }

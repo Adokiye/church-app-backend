@@ -37,22 +37,25 @@ var createDeal = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context.next = 4;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context.next = 36;
+          case 4:
+            if (!_context.sent) {
+              _context.next = 38;
               break;
             }
 
-            _context.next = 5;
+            _context.next = 7;
             return _deal_type["default"].query().findById(body.deal_type_id)["catch"](function () {
               return false;
             });
 
-          case 5:
+          case 7:
             deal_type_data = _context.sent;
 
             if (deal_type_data) {
-              _context.next = 8;
+              _context.next = 10;
               break;
             }
 
@@ -64,45 +67,45 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 8:
+          case 10:
             if (!(deal_type_data.name === 'BRAND')) {
-              _context.next = 30;
+              _context.next = 32;
               break;
             }
 
             deals = [];
             i = 0, len = body.brands.length;
 
-          case 11:
+          case 13:
             if (!(i < len)) {
-              _context.next = 27;
+              _context.next = 29;
               break;
             }
 
-            _context.next = 14;
+            _context.next = 16;
             return _brand["default"].query().findById(body.brands[i])["catch"](function () {
               return false;
             });
 
-          case 14:
+          case 16:
             brand_data = _context.sent;
 
             if (!brand_data) {
-              _context.next = 23;
+              _context.next = 25;
               break;
             }
 
             body.brand_id = brand_data.id;
-            _context.next = 19;
+            _context.next = 21;
             return _deal["default"].query().insert(body).withGraphFetched('[deal_type]');
 
-          case 19:
+          case 21:
             deal_data = _context.sent;
             deals.push(deal_data);
-            _context.next = 24;
+            _context.next = 26;
             break;
 
-          case 23:
+          case 25:
             return _context.abrupt("return", res.status(404).json({
               status: 'error',
               message: 'Not Found',
@@ -111,23 +114,23 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 24:
+          case 26:
             i++;
-            _context.next = 11;
+            _context.next = 13;
             break;
 
-          case 27:
+          case 29:
             return _context.abrupt("return", {
               status: 'success',
               message: 'Creation Successful',
               data: deals
             });
 
-          case 30:
-            _context.next = 32;
+          case 32:
+            _context.next = 34;
             return _deal["default"].query().insert(body).withGraphFetched('[deal_type]');
 
-          case 32:
+          case 34:
             _deal_data = _context.sent;
             return _context.abrupt("return", {
               status: 'success',
@@ -135,14 +138,14 @@ var createDeal = /*#__PURE__*/function () {
               data: _deal_data
             });
 
-          case 34:
-            _context.next = 37;
+          case 36:
+            _context.next = 39;
             break;
 
-          case 36:
+          case 38:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 37:
+          case 39:
           case "end":
             return _context.stop();
         }
@@ -167,26 +170,29 @@ var updateDeal = /*#__PURE__*/function () {
             id = ctx.params.id;
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            _context2.next = 5;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context2.next = 10;
+          case 5:
+            if (!_context2.sent) {
+              _context2.next = 12;
               break;
             }
 
-            _context2.next = 6;
+            _context2.next = 8;
             return _deal["default"].query().patchAndFetchById(id, body).withGraphFetched('[deal_type]');
 
-          case 6:
+          case 8:
             deal_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, deal_data));
 
-          case 10:
+          case 12:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 11:
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -209,9 +215,12 @@ var getDealTypes = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             role = ctx.state.user.user.role;
+            _context3.next = 3;
+            return (0, _RoleService.checkIfMarketing)(role);
 
-            if (!(0, _RoleService.checkIfMarketing)(role)) {
-              _context3.next = 6;
+          case 3:
+            if (!_context3.sent) {
+              _context3.next = 8;
               break;
             }
 
@@ -222,10 +231,10 @@ var getDealTypes = /*#__PURE__*/function () {
               data: deal_types
             });
 
-          case 6:
+          case 8:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 7:
+          case 9:
           case "end":
             return _context3.stop();
         }

@@ -121,7 +121,7 @@ export const adminUpdateUser = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role)) {
+  if ( await checkIfAdmin(role)) {
     if (body.password) {
       body.password = await encryptPassword(body.password)
     }
@@ -143,7 +143,7 @@ export const marketingCreateStaff = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if (checkIfMarketingAdmin(role)) {
+  if ( await checkIfMarketingAdmin(role)) {
     body.role = 'MARKETING'
     body.active = false
     body.password = await encryptPassword(body.password)
@@ -161,7 +161,7 @@ export const marketingCreateStaff = async ctx => {
 export const adminGetUsers = async ctx => {
   const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role)) {
+  if (await checkIfAdmin(role)) {
     const data = await User.query()
     return {
       status: 'success',
@@ -176,7 +176,7 @@ export const adminGetUsers = async ctx => {
 export const adminGetUserRoles = async ctx => {
   const { role } = ctx.state.user.user
 
-  if (checkIfAdmin(role)) {
+  if (await checkIfAdmin(role)) {
     const data = await Role.query()
     return {
       status: 'success',
@@ -248,7 +248,7 @@ export const loginMarketing = async ctx => {
       ...user
     }
   } else {
-    if (checkIfMarketing(user.role)) {
+    if (await checkIfMarketing(user.role)) {
       return {
         status,
         message,
@@ -288,7 +288,7 @@ export const loginLogisticsAdmin = async ctx => {
       ...user
     }
   } else {
-    if (checkIfLogisticsAdmin('LOGISTICS_ADMIN')) {
+    if (await checkIfLogisticsAdmin(user.role)) {
       return {
         status,
         message,
