@@ -22,6 +22,8 @@ export const authMiddleware = jwt({
 }).unless({
   path: [
     '/v1/auth/login',
+    'v1/auth/login-marketing',
+    'v1/auth/login-logistics-admin',
     '/v1/auth/forget',
     '/v1/auth/reset',
     '/v1/auth/guest/authenticate',
