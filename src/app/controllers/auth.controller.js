@@ -288,9 +288,7 @@ export const loginLogisticsAdmin = async ctx => {
       ...user
     }
   } else {
-    if (checkIfLogisticsAdmin(user.role)) {
-      console.log('not seen')
-      console.log(user.role)
+    if (checkIfLogisticsAdmin('LOGISTICS_ADMIN')) {
       return {
         status,
         message,
