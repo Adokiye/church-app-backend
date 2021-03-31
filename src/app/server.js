@@ -18,11 +18,11 @@ app.use(Logger())
 
 app.use(
   Cors(
-  //   {
-  //   origin: '*',
-  //   allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-  //   exposeHeaders: ['X-Request-Id']
-  // }
+    {
+    origin: '*',
+    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+    exposeHeaders: ['X-Request-Id']
+  }
   )
 )
 
