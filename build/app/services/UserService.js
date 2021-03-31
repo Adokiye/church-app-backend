@@ -29,46 +29,34 @@ var _helpers = require("../helpers");
 
 var newCustomerService = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(phone_number) {
-    var _yield$Promise$all, _yield$Promise$all2, user, makeCode, _yield$Promise$all3, _yield$Promise$all4, free_delivery, user_setting, referral_code;
+    var _yield$Promise$all, _yield$Promise$all2, user, _yield$Promise$all3, _yield$Promise$all4, free_delivery, user_setting, referral_code;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            makeCode = function _makeCode(length) {
-              var result = '';
-              var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-              var charactersLength = characters.length;
-
-              for (var i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-              }
-
-              return result;
-            };
-
-            _context.next = 3;
+            _context.next = 2;
             return Promise.all([_user["default"].query().insert({
               phone_number: phone_number,
               role: 'CUSTOMER',
               active: true
             })]);
 
-          case 3:
+          case 2:
             _yield$Promise$all = _context.sent;
             _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 1);
             user = _yield$Promise$all2[0];
-            _context.next = 8;
+            _context.next = 7;
             return Promise.all([_free_delivery["default"].query().insert({
               user_id: user.id
             }), _user_setting["default"].query().insert({
               user_id: user.id
             }), _referral_code["default"].query().insert({
               user_id: user.id,
-              code: makeCode(6).toUpperCase()
+              code: (0, _helpers.makeCode)(6).toUpperCase()
             })]);
 
-          case 8:
+          case 7:
             _yield$Promise$all3 = _context.sent;
             _yield$Promise$all4 = (0, _slicedToArray2["default"])(_yield$Promise$all3, 3);
             free_delivery = _yield$Promise$all4[0];
@@ -78,7 +66,7 @@ var newCustomerService = /*#__PURE__*/function () {
               user: user
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context.stop();
         }

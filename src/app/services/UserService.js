@@ -6,7 +6,7 @@ import FreeDelivery from '../models/free_delivery'
 import UserSetting from '../models/user_setting'
 import ReferralCode from '../models/referral_code'
 
-import { encryptPassword } from '../helpers'
+import { encryptPassword, makeCode } from '../helpers'
 
 export const newCustomerService = async phone_number => {
   const [user] = await Promise.all([
@@ -17,17 +17,6 @@ export const newCustomerService = async phone_number => {
         active: true
       })
   ])
-
-  function makeCode(length) {
-    var result = ''
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    var charactersLength = characters.length
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-    return result
-  }
 
   const [free_delivery, user_setting, referral_code] = await Promise.all([
     FreeDelivery.query().insert({

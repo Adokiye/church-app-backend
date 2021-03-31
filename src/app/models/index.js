@@ -14,7 +14,7 @@ Model.knex(knex)
 export const modelUuid = guid()
 // Import the plugin.
 export const modelUnique = objection_unique({
-  fields: ['email', 'phone_number'],
+  fields: ['phone_number'],
   identifiers: ['id']
 })
 

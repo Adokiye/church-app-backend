@@ -6,7 +6,7 @@ exports.up = function (knex) {
       table.boolean('active').notNullable().defaultTo(true)
 
       table.string('username').unique()
-      table.specificType('email', 'CITEXT').unique()
+      table.specificType('email', 'CITEXT')
       table.boolean('email_confirmed').notNullable().defaultTo(false)
       table.string('email_confirm_token').unique()
       table

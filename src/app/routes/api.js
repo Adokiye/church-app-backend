@@ -25,6 +25,9 @@ router.post('/auth/login-marketing', UserValidator.login(), Auth.loginMarketing)
 
 router.post('/auth/login-logistics-admin', UserValidator.login(), Auth.loginLogisticsAdmin)
 
+router.post('/internal/auth/register-marketing', UserValidator.registerStaff(), Auth.registerAsMarketing)
+
+router.post('/internal/auth/register-logistics-admin', UserValidator.registerStaff(), Auth.registerAsLogisticsAdmin)
 
 router.post(
   '/auth/verify',

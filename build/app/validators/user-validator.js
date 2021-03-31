@@ -60,6 +60,20 @@ var UserValidator = {
       }
     });
   },
+  registerStaff: function registerStaff() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        first_name: _joi["default"].string().required(),
+        last_name: _joi["default"].string().required(),
+        other_name: _joi["default"].string(),
+        dob: _joi["default"].string(),
+        gender: _joi["default"].string().valid('male', 'female'),
+        email: _joi["default"].string().email().required(),
+        password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit').required(),
+        phone_number: _joi["default"].string().min(11).max(11).required()
+      }
+    });
+  },
   update: function update() {
     return (0, _middlewares.validationMiddleware)({
       body: {

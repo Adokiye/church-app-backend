@@ -114,4 +114,18 @@ Object.keys(_location).forEach(function (key) {
     }
   });
 });
+
+var _string = require("./string.js");
+
+Object.keys(_string).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _string[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _string[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

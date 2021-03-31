@@ -1,5 +1,8 @@
 import User from '../models/user'
 import Role from '../models/role'
+import FreeDelivery from '../models/free_delivery'
+import UserSetting from '../models/user_setting'
+import ReferralCode from '../models/referral_code'
 import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
@@ -10,7 +13,7 @@ import {
   updateNewUserService
 } from '../services/UserService'
 import { checkIfAdmin, checkIfMarketingAdmin, checkIfMarketing, checkIfLogisticsAdmin } from '../services/RoleService'
-import { Unauthorized, insidePolygon } from '../helpers'
+import { Unauthorized, insidePolygon, makeCode,encryptPassword } from '../helpers'
 const status = 'success'
 const message = 'Success!'
 
@@ -156,6 +159,64 @@ export const marketingCreateStaff = async ctx => {
   } else {
     throw Unauthorized('Unauthorized')
   }
+}
+
+//register as marketing
+export const registerAsMarketing = async ctx => {
+  const { body } = ctx.request
+  
+    body.role = 'MARKETING'
+    body.active = true
+    body.password = await encryptPassword(body.password)
+    const user_data = await User.query().insert(body)
+    const [free_delivery, user_setting, referral_code] = await Promise.all([
+      FreeDelivery.query().insert({
+        user_id: user_data.id
+      }),
+      UserSetting.query().insert({
+        user_id: user_data.id
+      }),
+      ReferralCode.query().insert({
+        user_id: user_data.id,
+        code: makeCode(6).toUpperCase()
+      })
+    ])
+    return {
+      status: 'success',
+      message: 'Registration Successful',
+      ...user_data,
+      token: JwtService.sign({ user: user_data })
+
+    }
+}
+
+//register as logistics admin
+export const registerAsLogisticsAdmin = async ctx => {
+  const { body } = ctx.request
+  
+    body.role = 'LOGISTICS_ADMIN'
+    body.active = true
+    body.password = await encryptPassword(body.password)
+    const user_data = await User.query().insert(body)
+    const [free_delivery, user_setting, referral_code] = await Promise.all([
+      FreeDelivery.query().insert({
+        user_id: user_data.id
+      }),
+      UserSetting.query().insert({
+        user_id: user_data.id
+      }),
+      ReferralCode.query().insert({
+        user_id: user_data.id,
+        code: makeCode(6).toUpperCase()
+      })
+    ])
+    return {
+      status: 'success',
+      message: 'Registration Successful',
+      ...user_data,
+      token: JwtService.sign({ user: user_data })
+
+    }
 }
 
 export const adminGetUsers = async ctx => {

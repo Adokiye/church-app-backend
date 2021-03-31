@@ -30,6 +30,8 @@ router.post('/auth/guest/authenticate', _userValidator["default"].create(), _con
 router.post('/auth/login', _userValidator["default"].login(), _controllers.Auth.login);
 router.post('/auth/login-marketing', _userValidator["default"].login(), _controllers.Auth.loginMarketing);
 router.post('/auth/login-logistics-admin', _userValidator["default"].login(), _controllers.Auth.loginLogisticsAdmin);
+router.post('/internal/auth/register-marketing', _userValidator["default"].registerStaff(), _controllers.Auth.registerAsMarketing);
+router.post('/internal/auth/register-logistics-admin', _userValidator["default"].registerStaff(), _controllers.Auth.registerAsLogisticsAdmin);
 router.post('/auth/verify', _userValidator["default"].verifyUser(), _controllers.Auth.verifyOtp, _controllers.Auth.verifyUser);
 router.post('/internal/send-otp', _userValidator["default"].send_otp(), _controllers.Auth.sendOtp); //admin routes
 

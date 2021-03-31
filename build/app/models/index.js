@@ -47,7 +47,7 @@ var modelUuid = (0, _objectionGuid["default"])(); // Import the plugin.
 
 exports.modelUuid = modelUuid;
 var modelUnique = (0, _objectionUnique["default"])({
-  fields: ['email', 'phone_number'],
+  fields: ['phone_number'],
   identifiers: ['id']
 });
 exports.modelUnique = modelUnique;
