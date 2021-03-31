@@ -17,11 +17,13 @@ app.use(helmet())
 app.use(Logger())
 
 app.use(
-  Cors({
-    origin: '*',
-    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-    exposeHeaders: ['X-Request-Id']
-  })
+  Cors(
+  //   {
+  //   origin: '*',
+  //   allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+  //   exposeHeaders: ['X-Request-Id']
+  // }
+  )
 )
 
 app.use(koaBody({ multipart: true }))
