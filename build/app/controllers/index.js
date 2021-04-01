@@ -5,7 +5,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0;
+exports.Keyword = exports.Order = exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0;
 
 var _Auth = _interopRequireWildcard(require("./auth.controller"));
 
@@ -26,4 +26,12 @@ exports.Logistics = _Logistics;
 var _Deals = _interopRequireWildcard(require("./deal.controller"));
 
 exports.Deals = _Deals;
+
+var _Order = _interopRequireWildcard(require("./order.controller"));
+
+exports.Order = _Order;
+
+var _Keyword = _interopRequireWildcard(require("./keyword.controller"));
+
+exports.Keyword = _Keyword;
 //# sourceMappingURL=index.js.map

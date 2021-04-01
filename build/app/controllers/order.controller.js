@@ -21,7 +21,7 @@ var _order = _interopRequireDefault(require("../models/order"));
 
 var _meal = _interopRequireDefault(require("../models/meal"));
 
-var _addon = _interopRequireDefault(require("../models/addon"));
+var _addons = _interopRequireDefault(require("../models/addons"));
 
 var _deal_type = _interopRequireDefault(require("../models/deal_type"));
 
@@ -184,7 +184,7 @@ var calculateOrder = /*#__PURE__*/function () {
             }
 
             _context2.next = 30;
-            return _addon["default"].query().where({
+            return _addons["default"].query().where({
               id: body.meal_details[i].addons[j].addon_id
             })["catch"](function () {
               return false;

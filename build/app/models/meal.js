@@ -21,7 +21,7 @@ var _objection = require("objection");
 
 var _meal_category = _interopRequireDefault(require("./meal_category"));
 
-var _addon = _interopRequireDefault(require("./addon"));
+var _addons = _interopRequireDefault(require("./addons"));
 
 var _brand = _interopRequireDefault(require("./brand"));
 
@@ -65,7 +65,7 @@ var Meal = /*#__PURE__*/function (_modelUuid) {
   },
   addons: {
     relation: _objection.Model.HasManyRelation,
-    modelClass: _addon["default"],
+    modelClass: _addons["default"],
     join: {
       from: 'addons.meal_id',
       to: 'meals.id'

@@ -1,11 +1,20 @@
 import Router from 'koa-router'
-import { Auth, Cokitchen, Brand, Logistics, Deals } from '../controllers/'
+import {
+  Auth,
+  Cokitchen,
+  Brand,
+  Logistics,
+  Deals,
+  Order,
+  Keyword
+} from '../controllers/'
 import UserValidator from '../validators/user-validator'
 import CokitchenValidator from '../validators/cokitchen-validator'
 import CokitchenPolygonValidator from '../validators/cokitchen-polygon-validator'
 import BrandValidator from '../validators/brand-validator'
 import LogisticsValidator from '../validators/logistics-validator'
 import DealsValidator from '../validators/deal-validator'
+import KeywordValidator from '../validators/keyword-validator'
 
 const router = new Router()
 
@@ -23,11 +32,23 @@ router.post('/auth/login', UserValidator.login(), Auth.login)
 
 router.post('/auth/login-marketing', UserValidator.login(), Auth.loginMarketing)
 
-router.post('/auth/login-logistics-admin', UserValidator.login(), Auth.loginLogisticsAdmin)
+router.post(
+  '/auth/login-logistics-admin',
+  UserValidator.login(),
+  Auth.loginLogisticsAdmin
+)
 
-router.post('/internal/auth/register-marketing', UserValidator.registerStaff(), Auth.registerAsMarketing)
+router.post(
+  '/internal/auth/register-marketing',
+  UserValidator.registerStaff(),
+  Auth.registerAsMarketing
+)
 
-router.post('/internal/auth/register-logistics-admin', UserValidator.registerStaff(), Auth.registerAsLogisticsAdmin)
+router.post(
+  '/internal/auth/register-logistics-admin',
+  UserValidator.registerStaff(),
+  Auth.registerAsLogisticsAdmin
+)
 
 router.post(
   '/auth/verify',
@@ -88,6 +109,126 @@ router.put(
   '/marketing/update-deal/:id',
   DealsValidator.updateDeal(),
   Deals.updateDeal
+)
+
+router.post(
+  '/marketing/create-brand-business-metadata',
+  KeywordValidator.create(),
+  Keyword.createBrandBusinessMetadata
+)
+
+router.post(
+  '/marketing/delete-brand-business-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteBrandBusinessMetadata
+)
+
+router.post(
+  '/marketing/create-brand-descriptive-metadata',
+  KeywordValidator.create(),
+  Keyword.createBrandDescriptiveMetadata
+)
+
+router.post(
+  '/marketing/delete-brand-descriptive-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteBrandDescriptiveMetadata
+)
+
+router.post(
+  '/marketing/create-brand-tag',
+  KeywordValidator.create(),
+  Keyword.createBrandTag
+)
+
+router.post(
+  '/marketing/delete-brand-tag',
+  KeywordValidator.delete(),
+  Keyword.deleteBrandTag
+)
+
+router.post(
+  '/marketing/create-brand-keyword',
+  KeywordValidator.create(),
+  Keyword.createBrandKeyword
+)
+
+router.post(
+  '/marketing/delete-brand-keyword',
+  KeywordValidator.delete(),
+  Keyword.deleteBrandKeyword
+)
+
+router.post(
+  '/marketing/create-meal-business-metadata',
+  KeywordValidator.create(),
+  Keyword.createMealBusinessMetadata
+)
+
+router.post(
+  '/marketing/delete-meal-business-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteMealBusinessMetadata
+)
+
+router.post(
+  '/marketing/create-meal-descriptive-metadata',
+  KeywordValidator.create(),
+  Keyword.createMealDescriptiveMetadata
+)
+
+router.post(
+  '/marketing/delete-meal-descriptive-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteMealDescriptiveMetadata
+)
+
+router.post(
+  '/marketing/create-meal-tag',
+  KeywordValidator.create(),
+  Keyword.createMealTag
+)
+
+router.post(
+  '/marketing/delete-meal-tag',
+  KeywordValidator.delete(),
+  Keyword.deleteMealTag
+)
+
+router.post(
+  '/marketing/create-meal-keyword',
+  KeywordValidator.create(),
+  Keyword.createMealKeyword
+)
+
+router.post(
+  '/marketing/delete-meal-keyword',
+  KeywordValidator.delete(),
+  Keyword.deleteMealKeyword
+)
+
+router.post(
+  '/marketing/create-meal-dietary-metadata',
+  KeywordValidator.create(),
+  Keyword.createMealDietaryMetadata
+)
+
+router.post(
+  '/marketing/delete-meal-dietary-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteMealDietaryMetadata
+)
+
+router.post(
+  '/marketing/create-meal-allergy-metadata',
+  KeywordValidator.create(),
+  Keyword.createMealAllergyMetadata
+)
+
+router.post(
+  '/marketing/delete-meal-allergy-metadata',
+  KeywordValidator.delete(),
+  Keyword.deleteMealAllergyMetadata
 )
 
 router.get('/marketing/get-all-deal-types', Deals.getDealTypes)

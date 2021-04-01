@@ -1,0 +1,384 @@
+import BrandDescriptiveMetadata from '../models/brand_descriptive_metadata'
+import BrandBusinessMetadata from '../models/brand_business_metadata'
+import BrandKeyword from '../models/brand_keyword'
+import BrandTag from '../models/brand_tag'
+import MealDescriptiveMetadata from '../models/meal_descriptive_metadata'
+import MealBusinessMetadata from '../models/meal_business_metadata'
+import MealKeyword from '../models/meal_keyword'
+import MealTag from '../models/meal_tag'
+import MealAllergyMetadata from '../models/meal_allergy_metadata'
+import MealDietaryMetadata from '../models/meal_dietary_metadata'
+import { checkIfMarketing } from '../services/RoleService'
+import { Unauthorized, NotFound } from '../helpers'
+
+export const createBrandBusinessMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_business_metadata_data = await BrandBusinessMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Brand Business metadata Created Successfully',
+      ...brand_business_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteBrandBusinessMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_business_metadata_data = await BrandBusinessMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Brand Business Metadata not found')
+      })
+    return {
+      status: 'success',
+      message: 'Brand business metadata Deleted Successfully',
+      ...brand_business_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createBrandDescriptiveMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_descriptive_metadata_data = await BrandDescriptiveMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Brand descriptive metadata Created Successfully',
+      ...brand_descriptive_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteBrandDescriptiveMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_descriptive_metadata_data = await BrandDescriptiveMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Brand descriptive Metadata not found')
+      })
+    return {
+      status: 'success',
+      message: 'Brand descriptive metadata Deleted Successfully',
+      ...brand_descriptive_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createBrandKeyword = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_keyword_data = await BrandKeyword.query().insert(body)
+    return {
+      status: 'success',
+      message: 'Brand keyword Created Successfully',
+      ...brand_keyword_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteBrandKeyword = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_keyword_data = await BrandKeyword.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Brand keyword not found')
+      })
+    return {
+      status: 'success',
+      message: 'Brand keyword Deleted Successfully',
+      ...brand_keyword_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createBrandTag = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_tag_data = await BrandTag.query().insert(body)
+    return {
+      status: 'success',
+      message: 'Brand tag Created Successfully',
+      ...brand_tag_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteBrandTag = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_tag_data = await BrandTag.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Brand tag not found')
+      })
+    return {
+      status: 'success',
+      message: 'Brand tag Deleted Successfully',
+      ...brand_tag_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealBusinessMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_business_metadata_data = await MealBusinessMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Mealbusinessmetadata Created Successfully',
+      ...meal_business_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealBusinessMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_business_metadata_data = await MealBusinessMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal Business Metadata not found')
+      })
+    return {
+      status: 'success',
+      message: 'Brand business metadata Deleted Successfully',
+      ...meal_business_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealDescriptiveMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_descriptive_metadata_data = await MealDescriptiveMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Meal descriptive metadata Created Successfully',
+      ...meal_descriptive_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealDescriptiveMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_descriptive_metadata_data = await MealDescriptiveMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal descriptive Metadata not found')
+      })
+    return {
+      status: 'success',
+      message: 'Meal descriptive metadata Deleted Successfully',
+      ...meal_descriptive_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealKeyword = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_keyword_data = await MealKeyword.query().insert(body)
+    return {
+      status: 'success',
+      message: 'Meal keyword Created Successfully',
+      ...meal_keyword_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealKeyword = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_keyword_data = await MealKeyword.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal keyword not found')
+      })
+    return {
+      status: 'success',
+      message: 'Meal keyword Deleted Successfully',
+      ...meal_keyword_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealTag = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_tag_data = await MealTag.query().insert(body)
+    return {
+      status: 'success',
+      message: 'Meal tag Created Successfully',
+      ...meal_tag_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealTag = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_tag_data = await MealTag.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal tag not found')
+      })
+    return {
+      status: 'success',
+      message: 'Meal tag Deleted Successfully',
+      ...meal_tag_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealDietaryMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_dietary_metadata_data = await MealDietaryMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Meal dietary metadata Created Successfully',
+      ...meal_dietary_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealDietaryMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_dietary_metadata_data = await MealDietaryMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal tag not found')
+      })
+    return {
+      status: 'success',
+      message: 'Meal allegy metadata Deleted Successfully',
+      ...meal_dietary_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const createMealAllergyMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_allergy_metadata_data = await MealAllergyMetadata.query().insert(
+      body
+    )
+    return {
+      status: 'success',
+      message: 'Meal allergy metadata Created Successfully',
+      ...meal_allergy_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
+export const deleteMealAllergyMetadata = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const meal_allergy_metadata_data = await MealAllergyMetadata.query()
+      .deleteById(body.id)
+      .catch(() => {
+        throw NotFound('Meal tag not found')
+      })
+    return {
+      status: 'success',
+      message: 'Meal allegy metadata Deleted Successfully',
+      ...meal_allergy_metadata_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}

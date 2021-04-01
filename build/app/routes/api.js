@@ -23,6 +23,8 @@ var _logisticsValidator = _interopRequireDefault(require("../validators/logistic
 
 var _dealValidator = _interopRequireDefault(require("../validators/deal-validator"));
 
+var _keywordValidator = _interopRequireDefault(require("../validators/keyword-validator"));
+
 var router = new _koaRouter["default"](); //authentication and user routes
 
 router.put('/auth/user', _userValidator["default"].update(), _controllers.Auth.update);
@@ -47,6 +49,26 @@ router.get('/internal/cokitchens', _controllers.Cokitchen.getAllCokitchens);
 router.post('/marketing/admin/create-marketing-staff', _userValidator["default"].createMarketingStaff(), _controllers.Auth.marketingCreateStaff);
 router.post('/marketing/create-deal', _dealValidator["default"].createDeal(), _controllers.Deals.createDeal);
 router.put('/marketing/update-deal/:id', _dealValidator["default"].updateDeal(), _controllers.Deals.updateDeal);
+router.post('/marketing/create-brand-business-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createBrandBusinessMetadata);
+router.post('/marketing/delete-brand-business-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandBusinessMetadata);
+router.post('/marketing/create-brand-descriptive-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createBrandDescriptiveMetadata);
+router.post('/marketing/delete-brand-descriptive-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandDescriptiveMetadata);
+router.post('/marketing/create-brand-tag', _keywordValidator["default"].create(), _controllers.Keyword.createBrandTag);
+router.post('/marketing/delete-brand-tag', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandTag);
+router.post('/marketing/create-brand-keyword', _keywordValidator["default"].create(), _controllers.Keyword.createBrandKeyword);
+router.post('/marketing/delete-brand-keyword', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandKeyword);
+router.post('/marketing/create-meal-business-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createMealBusinessMetadata);
+router.post('/marketing/delete-meal-business-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealBusinessMetadata);
+router.post('/marketing/create-meal-descriptive-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createMealDescriptiveMetadata);
+router.post('/marketing/delete-meal-descriptive-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealDescriptiveMetadata);
+router.post('/marketing/create-meal-tag', _keywordValidator["default"].create(), _controllers.Keyword.createMealTag);
+router.post('/marketing/delete-meal-tag', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealTag);
+router.post('/marketing/create-meal-keyword', _keywordValidator["default"].create(), _controllers.Keyword.createMealKeyword);
+router.post('/marketing/delete-meal-keyword', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealKeyword);
+router.post('/marketing/create-meal-dietary-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createMealDietaryMetadata);
+router.post('/marketing/delete-meal-dietary-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealDietaryMetadata);
+router.post('/marketing/create-meal-allergy-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createMealAllergyMetadata);
+router.post('/marketing/delete-meal-allergy-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealAllergyMetadata);
 router.get('/marketing/get-all-deal-types', _controllers.Deals.getDealTypes); // user brand routes,
 
 router.post('/internal/brands', _brandValidator["default"].getUserBrands(), _controllers.Brand.getBrandsForCustomer); //logistics routes
