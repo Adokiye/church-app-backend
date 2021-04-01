@@ -400,20 +400,20 @@ export const getAllKeywords = async ctx => {
       brand_descriptive_metadata,
       brand_business_metadata
     ] = await Promise.all([
-      MealAllergyMetadata.query(),
-      MealBusinessMetadata.query(),
-      MealDescriptiveMetadata.query(),
-      MealDietaryMetadata.query(),
-      MealTag.query(),
-      MealKeyword.query(),
-      BrandKeyword.query(),
-      BrandTag.query(),
-      BrandDescriptiveMetadata.query(),
-      BrandBusinessMetadata.query()
+      MealAllergyMetadata.query().catch(() => []),
+      MealBusinessMetadata.query().catch(() => []),
+      MealDescriptiveMetadata.query().catch(() => []),
+      MealDietaryMetadata.query().catch(() => []),
+      MealTag.query().catch(() => []),
+      MealKeyword.query().catch(() => []),
+      BrandKeyword.query().catch(() => []),
+      BrandTag.query().catch(() => []),
+      BrandDescriptiveMetadata.query().catch(() => []),
+      BrandBusinessMetadata.query().catch(() => [])
     ])
     return {
       status: 'success',
-      message: 'Success!',
+      message: 'Keywords gotten Successfully!',
       meal_allergy_metadata,
       meal_business_metadata,
       meal_descriptive_metadata,

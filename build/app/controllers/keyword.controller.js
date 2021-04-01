@@ -1003,7 +1003,27 @@ var getAllKeywords = /*#__PURE__*/function () {
             }
 
             _context21.next = 7;
-            return Promise.all([_meal_allergy_metadata["default"].query(), _meal_business_metadata["default"].query(), _meal_descriptive_metadata["default"].query(), _meal_dietary_metadata["default"].query(), _meal_tag["default"].query(), _meal_keyword["default"].query(), _brand_keyword["default"].query(), _brand_tag["default"].query(), _brand_descriptive_metadata["default"].query(), _brand_business_metadata["default"].query()]);
+            return Promise.all([_meal_allergy_metadata["default"].query()["catch"](function () {
+              return [];
+            }), _meal_business_metadata["default"].query()["catch"](function () {
+              return [];
+            }), _meal_descriptive_metadata["default"].query()["catch"](function () {
+              return [];
+            }), _meal_dietary_metadata["default"].query()["catch"](function () {
+              return [];
+            }), _meal_tag["default"].query()["catch"](function () {
+              return [];
+            }), _meal_keyword["default"].query()["catch"](function () {
+              return [];
+            }), _brand_keyword["default"].query()["catch"](function () {
+              return [];
+            }), _brand_tag["default"].query()["catch"](function () {
+              return [];
+            }), _brand_descriptive_metadata["default"].query()["catch"](function () {
+              return [];
+            }), _brand_business_metadata["default"].query()["catch"](function () {
+              return [];
+            })]);
 
           case 7:
             _yield$Promise$all = _context21.sent;
@@ -1020,7 +1040,7 @@ var getAllKeywords = /*#__PURE__*/function () {
             brand_business_metadata = _yield$Promise$all2[9];
             return _context21.abrupt("return", {
               status: 'success',
-              message: 'Success!',
+              message: 'Keywords gotten Successfully!',
               meal_allergy_metadata: meal_allergy_metadata,
               meal_business_metadata: meal_business_metadata,
               meal_descriptive_metadata: meal_descriptive_metadata,
