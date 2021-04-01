@@ -382,3 +382,50 @@ export const deleteMealAllergyMetadata = async ctx => {
     throw Unauthorized('Unauthorized Creation')
   }
 }
+
+export const getAllKeywords = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const [
+      meal_allergy_metadata,
+      meal_business_metadata,
+      meal_descriptive_metadata,
+      meal_dietary_metadata,
+      meal_tag,
+      meal_keyword,
+      brand_keyword,
+      brand_tag,
+      brand_descriptive_metadata,
+      brand_business_metadata
+    ] = await Promise.all([
+      MealAllergyMetadata.query(),
+      MealBusinessMetadata.query(),
+      MealDescriptiveMetadata.query(),
+      MealDietaryMetadata.query(),
+      MealTag.query(),
+      MealKeyword.query(),
+      BrandKeyword.query(),
+      BrandTag.query(),
+      BrandDescriptiveMetadata.query(),
+      BrandBusinessMetadata.query()
+    ])
+    return {
+      status: 'success',
+      message: 'Success!',
+      meal_allergy_metadata,
+      meal_business_metadata,
+      meal_descriptive_metadata,
+      meal_dietary_metadata,
+      meal_tag,
+      meal_keyword,
+      brand_keyword,
+      brand_tag,
+      brand_descriptive_metadata,
+      brand_business_metadata
+    }
+  } else {
+    throw Unauthorized('Unauthorized')
+  }
+}

@@ -5,9 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteMealAllergyMetadata = exports.createMealAllergyMetadata = exports.deleteMealDietaryMetadata = exports.createMealDietaryMetadata = exports.deleteMealTag = exports.createMealTag = exports.deleteMealKeyword = exports.createMealKeyword = exports.deleteMealDescriptiveMetadata = exports.createMealDescriptiveMetadata = exports.deleteMealBusinessMetadata = exports.createMealBusinessMetadata = exports.deleteBrandTag = exports.createBrandTag = exports.deleteBrandKeyword = exports.createBrandKeyword = exports.deleteBrandDescriptiveMetadata = exports.createBrandDescriptiveMetadata = exports.deleteBrandBusinessMetadata = exports.createBrandBusinessMetadata = void 0;
+exports.getAllKeywords = exports.deleteMealAllergyMetadata = exports.createMealAllergyMetadata = exports.deleteMealDietaryMetadata = exports.createMealDietaryMetadata = exports.deleteMealTag = exports.createMealTag = exports.deleteMealKeyword = exports.createMealKeyword = exports.deleteMealDescriptiveMetadata = exports.createMealDescriptiveMetadata = exports.deleteMealBusinessMetadata = exports.createMealBusinessMetadata = exports.deleteBrandTag = exports.createBrandTag = exports.deleteBrandKeyword = exports.createBrandKeyword = exports.deleteBrandDescriptiveMetadata = exports.createBrandDescriptiveMetadata = exports.deleteBrandBusinessMetadata = exports.createBrandBusinessMetadata = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -980,4 +982,72 @@ var deleteMealAllergyMetadata = /*#__PURE__*/function () {
 }();
 
 exports.deleteMealAllergyMetadata = deleteMealAllergyMetadata;
+
+var getAllKeywords = /*#__PURE__*/function () {
+  var _ref21 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee21(ctx) {
+    var body, role, _yield$Promise$all, _yield$Promise$all2, meal_allergy_metadata, meal_business_metadata, meal_descriptive_metadata, meal_dietary_metadata, meal_tag, meal_keyword, brand_keyword, brand_tag, brand_descriptive_metadata, brand_business_metadata;
+
+    return _regenerator["default"].wrap(function _callee21$(_context21) {
+      while (1) {
+        switch (_context21.prev = _context21.next) {
+          case 0:
+            body = ctx.request.body;
+            role = ctx.state.user.user.role;
+            _context21.next = 4;
+            return (0, _RoleService.checkIfMarketing)(role);
+
+          case 4:
+            if (!_context21.sent) {
+              _context21.next = 22;
+              break;
+            }
+
+            _context21.next = 7;
+            return Promise.all([_meal_allergy_metadata["default"].query(), _meal_business_metadata["default"].query(), _meal_descriptive_metadata["default"].query(), _meal_dietary_metadata["default"].query(), _meal_tag["default"].query(), _meal_keyword["default"].query(), _brand_keyword["default"].query(), _brand_tag["default"].query(), _brand_descriptive_metadata["default"].query(), _brand_business_metadata["default"].query()]);
+
+          case 7:
+            _yield$Promise$all = _context21.sent;
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 10);
+            meal_allergy_metadata = _yield$Promise$all2[0];
+            meal_business_metadata = _yield$Promise$all2[1];
+            meal_descriptive_metadata = _yield$Promise$all2[2];
+            meal_dietary_metadata = _yield$Promise$all2[3];
+            meal_tag = _yield$Promise$all2[4];
+            meal_keyword = _yield$Promise$all2[5];
+            brand_keyword = _yield$Promise$all2[6];
+            brand_tag = _yield$Promise$all2[7];
+            brand_descriptive_metadata = _yield$Promise$all2[8];
+            brand_business_metadata = _yield$Promise$all2[9];
+            return _context21.abrupt("return", {
+              status: 'success',
+              message: 'Success!',
+              meal_allergy_metadata: meal_allergy_metadata,
+              meal_business_metadata: meal_business_metadata,
+              meal_descriptive_metadata: meal_descriptive_metadata,
+              meal_dietary_metadata: meal_dietary_metadata,
+              meal_tag: meal_tag,
+              meal_keyword: meal_keyword,
+              brand_keyword: brand_keyword,
+              brand_tag: brand_tag,
+              brand_descriptive_metadata: brand_descriptive_metadata,
+              brand_business_metadata: brand_business_metadata
+            });
+
+          case 22:
+            throw (0, _helpers.Unauthorized)('Unauthorized');
+
+          case 23:
+          case "end":
+            return _context21.stop();
+        }
+      }
+    }, _callee21);
+  }));
+
+  return function getAllKeywords(_x21) {
+    return _ref21.apply(this, arguments);
+  };
+}();
+
+exports.getAllKeywords = getAllKeywords;
 //# sourceMappingURL=keyword.controller.js.map

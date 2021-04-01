@@ -69,6 +69,7 @@ router.post('/marketing/create-meal-dietary-metadata', _keywordValidator["defaul
 router.post('/marketing/delete-meal-dietary-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealDietaryMetadata);
 router.post('/marketing/create-meal-allergy-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createMealAllergyMetadata);
 router.post('/marketing/delete-meal-allergy-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealAllergyMetadata);
+router.get('/marketing/keywords', _controllers.Keyword.getAllKeywords);
 router.get('/marketing/get-all-deal-types', _controllers.Deals.getDealTypes); // user brand routes,
 
 router.post('/internal/brands', _brandValidator["default"].getUserBrands(), _controllers.Brand.getBrandsForCustomer); //logistics routes

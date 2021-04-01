@@ -278,7 +278,7 @@ export const login = async ctx => {
       status,
       message,
       ...user,
-      token: JwtService.sign({ ...user })
+      token: JwtService.sign({ user })
     }
   }
 }
@@ -314,7 +314,7 @@ export const loginMarketing = async ctx => {
         status,
         message,
         ...user,
-        token: JwtService.sign({ ...user })
+        token: JwtService.sign({ user })
       }
     } else {
       throw Unauthorized('Unauthorized')
@@ -354,7 +354,7 @@ export const loginLogisticsAdmin = async ctx => {
         status,
         message,
         ...user,
-        token: JwtService.sign({ ...user })
+        token: JwtService.sign({ user })
       }
     } else {
       throw Unauthorized('Unauthorized')
@@ -373,6 +373,6 @@ export const verifyUser = async ctx => {
     status,
     message,
     ...user_data,
-    token: JwtService.sign({ ...user })
+    token: JwtService.sign({ user })
   }
 }

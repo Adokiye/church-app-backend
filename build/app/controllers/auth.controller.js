@@ -636,7 +636,9 @@ var login = /*#__PURE__*/function () {
               status: status,
               message: message
             }, user), {}, {
-              token: _JwtService["default"].sign(_objectSpread({}, user))
+              token: _JwtService["default"].sign({
+                user: user
+              })
             }));
 
           case 14:
@@ -709,7 +711,9 @@ var loginMarketing = /*#__PURE__*/function () {
               status: status,
               message: message
             }, user), {}, {
-              token: _JwtService["default"].sign(_objectSpread({}, user))
+              token: _JwtService["default"].sign({
+                user: user
+              })
             }));
 
           case 19:
@@ -785,7 +789,9 @@ var loginLogisticsAdmin = /*#__PURE__*/function () {
               status: status,
               message: message
             }, user), {}, {
-              token: _JwtService["default"].sign(_objectSpread({}, user))
+              token: _JwtService["default"].sign({
+                user: user
+              })
             }));
 
           case 19:
@@ -824,7 +830,9 @@ var verifyUser = /*#__PURE__*/function () {
               status: status,
               message: message
             }, user_data), {}, {
-              token: _JwtService["default"].sign(_objectSpread({}, user))
+              token: _JwtService["default"].sign({
+                user: user
+              })
             }));
 
           case 6:

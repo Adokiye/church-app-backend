@@ -231,6 +231,8 @@ router.post(
   Keyword.deleteMealAllergyMetadata
 )
 
+router.get('/marketing/keywords', Keyword.getAllKeywords)
+
 router.get('/marketing/get-all-deal-types', Deals.getDealTypes)
 
 // user brand routes,
