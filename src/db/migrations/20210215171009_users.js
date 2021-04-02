@@ -24,7 +24,7 @@ exports.up = function (knex) {
           // enumName: 'user_gender',
         })
         .defaultTo('Unspecified')
-      table.date('dob')
+      table.string('dob')
       table.string('password')
       table.string('password_reset_token').unique()
       table.bigInteger('lat')
