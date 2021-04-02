@@ -39,7 +39,8 @@ const UserValidator = {
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
         other_name: Joi.string(),
-        dob: Joi.string(),
+        dob: Joi.date(),
+
         gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
         password: Joi.string()
@@ -57,7 +58,8 @@ const UserValidator = {
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
         other_name: Joi.string(),
-        dob: Joi.string(),
+        dob: Joi.date(),
+
         gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
         password: Joi.string()
