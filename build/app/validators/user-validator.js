@@ -52,7 +52,7 @@ var UserValidator = {
         first_name: _joi["default"].string().required(),
         last_name: _joi["default"].string().required(),
         other_name: _joi["default"].string(),
-        dob: _joi["default"].string(),
+        dob: _joi["default"].date(),
         gender: _joi["default"].string().valid('male', 'female'),
         email: _joi["default"].string().email().required(),
         password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit').required(),
@@ -66,7 +66,7 @@ var UserValidator = {
         first_name: _joi["default"].string().required(),
         last_name: _joi["default"].string().required(),
         other_name: _joi["default"].string(),
-        dob: _joi["default"].string(),
+        dob: _joi["default"].date(),
         gender: _joi["default"].string().valid('male', 'female'),
         email: _joi["default"].string().email().required(),
         password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit').required(),
@@ -80,10 +80,18 @@ var UserValidator = {
         first_name: _joi["default"].string(),
         last_name: _joi["default"].string(),
         other_name: _joi["default"].string(),
+        username: _joi["default"].string(),
         dob: _joi["default"].date(),
-        gender: _joi["default"].string().valid('male', 'female'),
+        gender: _joi["default"].string().valid('Male', 'Female', 'Unspecified'),
         email: _joi["default"].string().email(),
         password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit')
+      }
+    });
+  },
+  checkForUsername: function checkForUsername() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        username: _joi["default"].string().required()
       }
     });
   }

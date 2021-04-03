@@ -4,7 +4,6 @@ exports.up = function (knex) {
     .createTable('users', table => {
       table.uuid('id').primary().notNullable()
       table.boolean('active').notNullable().defaultTo(true)
-
       table.string('username').unique()
       table.specificType('email', 'CITEXT')
       table.boolean('email_confirmed').notNullable().defaultTo(false)
@@ -24,7 +23,7 @@ exports.up = function (knex) {
           // enumName: 'user_gender',
         })
         .defaultTo('Unspecified')
-      table.string('dob')
+      table.date('dob')
       table.string('password')
       table.string('password_reset_token').unique()
       table.bigInteger('lat')

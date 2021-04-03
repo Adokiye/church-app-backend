@@ -13,7 +13,7 @@ import {
   updateNewUserService
 } from '../services/UserService'
 import { checkIfAdmin, checkIfMarketingAdmin, checkIfMarketing, checkIfLogisticsAdmin } from '../services/RoleService'
-import { Unauthorized, insidePolygon, makeCode,encryptPassword } from '../helpers'
+import { Unauthorized, insidePolygon, makeCode,encryptPassword, UnprocessableEntity } from '../helpers'
 const status = 'success'
 const message = 'Success!'
 
@@ -375,4 +375,22 @@ export const verifyUser = async ctx => {
     ...user_data,
     token: JwtService.sign({ user })
   }
+}
+
+export const findUserName = async ctx => {
+  const { body } = ctx.request
+
+  const user = await User.query()
+    .findOne({
+      username: body.username
+    })
+    .catch(() => {
+      return {
+        status,
+        message:
+          'Username available',
+        ...user
+      }
+    })
+    throw UnprocessableEntity('Username not available')
 }

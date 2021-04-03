@@ -29,6 +29,7 @@ var router = new _koaRouter["default"](); //authentication and user routes
 
 router.put('/auth/user', _userValidator["default"].update(), _controllers.Auth.update);
 router.post('/auth/guest/authenticate', _userValidator["default"].create(), _controllers.Auth.verifyOtp, _controllers.Auth.create);
+router.post('/auth/guest/find-username', _userValidator["default"].checkForUsername(), _controllers.Auth.findUserName);
 router.post('/auth/login', _userValidator["default"].login(), _controllers.Auth.login);
 router.post('/auth/login-marketing', _userValidator["default"].login(), _controllers.Auth.loginMarketing);
 router.post('/auth/login-logistics-admin', _userValidator["default"].login(), _controllers.Auth.loginLogisticsAdmin);

@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.verifyUser = exports.loginLogisticsAdmin = exports.loginMarketing = exports.login = exports.adminGetUserRoles = exports.adminGetUsers = exports.registerAsLogisticsAdmin = exports.registerAsMarketing = exports.marketingCreateStaff = exports.adminUpdateUser = exports.update = exports.create = exports.verifyOtp = exports.sendOtp = void 0;
+exports.findUserName = exports.verifyUser = exports.loginLogisticsAdmin = exports.loginMarketing = exports.login = exports.adminGetUserRoles = exports.adminGetUsers = exports.registerAsLogisticsAdmin = exports.registerAsMarketing = exports.marketingCreateStaff = exports.adminUpdateUser = exports.update = exports.create = exports.verifyOtp = exports.sendOtp = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -849,4 +849,41 @@ var verifyUser = /*#__PURE__*/function () {
 }();
 
 exports.verifyUser = verifyUser;
+
+var findUserName = /*#__PURE__*/function () {
+  var _ref15 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(ctx) {
+    var body, user;
+    return _regenerator["default"].wrap(function _callee15$(_context15) {
+      while (1) {
+        switch (_context15.prev = _context15.next) {
+          case 0:
+            body = ctx.request.body;
+            _context15.next = 3;
+            return _user["default"].query().findOne({
+              username: body.username
+            })["catch"](function () {
+              return _objectSpread({
+                status: status,
+                message: 'Username available'
+              }, user);
+            });
+
+          case 3:
+            user = _context15.sent;
+            throw (0, _helpers.UnprocessableEntity)('Username not available');
+
+          case 5:
+          case "end":
+            return _context15.stop();
+        }
+      }
+    }, _callee15);
+  }));
+
+  return function findUserName(_x16) {
+    return _ref15.apply(this, arguments);
+  };
+}();
+
+exports.findUserName = findUserName;
 //# sourceMappingURL=auth.controller.js.map

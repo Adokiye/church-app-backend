@@ -14,8 +14,8 @@ export const DATABASE_TEST =
   'postgres://USER:PASSWORD@localhost:5432/DATABASE_TEST'
 
 export const NODE_ENV = process.env.NODE_ENV || 'development'
-export const URL_FRONT = process.env.URL_FRONT || 'https://test.com'
-export const EXPIRE_TIME = process.env.JWT_EXPIRE_TIME || '2d'
+export const URL_FRONT = process.env.URL_FRONT || 'https://getfoodcourt.com'
+export const EXPIRE_TIME = process.env.JWT_EXPIRE_TIME || '14d'
 export const PAYSTACK_SECRET =
   process.env.PAYSTACK_SECRET ||
   'sk_test_115e129503be252474b3f1e17009dba14246a4cc'

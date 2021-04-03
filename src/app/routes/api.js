@@ -28,6 +28,12 @@ router.post(
   Auth.create
 )
 
+router.post(
+  '/auth/guest/find-username',
+  UserValidator.checkForUsername(),
+  Auth.findUserName
+)
+
 router.post('/auth/login', UserValidator.login(), Auth.login)
 
 router.post('/auth/login-marketing', UserValidator.login(), Auth.loginMarketing)
