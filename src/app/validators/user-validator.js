@@ -40,7 +40,7 @@ const UserValidator = {
         last_name: Joi.string().required(),
         other_name: Joi.string(),
         dob: Joi.date(),
-        gender: Joi.string().valid('male', 'female'),
+        user_gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
         password: Joi.string()
           .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
@@ -58,7 +58,7 @@ const UserValidator = {
         last_name: Joi.string().required(),
         other_name: Joi.string(),
         dob: Joi.date(),
-        gender: Joi.string().valid('male', 'female'),
+        user_gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
         password: Joi.string()
           .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
@@ -77,7 +77,7 @@ const UserValidator = {
         other_name: Joi.string(),
         username: Joi.string(),
         dob: Joi.date(),
-        gender: Joi.string().valid('Male', 'Female', 'Unspecified'),
+        user_gender: Joi.string().valid('Male', 'Female', 'Unspecified'),
         email: Joi.string().email(),
         password: Joi.string()
           .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
