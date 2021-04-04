@@ -51,7 +51,7 @@ const UserValidator = {
         phone_number: Joi.string().min(11).max(11).required()
       }
     }),
-    registerStaff: () =>
+  registerStaff: () =>
     validationMiddleware({
       body: {
         first_name: Joi.string().required(),
@@ -83,13 +83,23 @@ const UserValidator = {
           .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
           .message(
             'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
-          )
+          ),
+        lat: Joi.string(),
+        lng: Joi.string()
       }
     }),
-    checkForUsername: () =>
+  updateDeviceToken: () =>
     validationMiddleware({
       body: {
-        username: Joi.string().required(),
+        device_token: Joi.string().required(),
+        device_name: Joi.string().required(),
+        device_type: Joi.string().required()
+      }
+    }),
+  checkForUsername: () =>
+    validationMiddleware({
+      body: {
+        username: Joi.string().required()
       }
     })
 }

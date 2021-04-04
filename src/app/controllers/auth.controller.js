@@ -12,8 +12,20 @@ import {
   newCustomerService,
   updateNewUserService
 } from '../services/UserService'
-import { checkIfAdmin, checkIfMarketingAdmin, checkIfMarketing, checkIfLogisticsAdmin } from '../services/RoleService'
-import { Unauthorized, insidePolygon, makeCode,encryptPassword, UnprocessableEntity } from '../helpers'
+import {
+  checkIfAdmin,
+  checkIfMarketingAdmin,
+  checkIfMarketing,
+  checkIfLogisticsAdmin
+} from '../services/RoleService'
+import {
+  Unauthorized,
+  insidePolygon,
+  makeCode,
+  encryptPassword,
+  UnprocessableEntity
+} from '../helpers'
+import DeviceToken from '../models/device_token'
 const status = 'success'
 const message = 'Success!'
 
@@ -52,7 +64,7 @@ export const verifyOtp = async (ctx, next) => {
     .catch(() => false)
 
   if (!otpInDb) {
-    ctx.throw(404, 'no otp has been sent to this number', )
+    ctx.throw(404, 'no otp has been sent to this number')
   }
 
   const { status, message, decoded } = JwtService.verify(otpInDb.otp_token)
@@ -75,7 +87,7 @@ export const create = async ctx => {
     .findOne({
       phone_number
     })
-    
+
     .catch(() => false)
 
   if (!userInDb) {
@@ -88,9 +100,8 @@ export const create = async ctx => {
     }
   } else {
     // set user to active
-   userInDb = await User.query()
-    .patchAndFetchById(userInDb.id, {
-      active:true
+    userInDb = await User.query().patchAndFetchById(userInDb.id, {
+      active: true
     })
     return {
       status,
@@ -103,12 +114,7 @@ export const create = async ctx => {
 
 export const update = async ctx => {
   const { body } = ctx.request
-  const { id } = ctx.state.user.user
-  const user = await User.query()
-    .findOne({ id })
-    .catch(() => {
-      throw Unauthorized('User not found please register')
-    })
+  const { user } = ctx.state.user
 
   const userData = await updateNewUserService(body, user)
 
@@ -119,18 +125,40 @@ export const update = async ctx => {
   }
 }
 
+export const updateDeviceToken = async ctx => {
+  const { body } = ctx.request
+  const { id } = ctx.state.user.user
+  const user = await User.query()
+    .findOne({ id })
+    .catch(() => {
+      throw Unauthorized('User not found please register')
+    })
+
+  const userData = await DeviceToken.query()
+    .insert({
+      user_id: user.id,
+      ...body
+    })
+    .catch(() => {throw UnprocessableEntity('Invalid body')})
+
+  return {
+    status: 'success',
+    message: 'Device Token Update Successful',
+    ...userData
+  }
+}
+
 //admin
 export const adminUpdateUser = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if ( await checkIfAdmin(role)) {
+  if (await checkIfAdmin(role)) {
     if (body.password) {
       body.password = await encryptPassword(body.password)
     }
-    const user_data = await User.query()
-      .patchAndFetchById(body.user_id, body)
-      
+    const user_data = await User.query().patchAndFetchById(body.user_id, body)
+
     return {
       status: 'success',
       message: 'Update Successful',
@@ -146,7 +174,7 @@ export const marketingCreateStaff = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
-  if ( await checkIfMarketingAdmin(role)) {
+  if (await checkIfMarketingAdmin(role)) {
     body.role = 'MARKETING'
     body.active = false
     body.password = await encryptPassword(body.password)
@@ -164,59 +192,57 @@ export const marketingCreateStaff = async ctx => {
 //register as marketing
 export const registerAsMarketing = async ctx => {
   const { body } = ctx.request
-  
-    body.role = 'MARKETING'
-    body.active = true
-    body.password = await encryptPassword(body.password)
-    const user_data = await User.query().insert(body)
-    const [free_delivery, user_setting, referral_code] = await Promise.all([
-      FreeDelivery.query().insert({
-        user_id: user_data.id
-      }),
-      UserSetting.query().insert({
-        user_id: user_data.id
-      }),
-      ReferralCode.query().insert({
-        user_id: user_data.id,
-        code: makeCode(6).toUpperCase()
-      })
-    ])
-    return {
-      status: 'success',
-      message: 'Registration Successful',
-      ...user_data,
-      token: JwtService.sign({ user: user_data })
 
-    }
+  body.role = 'MARKETING'
+  body.active = true
+  body.password = await encryptPassword(body.password)
+  const user_data = await User.query().insert(body)
+  const [free_delivery, user_setting, referral_code] = await Promise.all([
+    FreeDelivery.query().insert({
+      user_id: user_data.id
+    }),
+    UserSetting.query().insert({
+      user_id: user_data.id
+    }),
+    ReferralCode.query().insert({
+      user_id: user_data.id,
+      code: makeCode(6).toUpperCase()
+    })
+  ])
+  return {
+    status: 'success',
+    message: 'Registration Successful',
+    ...user_data,
+    token: JwtService.sign({ user: user_data })
+  }
 }
 
 //register as logistics admin
 export const registerAsLogisticsAdmin = async ctx => {
   const { body } = ctx.request
-  
-    body.role = 'LOGISTICS_ADMIN'
-    body.active = true
-    body.password = await encryptPassword(body.password)
-    const user_data = await User.query().insert(body)
-    const [free_delivery, user_setting, referral_code] = await Promise.all([
-      FreeDelivery.query().insert({
-        user_id: user_data.id
-      }),
-      UserSetting.query().insert({
-        user_id: user_data.id
-      }),
-      ReferralCode.query().insert({
-        user_id: user_data.id,
-        code: makeCode(6).toUpperCase()
-      })
-    ])
-    return {
-      status: 'success',
-      message: 'Registration Successful',
-      ...user_data,
-      token: JwtService.sign({ user: user_data })
 
-    }
+  body.role = 'LOGISTICS_ADMIN'
+  body.active = true
+  body.password = await encryptPassword(body.password)
+  const user_data = await User.query().insert(body)
+  const [free_delivery, user_setting, referral_code] = await Promise.all([
+    FreeDelivery.query().insert({
+      user_id: user_data.id
+    }),
+    UserSetting.query().insert({
+      user_id: user_data.id
+    }),
+    ReferralCode.query().insert({
+      user_id: user_data.id,
+      code: makeCode(6).toUpperCase()
+    })
+  ])
+  return {
+    status: 'success',
+    message: 'Registration Successful',
+    ...user_data,
+    token: JwtService.sign({ user: user_data })
+  }
 }
 
 export const adminGetUsers = async ctx => {
@@ -290,7 +316,7 @@ export const loginMarketing = async ctx => {
     .findOne({
       email: body.email
     })
-    
+
     .catch(() => {
       throw Unauthorized('User not found. Please sign up')
     })
@@ -319,7 +345,6 @@ export const loginMarketing = async ctx => {
     } else {
       throw Unauthorized('Unauthorized')
     }
-
   }
 }
 
@@ -330,7 +355,7 @@ export const loginLogisticsAdmin = async ctx => {
     .findOne({
       email: body.email
     })
-    
+
     .catch(() => {
       throw Unauthorized('User not found. Please sign up')
     })
@@ -359,16 +384,14 @@ export const loginLogisticsAdmin = async ctx => {
     } else {
       throw Unauthorized('Unauthorized')
     }
-
   }
 }
 
 export const verifyUser = async ctx => {
   const { body } = ctx.request
   body.active = true
-  const user_data = await User.query()
-    .patchAndFetchById(body.user_id, body)
-    
+  const user_data = await User.query().patchAndFetchById(body.user_id, body)
+
   return {
     status,
     message,
@@ -387,10 +410,9 @@ export const findUserName = async ctx => {
     .catch(() => {
       return {
         status,
-        message:
-          'Username available',
+        message: 'Username available',
         ...user
       }
     })
-    throw UnprocessableEntity('Username not available')
+  throw UnprocessableEntity('Username not available')
 }
