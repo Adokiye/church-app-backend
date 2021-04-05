@@ -413,6 +413,6 @@ export const findUserName = async ctx => {
         message: 'Username available',
         ...user
       }
-    })
-  throw UnprocessableEntity('Username not available')
+    }).then(()=>{throw UnprocessableEntity('Username not available')})
+  
 }

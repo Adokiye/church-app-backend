@@ -8,6 +8,7 @@ import LogisticsCompany from './logistics_company'
 import FreeDelivery from './free_delivery'
 import UserSetting from './user_setting'
 import DeviceToken from './device_token'
+import UserSavedAddress from './user_saved_address'
 
 class User extends modelUuid(baseModel) {
   static tableName = 'users'
@@ -16,8 +17,7 @@ class User extends modelUuid(baseModel) {
     'password',
     'password_reset_token',
     'email_confirm_token',
-    'logistics_company_id',
-    
+    'logistics_company_id'
   ]
 
   static relationMappings = {
@@ -45,6 +45,14 @@ class User extends modelUuid(baseModel) {
         to: 'users.id'
       }
     },
+    user_saved_addresses: {
+      relation: Model.HasManyRelation,
+      modelClass: UserSavedAddress,
+      join: {
+        from: 'user_saved_addresses.user_id',
+        to: 'users.id'
+      }
+    }
   }
 }
 export default User
