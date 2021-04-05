@@ -6,7 +6,7 @@ import FreeDelivery from '../models/free_delivery'
 import UserSetting from '../models/user_setting'
 import ReferralCode from '../models/referral_code'
 
-import { encryptPassword, makeCode } from '../helpers'
+import { encryptPassword, makeCode, Unauthorized } from '../helpers'
 
 export const newCustomerService = async phone_number => {
   const [user] = await Promise.all([
