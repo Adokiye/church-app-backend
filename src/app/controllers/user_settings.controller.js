@@ -23,9 +23,10 @@ export const getUserSettings = async ctx => {
 export const updateUserSettings = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
-
+  const user_settings_id = body.user_settings_id
+  delete body.user_settings_id
   const user_settings_data = await UserSetting.query()
-    .patchAndFetchById(body.user_settings_id, body)
+    .patchAndFetchById(user_settings_id, body)
     .catch((e) => {console.log(e); return false;})
   if (!user_settings_data) {
     throw Unauthorized('User Settings data not found. Please sign up')
