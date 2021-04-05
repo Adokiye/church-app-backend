@@ -139,7 +139,9 @@ export const updateDeviceToken = async ctx => {
       user_id: user.id,
       ...body
     })
-    .catch(() => {throw UnprocessableEntity('Invalid body')})
+    .catch(() => {
+      throw UnprocessableEntity('Invalid body')
+    })
 
   return {
     status: 'success',
@@ -407,12 +409,15 @@ export const findUserName = async ctx => {
     .findOne({
       username: body.username
     })
-    .catch(() => {
-      return {
-        status,
-        message: 'Username available',
-        ...user
-      }
-    }).then(()=>{throw UnprocessableEntity('Username not available')})
-  
+    .catch(() => false)
+
+  if (!user) {
+    return {
+      status,
+      message: 'Username available',
+      ...user
+    }
+  } else {
+    throw UnprocessableEntity('Username not available')
+  }
 }
