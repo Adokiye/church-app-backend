@@ -28,7 +28,7 @@ export const updateUserSettings = async ctx => {
     .patchAndFetchById(body.user_settings_id, body)
     .catch(() => false)
   if (!user_settings_data) {
-    throw Unauthorized('User not found. Please sign up')
+    throw Unauthorized('User Settings data not found. Please sign up')
   } else {
     return {
       status: 'success',
