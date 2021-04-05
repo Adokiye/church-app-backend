@@ -84,8 +84,8 @@ const UserValidator = {
           .message(
             'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
           ),
-        lat: Joi.string(),
-        lng: Joi.string()
+        lat: Joi.number(),
+        lng: Joi.number()
       }
     }),
   updateDeviceToken: () =>
