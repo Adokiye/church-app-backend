@@ -21,7 +21,7 @@ exports.up = function (knex) {
         .notNullable()
       table.boolean('is_addon').notNullable().defaultTo(false)
       table.boolean('is_combo').notNullable().defaultTo(false)
-      table.bigInteger('amount').notNullable()
+      table.string('amount').notNullable()
       table.integer('preparation_time').notNullable()
       table.jsonb('meal_tags').notNullable().defaultTo(JSON.stringify([]))
       table.jsonb('meal_keywords').notNullable().defaultTo(JSON.stringify([]))

@@ -12,7 +12,7 @@ var up = function up(knex) {
     table.jsonb('polygon').notNullable().defaultTo(JSON.stringify([]));
     table.uuid('cokitchen_id').references('id').inTable('cokitchens').onDelete('CASCADE').notNullable();
     table.string('name');
-    table.bigInteger('delivery_fee').notNullable();
+    table.string('delivery_fee').notNullable();
     table.timestamps(true, true);
   });
 };

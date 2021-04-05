@@ -26,8 +26,8 @@ exports.up = function (knex) {
       table.date('dob')
       table.string('password')
       table.string('password_reset_token').unique()
-      table.bigInteger('lat')
-      table.bigInteger('lng')
+      table.string('lat')
+      table.string('lng')
       table.timestamps(true, true)
     })
 }

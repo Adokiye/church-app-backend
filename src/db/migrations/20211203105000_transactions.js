@@ -1,7 +1,7 @@
 export const up = knex =>
   knex.schema.createTable('transactions', table => {
     table.uuid('id').unique().primary().notNullable()
-    table.bigInteger('amount')
+    table.string('amount')
     table.enu('transaction_type', ['Deposit', 'Transfer', 'Withdraw'], {
       // useNative: true,
       // enumName: 'transaction_type',

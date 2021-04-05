@@ -5,8 +5,8 @@ export const up = knex =>
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
     table.string('name').notNullable()
     table.string('address').notNullable()
-    table.bigInteger('lat').notNullable()
-    table.bigInteger('lng').notNullable()
+    table.string('lat').notNullable()
+    table.string('lng').notNullable()
     table
       .uuid('user_id')
       .references('id')

@@ -13,7 +13,7 @@ export const up = knex =>
     table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}))
 
     table.boolean('is_combo').notNullable().defaultTo(false)
-    table.bigInteger('amount').notNullable()
+    table.string('amount').notNullable()
     table.integer('preparation_time').notNullable()
     table.timestamps(true, true)
   })

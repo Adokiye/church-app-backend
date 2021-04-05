@@ -1,9 +1,9 @@
 export const up = knex =>
   knex.schema.createTable('calculated_orders', table => {
     table.uuid('id').primary().notNullable()
-    table.bigInteger('total_amount').notNullable()
-    table.bigInteger('delivery_fee').notNullable()
-    table.bigInteger('service_charge').notNullable().defaultTo(0)
+    table.string('total_amount').notNullable()
+    table.string('delivery_fee').notNullable()
+    table.string('service_charge').notNullable().defaultTo(0)
     table.timestamps(true, true)
   })
 

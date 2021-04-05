@@ -11,7 +11,7 @@ var up = function up(knex) {
     table["boolean"]('active').notNullable().defaultTo(true);
     table.string('name').notNullable();
     table.string('description', 1000).notNullable();
-    table.bigInteger('amount').notNullable().defaultTo(0);
+    table.string('amount').notNullable().defaultTo(0);
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]));
     table.string('to_expire');
     table.timestamps(true, true);
