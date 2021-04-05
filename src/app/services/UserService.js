@@ -43,7 +43,8 @@ export const updateNewUserService = async (personal_details, user) => {
   }
   const user_data = await User.query()
     .patchAndFetchById(user.id, personal_details)
-    .catch(() => {
+    .catch((e) => {
+      console.log(e)
       throw Unauthorized('User not found please register')
     })
     
