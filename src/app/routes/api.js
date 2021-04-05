@@ -6,7 +6,8 @@ import {
   Logistics,
   Deals,
   Order,
-  Keyword
+  Keyword,
+  UserSettings
 } from '../controllers/'
 import UserValidator from '../validators/user-validator'
 import CokitchenValidator from '../validators/cokitchen-validator'
@@ -15,6 +16,7 @@ import BrandValidator from '../validators/brand-validator'
 import LogisticsValidator from '../validators/logistics-validator'
 import DealsValidator from '../validators/deal-validator'
 import KeywordValidator from '../validators/keyword-validator'
+import UserSettingsValidator from '../validators/user-settings-validator'
 
 const router = new Router()
 
@@ -64,6 +66,11 @@ router.post(
   Auth.verifyOtp,
   Auth.verifyUser
 )
+
+//user settings routes
+router.put('/user-settings', UserSettingsValidator.updateUserSettings(), UserSettings.updateUserSettings)
+
+router.get('/user-settings', UserSettings.getUserSettings)
 
 router.post('/internal/send-otp', UserValidator.send_otp(), Auth.sendOtp)
 
