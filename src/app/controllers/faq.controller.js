@@ -32,8 +32,11 @@ export const addNewFaq = async ctx => {
     const faq = await Faq.query().insert(body)
     let faq_arrangement_data = await FaqArrangement.query().catch(() => false)
     if (!faq_arrangement_data) {
+      let faqs = []
+      faqs.push(faq)
+      console.log(faq)
       faq_arrangement_data = await FaqArrangement.query().insert({
-        faqs: [faq]
+        faqs
       })
       return {
         status: 'success',
