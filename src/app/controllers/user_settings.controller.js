@@ -1,5 +1,6 @@
 import UserSetting from '../models/user_setting'
-import { Unauthorized } from '../helpers'
+import UserSavedAddress from '../models/user_saved_address'
+import { Unauthorized, UnprocessableEntity } from '../helpers'
 
 export const getUserSettings = async ctx => {
   const { user } = ctx.state.user
@@ -27,9 +28,12 @@ export const updateUserSettings = async ctx => {
   delete body.user_settings_id
   const user_settings_data = await UserSetting.query()
     .patchAndFetchById(user_settings_id, body)
-    .catch((e) => {console.log(e); return false;})
+    .catch(e => {
+      console.log(e)
+      return false
+    })
   if (!user_settings_data) {
-    throw Unauthorized('User Settings data not found. Please sign up')
+    throw Unauthorized('User Settings data not found.')
   } else {
     return {
       status: 'success',
@@ -37,4 +41,82 @@ export const updateUserSettings = async ctx => {
       ...user_settings_data
     }
   }
+}
+
+// user address setting save
+export const getSavedAddress = async ctx => {
+  const { user } = ctx.state.user
+
+  const user_saved_address_data = await UserSavedAddress.query()
+    .find({
+      user_id: user.id
+    })
+    .catch(() => false)
+  if (!user_saved_address_data) {
+    throw Unauthorized('User not found. Please sign up')
+  } else {
+    return {
+      status: 'success',
+      message: "User's Saved address data returned Successfully",
+      data: user_saved_address_data
+    }
+  }
+}
+
+export const createNewAddress = async ctx => {
+  const { user } = ctx.state.user
+  const { body } = ctx.request
+
+  const user_saved_address_data = await UserSavedAddress.query()
+    .findOne({
+      user_id: user.id,
+      name: body.name.toLowerCase()
+    })
+    .catch(() => false)
+
+  if (user_saved_address_data) {
+    throw UnprocessableEntity('Address name already exists for ' + body.name)
+  } else {
+    await UserSavedAddress.query()
+      .insert({
+        user_id: user.id,
+        ...body
+      })
+      .catch(() => {
+        throw UnprocessableEntity('Invalid body')
+      })
+  }
+}
+
+export const updateAddress = async ctx => {
+  const { user } = ctx.state.user
+  const { body } = ctx.request
+  body.user_id = user.id
+  const user_saved_address_data = await UserSavedAddress.query()
+    .patchAndFetchById(body.user_saved_address_id, body)
+    .catch(() => false)
+
+  if (!user_saved_address_data) {
+    throw Unauthorized('User Saved address data not found.')
+  } else {
+    return {
+      status: 'success',
+      message: "User's Saved Address data updated Successfully",
+      ...user_saved_address_data
+    }
+  }
+}
+
+export const deleteAddress = async ctx => {
+  const { user } = ctx.state.user
+  const { body } = ctx.request
+  const user_saved_address_data = await UserSavedAddress.query()
+    .deleteById(body.id)
+    .catch(() => {
+      throw NotFound('User saved address with id '+body.id+' not found')
+    })
+    return {
+      status: 'success',
+      message: 'User saved address Deleted Successfully',
+    }
 }

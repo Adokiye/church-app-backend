@@ -6,15 +6,28 @@ const UserSettingsValidator = {
   updateUserSettings: () =>
     validationMiddleware({
       body: {
-        user_settings_id: Joi.string().required(),
-        email_notification: Joi.bool().required(),
-        // sms_notification: Joi.bool().required(),
-        device_notification: Joi.bool().required(),
-        device_notification_all_deals_and_promotions: Joi.bool().required(),
-        device_notification_special_offers_and_announcements: Joi.bool().required(),
-        device_notification_when_order_is_on_the_way: Joi.bool().required(),
-        device_notification_when_order_is_arriving: Joi.bool().required(),
-        device_notification_when_order_is_being_prepared: Joi.bool().required()
+        user_settings_id: Joi.string().required()
+      }
+    }),
+  createUserAddress: () =>
+    validationMiddleware({
+      body: {
+        name: Joi.string().required(),
+        address: Joi.string().required(),
+        lat: Joi.string().required(),
+        lng: Joi.string().required()
+      }
+    }),
+  updateUserAddress: () =>
+    validationMiddleware({
+      body: {
+        user_saved_address_id: Joi.string().required()
+      }
+    }),
+  deleteUserAddress: () =>
+    validationMiddleware({
+      body: {
+        id: Joi.string().required()
       }
     })
 }

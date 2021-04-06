@@ -72,6 +72,14 @@ router.put('/user-settings', UserSettingsValidator.updateUserSettings(), UserSet
 
 router.get('/user-settings', UserSettings.getUserSettings)
 
+//user saved address routes
+router.post('/user-saved-address', UserSettingsValidator.createUserAddress(), UserSettings.createNewAddress)
+
+router.get('/user-saved-address', UserSettings.getSavedAddress)
+
+router.put('/user-saved-address', UserSettings.updateAddress)
+
+//send otp
 router.post('/internal/send-otp', UserValidator.send_otp(), Auth.sendOtp)
 
 //admin routes
