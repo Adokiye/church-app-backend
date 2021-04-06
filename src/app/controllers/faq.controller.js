@@ -41,7 +41,7 @@ export const addNewFaq = async ctx => {
       return {
         status: 'success',
         message: "Faq's Arrangement data returned Successfully",
-        data: faq_arrangement_data[0]
+        data: faq_arrangement_data.faqs
       }
     } else {
       console.log(faq_arrangement_data[0])
@@ -54,7 +54,7 @@ export const addNewFaq = async ctx => {
       return {
         status: 'success',
         message: 'Faq data added Successfully',
-        data: faq_arrangement_data[0]
+        data: faq_arrangement_data.faqs
       }
     }
   } else {
@@ -115,7 +115,7 @@ export const updateFaqArrangement = async ctx => {
     return {
       status: 'success',
       message: 'Faq updated Successfully',
-      ...faq_arrangement_data
+      data:faq_arrangement_data.faqs
     }
   } else {
     throw Unauthorized('Unauthorized Update')
