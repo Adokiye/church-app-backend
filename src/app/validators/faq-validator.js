@@ -18,7 +18,7 @@ const FaqValidator = {
     }),
     delete: () =>
     validationMiddleware({
-      body: {
+      params: {
         id: Joi.string().required()
       }
     })

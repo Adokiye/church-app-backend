@@ -20,13 +20,14 @@ const UserSettingsValidator = {
     }),
   updateUserAddress: () =>
     validationMiddleware({
+      
       body: {
         user_saved_address_id: Joi.string().required()
       }
     }),
   deleteUserAddress: () =>
     validationMiddleware({
-      body: {
+      params: {
         id: Joi.string().required()
       }
     })

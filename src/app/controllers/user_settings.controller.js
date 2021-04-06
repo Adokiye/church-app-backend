@@ -116,11 +116,11 @@ export const updateAddress = async ctx => {
 
 export const deleteAddress = async ctx => {
   const { user } = ctx.state.user
-  const { body } = ctx.request
+  const { params } = ctx
   const user_saved_address_data = await UserSavedAddress.query()
-    .deleteById(body.id)
+    .deleteById(params.id)
     .catch(() => {
-      throw NotFound('User saved address with id '+body.id+' not found')
+      throw NotFound('User saved address with id '+params.id+' not found')
     })
     return {
       status: 'success',

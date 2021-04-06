@@ -79,7 +79,7 @@ router.get('/user-saved-address', UserSettings.getSavedAddress)
 
 router.put('/user-saved-address', UserSettings.updateAddress)
 
-router.del('/user-saved-address', UserSettingsValidator.deleteUserAddress(),
+router.del('/user-saved-address/:id', UserSettingsValidator.deleteUserAddress(),
 UserSettings.deleteAddress)
 
 //send otp
