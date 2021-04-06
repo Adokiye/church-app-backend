@@ -20,7 +20,7 @@ const FaqValidator = {
     validationMiddleware({
       body: {
         faq_arrangement: Joi.array()
-          .keys(
+          .items(
             Joi.object().keys({
               question: Joi.string().required(),
               answer: Joi.string().required(),
