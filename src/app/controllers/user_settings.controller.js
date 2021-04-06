@@ -48,7 +48,7 @@ export const getSavedAddress = async ctx => {
   const { user } = ctx.state.user
 
   const user_saved_address_data = await UserSavedAddress.query()
-    .find({
+    .where({
       user_id: user.id
     })
     .catch(() => false)
@@ -80,6 +80,7 @@ export const createNewAddress = async ctx => {
     user_saved_address_data = await UserSavedAddress.query()
       .insert({
         user_id: user.id,
+        name:body.name.toLowerCase(),
         ...body
       })
       .catch(() => {
