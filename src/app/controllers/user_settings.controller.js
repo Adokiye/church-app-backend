@@ -66,11 +66,12 @@ export const getSavedAddress = async ctx => {
 export const createNewAddress = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
-
+  let name = body.name.toLowerCase()
+  delete body.name
   let user_saved_address_data = await UserSavedAddress.query()
     .findOne({
       user_id: user.id,
-      name: body.name.toLowerCase()
+      name
     })
     .catch((e) => {console.log(e);false})
 
@@ -80,7 +81,7 @@ export const createNewAddress = async ctx => {
     user_saved_address_data = await UserSavedAddress.query()
       .insert({
         user_id: user.id,
-        name:body.name.toLowerCase(),
+        name,
         ...body
       })
       .catch(() => {
