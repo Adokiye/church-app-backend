@@ -9,6 +9,7 @@ import FreeDelivery from './free_delivery'
 import UserSetting from './user_setting'
 import DeviceToken from './device_token'
 import UserSavedAddress from './user_saved_address'
+import ReferralCode from './referral_code'
 
 class User extends modelUuid(baseModel) {
   static tableName = 'users'
@@ -50,6 +51,14 @@ class User extends modelUuid(baseModel) {
       modelClass: UserSavedAddress,
       join: {
         from: 'user_saved_addresses.user_id',
+        to: 'users.id'
+      }
+    },
+    referral_code:{
+      relation: Model.HasOneRelation,
+      modelClass: ReferralCode,
+      join: {
+        from: 'referral_codes.user_id',
         to: 'users.id'
       }
     }

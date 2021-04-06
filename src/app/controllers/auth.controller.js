@@ -400,3 +400,26 @@ export const findUserName = async ctx => {
     throw UnprocessableEntity('Username not available')
   }
 }
+
+export const me = async ctx => {
+  const { user } = ctx.state.user
+
+  const user_data = await User.query()
+    .findOne({
+      username: body.username
+    })
+    .withGraphFetched(
+      '[free_deliveries, logistics_company,device_tokens, user_saved_addresses,referral_code]'
+    )
+    .catch(() => false)
+
+  if (!user_data) {
+    throw Unauthorized('User not found. Please sign up')
+  } else {
+    return {
+      status,
+      message: 'User data gotten successfully',
+      ...user_data
+    }
+  }
+}

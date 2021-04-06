@@ -27,6 +27,12 @@ const router = new Router()
 //authentication and user routes
 router.put('/auth/user', UserValidator.update(), Auth.update)
 
+
+router.get(
+  '/me',
+ Auth.me
+)
+
 router.post(
   '/auth/update-device-token',
   UserValidator.updateDeviceToken(),
