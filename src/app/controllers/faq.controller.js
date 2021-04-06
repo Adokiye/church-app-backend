@@ -36,8 +36,8 @@ export const addNewFaq = async ctx => {
       faqs.push(faq)
       console.log(faq)
       faq_arrangement_data = await FaqArrangement.query().insert({
-        faqs
-      })
+        faqs: JSON.stringify(faqs)
+      }).catch((e)=>{console.log(e);throw UnprocessableEntity('inavalid data')})
       return {
         status: 'success',
         message: "Faq's Arrangement data returned Successfully",
