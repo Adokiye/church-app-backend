@@ -14,6 +14,8 @@ const FaqValidator = {
     validationMiddleware({
       body: {
         faq_id: Joi.string().required(),
+        question: Joi.string(),
+        answer: Joi.string()
       }
     }),
   updateFaqArrangment: () =>
