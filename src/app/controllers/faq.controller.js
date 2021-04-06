@@ -100,7 +100,7 @@ export const updateFaq = async ctx => {
 }
 
 export const updateFaqArrangement = async ctx => {
-  const { user } = ctx.state.user
+  const { role } = ctx.state.user.user
   const { body } = ctx.request
   if (await checkIfMarketing(role)) {
     const faq_arrangement = body.faq_arrangement
@@ -123,7 +123,7 @@ export const updateFaqArrangement = async ctx => {
 }
 
 export const deleteFaq = async ctx => {
-  const { user } = ctx.state.user
+  const { role} = ctx.state.user.user
   const { params } = ctx
   if (await checkIfMarketing(role)) {
     const faq_data = await Faq.query()
