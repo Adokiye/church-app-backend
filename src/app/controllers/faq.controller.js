@@ -37,11 +37,11 @@ export const addNewFaq = async ctx => {
       console.log(faq)
       faq_arrangement_data = await FaqArrangement.query().insert({
         faqs: JSON.stringify(faqs)
-      }).catch((e)=>{console.log(e);throw UnprocessableEntity('inavalid data')})
+      }).catch((e)=>{console.log(e);throw UnprocessableEntity('invalid data')})
       return {
         status: 'success',
         message: "Faq's Arrangement data returned Successfully",
-        data: faq_arrangement_data[0].faqs
+        data: faq_arrangement_data[0]
       }
     } else {
       faq_arrangement_data[0].faqs.push(faq)
@@ -52,7 +52,7 @@ export const addNewFaq = async ctx => {
       return {
         status: 'success',
         message: 'Faq data added Successfully',
-        data: faq_arrangement_data[0].faqs
+        data: faq_arrangement_data[0]
       }
     }
   } else {
