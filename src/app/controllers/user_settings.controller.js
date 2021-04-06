@@ -67,7 +67,7 @@ export const createNewAddress = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
 
-  const user_saved_address_data = await UserSavedAddress.query()
+  let user_saved_address_data = await UserSavedAddress.query()
     .findOne({
       user_id: user.id,
       name: body.name.toLowerCase()
@@ -77,7 +77,7 @@ export const createNewAddress = async ctx => {
   if (user_saved_address_data) {
     throw UnprocessableEntity('Address name already exists for ' + body.name)
   } else {
-    await UserSavedAddress.query()
+    user_saved_address_data = await UserSavedAddress.query()
       .insert({
         user_id: user.id,
         ...body
@@ -85,6 +85,11 @@ export const createNewAddress = async ctx => {
       .catch(() => {
         throw UnprocessableEntity('Invalid body')
       })
+      return {
+        status: 'success',
+        message: "User's Address created Successfully",
+        ...user_saved_address_data
+      }
   }
 }
 
