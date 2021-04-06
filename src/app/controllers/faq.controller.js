@@ -46,6 +46,7 @@ export const addNewFaq = async ctx => {
     } else {
       console.log(faq_arrangement_data[0])
       faq_arrangement_data[0].faqs.push(faq)
+      faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
       faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
         faq_arrangement_data[0].id,
         faq_arrangement_data[0]
@@ -81,6 +82,8 @@ export const updateFaq = async ctx => {
         faq => faq.id == faq_id
       )
       faq_arrangement_data[0].faqs[foundIndex] = faq_data
+      faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+
       faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
         faq_arrangement_data[0].id,
         faq_arrangement_data[0]
@@ -103,6 +106,8 @@ export const updateFaqArrangement = async ctx => {
     const faq_arrangement = body.faq_arrangement
     let faq_arrangement_data = await FaqArrangement.query().catch(() => false)
     faq_arrangement_data[0].faqs = faq_arrangement
+    faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+
     faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
       faq_arrangement_data[0].id,
       faq_arrangement_data[0]
@@ -131,6 +136,8 @@ export const deleteFaq = async ctx => {
       faq => faq.id == params.id
     )
     delete faq_arrangement_data[0].faqs[foundIndex]
+    faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+
     faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
       faq_arrangement_data[0].id,
       faq_arrangement_data[0]
