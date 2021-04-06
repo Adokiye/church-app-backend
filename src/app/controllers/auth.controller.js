@@ -411,7 +411,7 @@ export const me = async ctx => {
     .withGraphFetched(
       '[free_deliveries, logistics_company,device_tokens, user_saved_addresses,referral_code]'
     )
-    .catch((e) => {console.log(e);return false)
+    .catch((e) => {console.log(e);return false;})
 
   if (!user_data) {
     throw Unauthorized('User not found. Please sign up')
