@@ -115,7 +115,7 @@ export const updateFaqArrangement = async ctx => {
     return {
       status: 'success',
       message: 'Faq updated Successfully',
-      ...faq_data
+      ...faq_arrangement_data
     }
   } else {
     throw Unauthorized('Unauthorized Update')
