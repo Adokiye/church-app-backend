@@ -406,7 +406,7 @@ export const me = async ctx => {
 
   const user_data = await User.query()
     .findOne({
-      username: body.username
+      id: user.id
     })
     .withGraphFetched(
       '[free_deliveries, logistics_company,device_tokens, user_saved_addresses,referral_code]'
