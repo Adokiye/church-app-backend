@@ -403,13 +403,13 @@ export const findUserName = async ctx => {
 
 export const me = async ctx => {
   const { user } = ctx.state.user
-  console.log(user)
+
   const user_data = await User.query()
     .findOne({
-      phone_number: user.phone_number
+      id: user.id
     })
     .withGraphFetched(
-      '[free_deliveries, logistics_company,device_tokens, user_saved_addresses,referral_code]'
+      '[free_deliveries, referral_code]'
     )
     .catch((e) => {console.log(e);return false;})
 
