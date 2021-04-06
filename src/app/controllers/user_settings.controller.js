@@ -72,7 +72,7 @@ export const createNewAddress = async ctx => {
       user_id: user.id,
       name: body.name.toLowerCase()
     })
-    .catch(() => false)
+    .catch((e) => {console.log(e);false})
 
   if (user_saved_address_data) {
     throw UnprocessableEntity('Address name already exists for ' + body.name)
