@@ -76,7 +76,7 @@ export const createNewAddress = async ctx => {
     .catch((e) => {console.log(e);false})
 
   if (user_saved_address_data) {
-    throw UnprocessableEntity('Address name already exists for ' + body.name)
+    throw UnprocessableEntity('Address name already exists for ' + name)
   } else {
     user_saved_address_data = await UserSavedAddress.query()
       .insert({
