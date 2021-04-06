@@ -44,6 +44,7 @@ export const addNewFaq = async ctx => {
         data: faq_arrangement_data[0]
       }
     } else {
+      console.log(faq_arrangement_data[0])
       faq_arrangement_data[0].faqs.push(faq)
       faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
         faq_arrangement_data[0].id,
