@@ -10,13 +10,27 @@ const FaqValidator = {
         answer: Joi.string().required()
       }
     }),
-    updateFaqArrangment: () =>
+    updateFaq: () =>
     validationMiddleware({
       body: {
-        faqs: Joi.array().required(),
+        faq_id: Joi.string().required(),
       }
     }),
-    delete: () =>
+  updateFaqArrangment: () =>
+    validationMiddleware({
+      body: {
+        faq_arrangement: Joi.array()
+          .keys(
+            Joi.object().keys({
+              question: Joi.string().required(),
+              answer: Joi.string().required(),
+              id: Joi.string().required()
+            })
+          )
+          .required()
+      }
+    }),
+  deleteFaq: () =>
     validationMiddleware({
       params: {
         id: Joi.string().required()

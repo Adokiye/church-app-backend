@@ -7,6 +7,7 @@ export const up = knex =>
     table.string('address').notNullable()
     table.string('lat').notNullable()
     table.string('lng').notNullable()
+    table.string('phone_number')
     table
       .uuid('user_id')
       .references('id')

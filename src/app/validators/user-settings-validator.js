@@ -15,7 +15,9 @@ const UserSettingsValidator = {
         name: Joi.string().required(),
         address: Joi.string().required(),
         lat: Joi.string().required(),
-        lng: Joi.string().required()
+        lng: Joi.string().required(),
+        phone_number: Joi.string().min(11).max(11),
+
       }
     }),
   updateUserAddress: () =>

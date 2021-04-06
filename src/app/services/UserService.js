@@ -10,26 +10,14 @@ import { encryptPassword, makeCode, Unauthorized } from '../helpers'
 
 export const newCustomerService = async phone_number => {
   const [user] = await Promise.all([
-    User.query()
-      .insert({
-        phone_number,
-        role: 'CUSTOMER',
-        active: true
-      })
-  ])
-
-  const [free_delivery, user_setting, referral_code] = await Promise.all([
-    FreeDelivery.query().insert({
-      user_id: user.id
-    }),
-    UserSetting.query().insert({
-      user_id: user.id
-    }),
-    ReferralCode.query().insert({
-      user_id: user.id,
-      code: makeCode(6).toUpperCase()
+    User.query().insert({
+      phone_number,
+      role: 'CUSTOMER',
+      active: true
     })
   ])
+
+  await createUserSubTables();
 
   return {
     user
@@ -43,14 +31,33 @@ export const updateNewUserService = async (personal_details, user) => {
   }
   const user_data = await User.query()
     .patchAndFetchById(user.id, personal_details)
-    .catch((e) => {
+    .catch(e => {
       console.log(e)
       throw Unauthorized('User not found please register')
     })
-    
 
   return {
     user_data
+  }
+}
+
+export const createUserSubTables = async (user) => {
+  const [free_delivery, user_setting, referral_code] = await Promise.all([
+    FreeDelivery.query().insert({
+      user_id: user.id
+    }),
+    UserSetting.query().insert({
+      user_id: user.id
+    }),
+    ReferralCode.query().insert({
+      user_id: user.id,
+      code: makeCode(6).toUpperCase()
+    })
+  ])
+  return {
+    free_delivery,
+    user_setting,
+    referral_code
   }
 }
 

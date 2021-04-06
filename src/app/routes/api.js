@@ -1,4 +1,5 @@
 import Router from 'koa-router'
+
 import {
   Auth,
   Cokitchen,
@@ -7,8 +8,10 @@ import {
   Deals,
   Order,
   Keyword,
-  UserSettings
+  UserSettings,
+  Faq
 } from '../controllers/'
+
 import UserValidator from '../validators/user-validator'
 import CokitchenValidator from '../validators/cokitchen-validator'
 import CokitchenPolygonValidator from '../validators/cokitchen-polygon-validator'
@@ -17,13 +20,18 @@ import LogisticsValidator from '../validators/logistics-validator'
 import DealsValidator from '../validators/deal-validator'
 import KeywordValidator from '../validators/keyword-validator'
 import UserSettingsValidator from '../validators/user-settings-validator'
+import FaqValidator from '../validators/faq-validator'
 
 const router = new Router()
 
 //authentication and user routes
 router.put('/auth/user', UserValidator.update(), Auth.update)
 
-router.post('/auth/update-device-token', UserValidator.updateDeviceToken(), Auth.updateDeviceToken)
+router.post(
+  '/auth/update-device-token',
+  UserValidator.updateDeviceToken(),
+  Auth.updateDeviceToken
+)
 
 router.post(
   '/auth/guest/authenticate',
@@ -68,19 +76,30 @@ router.post(
 )
 
 //user settings routes
-router.put('/user-settings', UserSettingsValidator.updateUserSettings(), UserSettings.updateUserSettings)
+router.put(
+  '/user-settings',
+  UserSettingsValidator.updateUserSettings(),
+  UserSettings.updateUserSettings
+)
 
 router.get('/user-settings', UserSettings.getUserSettings)
 
 //user saved address routes
-router.post('/user-saved-address', UserSettingsValidator.createUserAddress(), UserSettings.createNewAddress)
+router.post(
+  '/user-saved-address',
+  UserSettingsValidator.createUserAddress(),
+  UserSettings.createNewAddress
+)
 
 router.get('/user-saved-address', UserSettings.getSavedAddress)
 
 router.put('/user-saved-address', UserSettings.updateAddress)
 
-router.del('/user-saved-address/:id', UserSettingsValidator.deleteUserAddress(),
-UserSettings.deleteAddress)
+router.del(
+  '/user-saved-address/:id',
+  UserSettingsValidator.deleteUserAddress(),
+  UserSettings.deleteAddress
+)
 
 //send otp
 router.post('/internal/send-otp', UserValidator.send_otp(), Auth.sendOtp)
@@ -106,9 +125,32 @@ router.put(
 )
 
 router.post(
-  '/marketing/create-cokitchen-polygon',
-  CokitchenPolygonValidator.create(),
-  Cokitchen.createCokitchenPolygon
+  '/marketing/faq',
+  FaqValidator.createFaq(),
+  Faq.addNewFaq
+)
+
+router.del(
+  '/marketing/faq/:id',
+  FaqValidator.deleteFaq(),
+  Faq.deleteFaq
+)
+
+router.put(
+  '/marketing/faq',
+  FaqValidator.updateFaq(),
+  Faq.updateFaq
+)
+
+router.get(
+  '/marketing/faq-arrangement',
+  Faq.getFaqArrangement
+)
+
+router.put(
+  '/marketing/faq-arrangement',
+  FaqValidator.updateFaqArrangment(),
+  Faq.updateFaqArrangement
 )
 
 router.put(

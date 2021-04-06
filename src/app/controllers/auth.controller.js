@@ -10,7 +10,8 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import {
   newCustomerService,
-  updateNewUserService
+  updateNewUserService,
+  createUserSubTables
 } from '../services/UserService'
 import {
   checkIfAdmin,
@@ -199,18 +200,7 @@ export const registerAsMarketing = async ctx => {
   body.active = true
   body.password = await encryptPassword(body.password)
   const user_data = await User.query().insert(body)
-  const [free_delivery, user_setting, referral_code] = await Promise.all([
-    FreeDelivery.query().insert({
-      user_id: user_data.id
-    }),
-    UserSetting.query().insert({
-      user_id: user_data.id
-    }),
-    ReferralCode.query().insert({
-      user_id: user_data.id,
-      code: makeCode(6).toUpperCase()
-    })
-  ])
+  await createUserSubTables(user_data)
   return {
     status: 'success',
     message: 'Registration Successful',
@@ -227,18 +217,7 @@ export const registerAsLogisticsAdmin = async ctx => {
   body.active = true
   body.password = await encryptPassword(body.password)
   const user_data = await User.query().insert(body)
-  const [free_delivery, user_setting, referral_code] = await Promise.all([
-    FreeDelivery.query().insert({
-      user_id: user_data.id
-    }),
-    UserSetting.query().insert({
-      user_id: user_data.id
-    }),
-    ReferralCode.query().insert({
-      user_id: user_data.id,
-      code: makeCode(6).toUpperCase()
-    })
-  ])
+  await createUserSubTables(user_data)
   return {
     status: 'success',
     message: 'Registration Successful',

@@ -1,6 +1,6 @@
 import UserSetting from '../models/user_setting'
 import UserSavedAddress from '../models/user_saved_address'
-import { Unauthorized, UnprocessableEntity } from '../helpers'
+import { Unauthorized, UnprocessableEntity, NotFound } from '../helpers'
 
 export const getUserSettings = async ctx => {
   const { user } = ctx.state.user
@@ -33,7 +33,7 @@ export const updateUserSettings = async ctx => {
       return false
     })
   if (!user_settings_data) {
-    throw Unauthorized('User Settings data not found.')
+    throw NotFound('User Settings data not found.')
   } else {
     return {
       status: 'success',
