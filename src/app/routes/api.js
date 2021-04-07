@@ -9,7 +9,9 @@ import {
   Order,
   Keyword,
   UserSettings,
-  Faq
+  Faq,
+  AppFeedback
+  
 } from '../controllers/'
 
 import UserValidator from '../validators/user-validator'
@@ -21,16 +23,22 @@ import DealsValidator from '../validators/deal-validator'
 import KeywordValidator from '../validators/keyword-validator'
 import UserSettingsValidator from '../validators/user-settings-validator'
 import FaqValidator from '../validators/faq-validator'
+import AppFeedbackValidator from '../validators/app-feedback-validator'
 
 const router = new Router()
 
 //authentication and user routes
 router.put('/auth/user', UserValidator.update(), Auth.update)
 
-
 router.get(
   '/me',
  Auth.me
+)
+
+router.post(
+  '/app-feedback',
+  AppFeedbackValidator.createAppFeedback(),
+ AppFeedback.createAppFeedback
 )
 
 router.post(
@@ -157,6 +165,11 @@ router.put(
   '/marketing/faq-arrangement',
   FaqValidator.updateFaqArrangment(),
   Faq.updateFaqArrangement
+)
+
+router.get(
+  '/marketing/app-feedback',
+ AppFeedback.getAppFeedbacks
 )
 
 router.put(

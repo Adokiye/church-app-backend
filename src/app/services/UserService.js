@@ -5,8 +5,14 @@ import Role from '../models/role'
 import FreeDelivery from '../models/free_delivery'
 import UserSetting from '../models/user_setting'
 import ReferralCode from '../models/referral_code'
+import UserDobUpdated from '../models/user_dob_updated'
 
-import { encryptPassword, makeCode, Unauthorized } from '../helpers'
+import {
+  encryptPassword,
+  makeCode,
+  Unauthorized,
+  UnprocessableEntity
+} from '../helpers'
 
 export const newCustomerService = async phone_number => {
   const [user] = await Promise.all([
@@ -17,7 +23,7 @@ export const newCustomerService = async phone_number => {
     })
   ])
 
-  await createUserSubTables();
+  await createUserSubTables()
 
   return {
     user
@@ -28,6 +34,20 @@ export const updateNewUserService = async (personal_details, user) => {
   //  clean up data
   if (personal_details.password) {
     personal_details.password = await encryptPassword(personal_details.password)
+  }
+  if (personal_details.dob) {
+    const user_dob_updated = await UserDobUpdated.query()
+      .where({
+        user_id: user.id
+      })
+      .catch(() => false)
+    if (user_dob_updated) {
+      throw UnprocessableEntity('User date of birth can only be changed once')
+    } else {
+      await UserDobUpdated.query().insert({
+        user_id: user.id
+      })
+    }
   }
   const user_data = await User.query()
     .patchAndFetchById(user.id, personal_details)
@@ -41,7 +61,7 @@ export const updateNewUserService = async (personal_details, user) => {
   }
 }
 
-export const createUserSubTables = async (user) => {
+export const createUserSubTables = async user => {
   const [free_delivery, user_setting, referral_code] = await Promise.all([
     FreeDelivery.query().insert({
       user_id: user.id

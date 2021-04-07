@@ -24,7 +24,8 @@ const UserSettingsValidator = {
         address: Joi.string().required(),
         lat: Joi.string().required(),
         lng: Joi.string().required(),
-        phone_number: Joi.string().min(11).max(11)
+        phone_number: Joi.string().min(11).max(11),
+        street_number: Joi.string()
       }
     }),
   updateUserAddress: () =>
@@ -34,7 +35,8 @@ const UserSettingsValidator = {
         address: Joi.string(),
         lat: Joi.string(),
         lng: Joi.string(),
-        phone_number: Joi.string().min(11).max(11)
+        phone_number: Joi.string().min(11).max(11),
+        street_number: Joi.string()
       }
     }),
   deleteUserAddress: () =>
