@@ -41,7 +41,7 @@ export const getAppFeedbacks = async ctx => {
     return {
       status: 'success',
       message: 'App feedback data returned Successfully',
-      ...app_feedback_data
+      data:app_feedback_data
     }
   } else {
     throw Unauthorized('Unauthorized')
