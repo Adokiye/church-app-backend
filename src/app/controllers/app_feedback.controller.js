@@ -1,4 +1,4 @@
-import AppFeedback from '../models/meal_dietary_metadata'
+import AppFeedback from '../models/app_feedback'
 import User from '../models/user'
 import { checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, NotFound } from '../helpers'
