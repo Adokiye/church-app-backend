@@ -34,14 +34,16 @@ export const getAppFeedbacks = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
-    const app_feedback_data = await await AppFeedback.query().catch(e => {
-      console.log(e)
-      return []
-    })
+    const app_feedback_data = await await AppFeedback.query()
+      .withGraphFetched('[user]')
+      .catch(e => {
+        console.log(e)
+        return []
+      })
     return {
       status: 'success',
       message: 'App feedback data returned Successfully',
-      data:app_feedback_data
+      data: app_feedback_data
     }
   } else {
     throw Unauthorized('Unauthorized')
