@@ -1,5 +1,7 @@
 import { baseModel, modelUuid } from './index'
 import User from './user'
+import { Model } from 'objection'
+
 
 class AppFeedback extends modelUuid(baseModel) {
   static tableName = 'app_feedbacks'
