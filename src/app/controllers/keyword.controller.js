@@ -429,3 +429,30 @@ export const getAllKeywords = async ctx => {
     throw Unauthorized('Unauthorized')
   }
 }
+
+export const updateKeyword = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+  let keyword_type = body.keyword_type
+  let keyword_id = body.keyword_id
+  delete body.keyword_type
+  delete body.keyword_id
+  let keywordInDb
+  if (await checkIfMarketing(role)) {
+    switch (keyword_type) {
+      case 'meal_allergy_metadata':
+        keywordInDb = await MealAllergyMetadata.query().patchAndFetchById(
+          keyword_id,
+          body
+        )
+        break
+    }
+    return {
+      status: 'success',
+      message: 'Update Successful',
+      ...keywordInDb
+    }
+  } else {
+    throw Unauthorized('Unauthorized')
+  }
+}

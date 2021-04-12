@@ -6,6 +6,7 @@ exports.up = function (knex) {
       table.string('name').notNullable().unique()
       table.timestamps(true, true)
       table.boolean('explore').defaultTo(false)
+      table.string('icon')
 
       table.jsonb('images')
     })

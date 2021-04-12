@@ -9,7 +9,17 @@ const KeywordValidator = {
         name: Joi.string().required()
       }
     }),
-    delete: () =>
+  update: () =>
+    validationMiddleware({
+      body: {
+        name: Joi.string(),
+        icon: Joi.string(),
+        keyword_id: Joi.string().required(),
+        keyword_type: Joi.string().required().valid('meal_allergy_metadata'),
+        images: Joi.array().items(Joi.string().required())
+      }
+    }),
+  delete: () =>
     validationMiddleware({
       body: {
         id: Joi.string().required()

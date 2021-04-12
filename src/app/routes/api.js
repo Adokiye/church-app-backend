@@ -320,6 +320,8 @@ router.post(
 
 router.get('/marketing/keywords', Keyword.getAllKeywords)
 
+router.put('/marketing/keyword', KeywordValidator.update(), Keyword.updateKeyword)
+
 router.get('/marketing/get-all-deal-types', Deals.getDealTypes)
 
 // user brand routes,

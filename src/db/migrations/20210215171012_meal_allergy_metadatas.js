@@ -5,6 +5,8 @@ exports.up = function (knex) {
       table.uuid('id').primary().notNullable()
       table.string('name').notNullable().unique()
       table.timestamps(true, true)
+      table.string('icon')
+
       table.jsonb('images')
     })
 }
