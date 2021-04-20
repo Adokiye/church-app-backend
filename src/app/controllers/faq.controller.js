@@ -126,22 +126,28 @@ export const deleteFaq = async ctx => {
   const { role} = ctx.state.user.user
   const { params } = ctx
   if (await checkIfMarketing(role)) {
+  let faq_arrangement_data = await FaqArrangement.query().catch(() => [])
+    let foundIndex = faq_arrangement_data[0].faqs.findIndex(
+      faq => faq.id == params.id
+    )
+    console.log(foundIndex)
+    delete faq_arrangement_data[0].faqs[foundIndex]
+    console.log|(faq_arrangement_data)
+    faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+   
+    faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
+      faq_arrangement_data[0].id,
+      faq_arrangement_data[0]
+    ) .catch(() => {
+      throw NotFound('Faq not found')
+    })
+  
     const faq_data = await Faq.query()
       .deleteById(params.id)
       .catch(() => {
         throw NotFound('Faq with id ' + params.id + ' not found')
       })
-    let faq_arrangement_data = await FaqArrangement.query().catch(() => [])
-    let foundIndex = faq_arrangement_data[0].faqs.findIndex(
-      faq => faq.id == params.id
-    )
-    delete faq_arrangement_data[0].faqs[foundIndex]
-    faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
-
-    faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
-      faq_arrangement_data[0].id,
-      faq_arrangement_data[0]
-    )
+    
 
     return {
       status: 'success',

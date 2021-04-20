@@ -15,7 +15,7 @@ const KeywordValidator = {
         name: Joi.string(),
         icon: Joi.string(),
         keyword_id: Joi.string().required(),
-        keyword_type: Joi.string().required().valid('meal_allergy_metadata'),
+        keyword_type: Joi.string().required().valid('meal_allergy_metadata', 'meal_keyword'),
         images: Joi.array().items(Joi.string().required())
       }
     }),
