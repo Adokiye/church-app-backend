@@ -8,6 +8,8 @@ import MealKeyword from '../models/meal_keyword'
 import MealTag from '../models/meal_tag'
 import MealAllergyMetadata from '../models/meal_allergy_metadata'
 import MealDietaryMetadata from '../models/meal_dietary_metadata'
+import Cokitchen from '../models/cokitchen'
+import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, NotFound } from '../helpers'
 
