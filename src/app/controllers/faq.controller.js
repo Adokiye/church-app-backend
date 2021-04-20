@@ -128,7 +128,7 @@ export const deleteFaq = async ctx => {
   if (await checkIfMarketing(role)) {
   let faq_arrangement_data = await FaqArrangement.query().catch(() => [])
     let foundIndex = faq_arrangement_data[0].faqs.findIndex(
-      faq => faq.id == params.id
+      faq => faq != null&&faq.id == params.id
     )
     console.log(foundIndex)
     delete faq_arrangement_data[0].faqs[foundIndex]
