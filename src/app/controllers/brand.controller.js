@@ -26,7 +26,6 @@ export const createBrand = async ctx => {
 }
 
 export const updateBrand = async ctx => {
-  const { id } = ctx.params
   const { body } = ctx.request
   const { role } = ctx.state.user.user
 
@@ -34,7 +33,7 @@ export const updateBrand = async ctx => {
     if (body.posist_data) {
       delete body.posist_data
     }
-    const brand_data = await Brand.query().patchAndFetchById(id, body)
+    const brand_data = await Brand.query().patchAndFetchById(body.brand_id, body)
     return {
       status: 'success',
       message: 'Update Successful',

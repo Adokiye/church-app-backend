@@ -3,6 +3,30 @@ import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized } from '../helpers'
 
+export const createCokitchen = async ctx => {
+  const { id } = ctx.params
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    if (body.posist_data) {
+      delete body.posist_data
+    }
+    const cokitchen_data = await Cokitchen.query().insert(body)
+    .catch((e) => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid body')
+    })
+    return {
+      status: 'success',
+      message: 'Creation Successful',
+      ...cokitchen_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
 export const updateCokitchen = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request

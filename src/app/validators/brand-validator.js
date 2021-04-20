@@ -19,6 +19,8 @@ const BrandValidator = {
   updateBrand: () =>
     validationMiddleware({
       body: {
+        brand_id: Joi.string().required(),
+
         name: Joi.string(),
         summary: Joi.string(),
         description: Joi.string(),
