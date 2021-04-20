@@ -307,9 +307,9 @@ router.put(
 router.get('/marketing/get-all-deal-types', Deals.getDealTypes)
 
 // brand details marketing
-router.post('/marketing/brand', BrandValidator.createBrand, Brand.createBrand)
+router.post('/marketing/brand', BrandValidator.createBrand(), Brand.createBrand)
 
-router.put('/marketing/brand', BrandValidator.updateBrand, Brand.updateBrand)
+router.put('/marketing/brand', BrandValidator.updateBrand(), Brand.updateBrand)
 
 // user brand routes,
 router.post(
