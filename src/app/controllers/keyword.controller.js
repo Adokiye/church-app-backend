@@ -395,7 +395,7 @@ export const getAllKeywords = async ctx => {
       meal_business_metadata,
       meal_descriptive_metadata,
       meal_dietary_metadata,
-      meal_tag,
+      //meal_tag,
       meal_keyword,
       brand_keyword,
       brand_tag,
