@@ -132,7 +132,7 @@ export const deleteFaq = async ctx => {
     )
     console.log(foundIndex)
     delete faq_arrangement_data[0].faqs[foundIndex]
-    console.log|(faq_arrangement_data)
+    console.log(faq_arrangement_data)
     faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
    
     faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
