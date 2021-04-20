@@ -5,9 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllKeywords = exports.deleteMealAllergyMetadata = exports.createMealAllergyMetadata = exports.deleteMealDietaryMetadata = exports.createMealDietaryMetadata = exports.deleteMealTag = exports.createMealTag = exports.deleteMealKeyword = exports.createMealKeyword = exports.deleteMealDescriptiveMetadata = exports.createMealDescriptiveMetadata = exports.deleteMealBusinessMetadata = exports.createMealBusinessMetadata = exports.deleteBrandTag = exports.createBrandTag = exports.deleteBrandKeyword = exports.createBrandKeyword = exports.deleteBrandDescriptiveMetadata = exports.createBrandDescriptiveMetadata = exports.deleteBrandBusinessMetadata = exports.createBrandBusinessMetadata = void 0;
+exports.getUserMealKeywords = exports.updateKeyword = exports.getAllKeywords = exports.deleteMealAllergyMetadata = exports.createMealAllergyMetadata = exports.deleteMealDietaryMetadata = exports.createMealDietaryMetadata = exports.deleteMealTag = exports.createMealTag = exports.deleteMealKeyword = exports.createMealKeyword = exports.deleteMealDescriptiveMetadata = exports.createMealDescriptiveMetadata = exports.deleteMealBusinessMetadata = exports.createMealBusinessMetadata = exports.deleteBrandTag = exports.createBrandTag = exports.deleteBrandKeyword = exports.createBrandKeyword = exports.deleteBrandDescriptiveMetadata = exports.createBrandDescriptiveMetadata = exports.deleteBrandBusinessMetadata = exports.createBrandBusinessMetadata = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
 
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
@@ -27,7 +29,7 @@ var _meal_descriptive_metadata = _interopRequireDefault(require("../models/meal_
 
 var _meal_business_metadata = _interopRequireDefault(require("../models/meal_business_metadata"));
 
-var _meal_keyword = _interopRequireDefault(require("../models/meal_keyword"));
+var _meal_keyword2 = _interopRequireDefault(require("../models/meal_keyword"));
 
 var _meal_tag = _interopRequireDefault(require("../models/meal_tag"));
 
@@ -626,7 +628,7 @@ var createMealKeyword = /*#__PURE__*/function () {
             }
 
             _context13.next = 7;
-            return _meal_keyword["default"].query().insert(body);
+            return _meal_keyword2["default"].query().insert(body);
 
           case 7:
             meal_keyword_data = _context13.sent;
@@ -672,7 +674,7 @@ var deleteMealKeyword = /*#__PURE__*/function () {
             }
 
             _context14.next = 7;
-            return _meal_keyword["default"].query().deleteById(body.id)["catch"](function () {
+            return _meal_keyword2["default"].query().deleteById(body.id)["catch"](function () {
               throw (0, _helpers.NotFound)('Meal keyword not found');
             });
 
@@ -1011,9 +1013,8 @@ var getAllKeywords = /*#__PURE__*/function () {
               return [];
             }), _meal_dietary_metadata["default"].query()["catch"](function () {
               return [];
-            }), _meal_tag["default"].query()["catch"](function () {
-              return [];
-            }), _meal_keyword["default"].query()["catch"](function () {
+            }), //  MealTag.query().catch(() => []),
+            _meal_keyword2["default"].query()["catch"](function () {
               return [];
             }), _brand_keyword["default"].query()["catch"](function () {
               return [];
@@ -1045,7 +1046,7 @@ var getAllKeywords = /*#__PURE__*/function () {
               meal_business_metadata: meal_business_metadata,
               meal_descriptive_metadata: meal_descriptive_metadata,
               meal_dietary_metadata: meal_dietary_metadata,
-              meal_tag: meal_tag,
+              // meal_tag,
               meal_keyword: meal_keyword,
               brand_keyword: brand_keyword,
               brand_tag: brand_tag,
@@ -1070,4 +1071,150 @@ var getAllKeywords = /*#__PURE__*/function () {
 }();
 
 exports.getAllKeywords = getAllKeywords;
+
+var updateKeyword = /*#__PURE__*/function () {
+  var _ref22 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee22(ctx) {
+    var body, role, keyword_type, keyword_id, keywordInDb;
+    return _regenerator["default"].wrap(function _callee22$(_context22) {
+      while (1) {
+        switch (_context22.prev = _context22.next) {
+          case 0:
+            body = ctx.request.body;
+            role = ctx.state.user.user.role;
+            keyword_type = body.keyword_type;
+            keyword_id = body.keyword_id;
+            delete body.keyword_type;
+            delete body.keyword_id;
+            _context22.next = 8;
+            return (0, _RoleService.checkIfMarketing)(role);
+
+          case 8:
+            if (!_context22.sent) {
+              _context22.next = 23;
+              break;
+            }
+
+            _context22.t0 = keyword_type;
+            _context22.next = _context22.t0 === 'meal_allergy_metadata' ? 12 : _context22.t0 === 'meal_keyword' ? 16 : 20;
+            break;
+
+          case 12:
+            _context22.next = 14;
+            return _meal_allergy_metadata["default"].query().patchAndFetchById(keyword_id, body);
+
+          case 14:
+            keywordInDb = _context22.sent;
+            return _context22.abrupt("break", 20);
+
+          case 16:
+            _context22.next = 18;
+            return _meal_keyword2["default"].query().patchAndFetchById(keyword_id, body);
+
+          case 18:
+            keywordInDb = _context22.sent;
+            return _context22.abrupt("break", 20);
+
+          case 20:
+            return _context22.abrupt("return", _objectSpread({
+              status: 'success',
+              message: 'Update Successful'
+            }, keywordInDb));
+
+          case 23:
+            throw (0, _helpers.Unauthorized)('Unauthorized');
+
+          case 24:
+          case "end":
+            return _context22.stop();
+        }
+      }
+    }, _callee22);
+  }));
+
+  return function updateKeyword(_x22) {
+    return _ref22.apply(this, arguments);
+  };
+}();
+
+exports.updateKeyword = updateKeyword;
+
+var getUserMealKeywords = /*#__PURE__*/function () {
+  var _ref23 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee23(ctx) {
+    var body, lat, lng, cokitchen_polygons, cokitchens, i, len, _ret;
+
+    return _regenerator["default"].wrap(function _callee23$(_context23) {
+      while (1) {
+        switch (_context23.prev = _context23.next) {
+          case 0:
+            body = ctx.request.body;
+            lat = body.lat, lng = body.lng;
+            _context23.next = 4;
+            return CokitchenPolygon.query().withGraphFetched('cokitchen.[brands.[meals]]');
+
+          case 4:
+            cokitchen_polygons = _context23.sent;
+            cokitchens = [];
+            i = 0, len = cokitchen_polygons.length;
+
+          case 7:
+            if (!(i < len)) {
+              _context23.next = 15;
+              break;
+            }
+
+            if (!insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
+              _context23.next = 12;
+              break;
+            }
+
+            _ret = function () {
+              cokitchens.push(cokitchen_polygons[i].cokitchen);
+              var meal_keywords = [];
+              var meals = cokitchen_polygons[i].cokitchen.brands.meals;
+
+              for (var j = 0; j < meals.length; j++) {
+                meal_keywords = meal_keywords.concat(meals[j].meal_keywords);
+              }
+
+              var uniqueArray = meal_keywords.filter(function (meal_keyword, index) {
+                var _meal_keyword = JSON.stringify(meal_keyword);
+
+                return index === meal_keywords.findIndex(function (obj) {
+                  return JSON.stringify(obj) === _meal_keyword;
+                });
+              });
+              return {
+                v: {
+                  status: 'success',
+                  data: uniqueArray
+                }
+              };
+            }();
+
+            if (!((0, _typeof2["default"])(_ret) === "object")) {
+              _context23.next = 12;
+              break;
+            }
+
+            return _context23.abrupt("return", _ret.v);
+
+          case 12:
+            i++;
+            _context23.next = 7;
+            break;
+
+          case 15:
+          case "end":
+            return _context23.stop();
+        }
+      }
+    }, _callee23);
+  }));
+
+  return function getUserMealKeywords(_x23) {
+    return _ref23.apply(this, arguments);
+  };
+}();
+
+exports.getUserMealKeywords = getUserMealKeywords;
 //# sourceMappingURL=keyword.controller.js.map

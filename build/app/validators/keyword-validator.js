@@ -19,6 +19,17 @@ var KeywordValidator = {
       }
     });
   },
+  update: function update() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        name: _joi["default"].string(),
+        icon: _joi["default"].string(),
+        keyword_id: _joi["default"].string().required(),
+        keyword_type: _joi["default"].string().required().valid('meal_allergy_metadata'),
+        images: _joi["default"].array().items(_joi["default"].string().required())
+      }
+    });
+  },
   "delete": function _delete() {
     return (0, _middlewares.validationMiddleware)({
       body: {

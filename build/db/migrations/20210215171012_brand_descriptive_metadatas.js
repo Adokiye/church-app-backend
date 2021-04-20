@@ -6,6 +6,7 @@ exports.up = function (knex) {
     table.string('name').notNullable().unique();
     table.timestamps(true, true);
     table.jsonb('images');
+    table.string('icon');
   });
 };
 

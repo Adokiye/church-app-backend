@@ -11,7 +11,6 @@ import {
   UserSettings,
   Faq,
   AppFeedback
-  
 } from '../controllers/'
 
 import UserValidator from '../validators/user-validator'
@@ -30,15 +29,12 @@ const router = new Router()
 //authentication and user routes
 router.put('/auth/user', UserValidator.update(), Auth.update)
 
-router.get(
-  '/me',
- Auth.me
-)
+router.get('/me', Auth.me)
 
 router.post(
   '/app-feedback',
   AppFeedbackValidator.createAppFeedback(),
- AppFeedback.createAppFeedback
+  AppFeedback.createAppFeedback
 )
 
 router.post(
@@ -138,28 +134,13 @@ router.put(
   Brand.updateBrand
 )
 
-router.post(
-  '/marketing/faq',
-  FaqValidator.createFaq(),
-  Faq.addNewFaq
-)
+router.post('/marketing/faq', FaqValidator.createFaq(), Faq.addNewFaq)
 
-router.del(
-  '/marketing/faq/:id',
-  FaqValidator.deleteFaq(),
-  Faq.deleteFaq
-)
+router.del('/marketing/faq/:id', FaqValidator.deleteFaq(), Faq.deleteFaq)
 
-router.put(
-  '/marketing/faq',
-  FaqValidator.updateFaq(),
-  Faq.updateFaq
-)
+router.put('/marketing/faq', FaqValidator.updateFaq(), Faq.updateFaq)
 
-router.get(
-  '/marketing/faq-arrangement',
-  Faq.getFaqArrangement
-)
+router.get('/marketing/faq-arrangement', Faq.getFaqArrangement)
 
 router.put(
   '/marketing/faq-arrangement',
@@ -167,10 +148,7 @@ router.put(
   Faq.updateFaqArrangement
 )
 
-router.get(
-  '/marketing/app-feedback',
- AppFeedback.getAppFeedbacks
-)
+router.get('/marketing/app-feedback', AppFeedback.getAppFeedbacks)
 
 router.put(
   '/marketing/update-cokitchen-polygon/:id',
@@ -320,15 +298,30 @@ router.post(
 
 router.get('/marketing/keywords', Keyword.getAllKeywords)
 
-router.put('/marketing/keyword', KeywordValidator.update(), Keyword.updateKeyword)
+router.put(
+  '/marketing/keyword',
+  KeywordValidator.update(),
+  Keyword.updateKeyword
+)
 
 router.get('/marketing/get-all-deal-types', Deals.getDealTypes)
+
+// brand details marketing
+router.post('/marketing/brand', BrandValidator.createBrand, Brand.createBrand)
+
+router.put('/marketing/brand', BrandValidator.updateBrand, Brand.updateBrand)
 
 // user brand routes,
 router.post(
   '/internal/brands',
   BrandValidator.getUserBrands(),
   Brand.getBrandsForCustomer
+)
+
+router.post(
+  '/internal/meal-keywords',
+  BrandValidator.getUserBrands(),
+  Keyword.getUserMealKeywords
 )
 
 //logistics routes

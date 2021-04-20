@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.updateNewUserService = exports.newCustomerService = void 0;
+exports["default"] = exports.createUserSubTables = exports.updateNewUserService = exports.newCustomerService = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -25,11 +25,13 @@ var _user_setting = _interopRequireDefault(require("../models/user_setting"));
 
 var _referral_code = _interopRequireDefault(require("../models/referral_code"));
 
+var _user_dob_updated = _interopRequireDefault(require("../models/user_dob_updated"));
+
 var _helpers = require("../helpers");
 
 var newCustomerService = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(phone_number) {
-    var _yield$Promise$all, _yield$Promise$all2, user, _yield$Promise$all3, _yield$Promise$all4, free_delivery, user_setting, referral_code;
+    var _yield$Promise$all, _yield$Promise$all2, user;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -47,26 +49,14 @@ var newCustomerService = /*#__PURE__*/function () {
             _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 1);
             user = _yield$Promise$all2[0];
             _context.next = 7;
-            return Promise.all([_free_delivery["default"].query().insert({
-              user_id: user.id
-            }), _user_setting["default"].query().insert({
-              user_id: user.id
-            }), _referral_code["default"].query().insert({
-              user_id: user.id,
-              code: (0, _helpers.makeCode)(6).toUpperCase()
-            })]);
+            return createUserSubTables();
 
           case 7:
-            _yield$Promise$all3 = _context.sent;
-            _yield$Promise$all4 = (0, _slicedToArray2["default"])(_yield$Promise$all3, 3);
-            free_delivery = _yield$Promise$all4[0];
-            user_setting = _yield$Promise$all4[1];
-            referral_code = _yield$Promise$all4[2];
             return _context.abrupt("return", {
               user: user
             });
 
-          case 13:
+          case 8:
           case "end":
             return _context.stop();
         }
@@ -83,7 +73,7 @@ exports.newCustomerService = newCustomerService;
 
 var updateNewUserService = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(personal_details, user) {
-    var user_data;
+    var user_dob_updated, user_data;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -100,16 +90,48 @@ var updateNewUserService = /*#__PURE__*/function () {
             personal_details.password = _context2.sent;
 
           case 4:
-            _context2.next = 6;
-            return _user["default"].query().patchAndFetchById(user.id, personal_details);
+            if (!personal_details.dob) {
+              _context2.next = 14;
+              break;
+            }
 
-          case 6:
+            _context2.next = 7;
+            return _user_dob_updated["default"].query().where({
+              user_id: user.id
+            })["catch"](function () {
+              return false;
+            });
+
+          case 7:
+            user_dob_updated = _context2.sent;
+
+            if (!user_dob_updated) {
+              _context2.next = 12;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('User date of birth can only be changed once');
+
+          case 12:
+            _context2.next = 14;
+            return _user_dob_updated["default"].query().insert({
+              user_id: user.id
+            });
+
+          case 14:
+            _context2.next = 16;
+            return _user["default"].query().patchAndFetchById(user.id, personal_details)["catch"](function (e) {
+              console.log(e);
+              throw (0, _helpers.Unauthorized)('User not found please register');
+            });
+
+          case 16:
             user_data = _context2.sent;
             return _context2.abrupt("return", {
               user_data: user_data
             });
 
-          case 8:
+          case 18:
           case "end":
             return _context2.stop();
         }
@@ -123,6 +145,51 @@ var updateNewUserService = /*#__PURE__*/function () {
 }();
 
 exports.updateNewUserService = updateNewUserService;
+
+var createUserSubTables = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(user) {
+    var _yield$Promise$all3, _yield$Promise$all4, free_delivery, user_setting, referral_code;
+
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return Promise.all([_free_delivery["default"].query().insert({
+              user_id: user.id
+            }), _user_setting["default"].query().insert({
+              user_id: user.id
+            }), _referral_code["default"].query().insert({
+              user_id: user.id,
+              code: (0, _helpers.makeCode)(6).toUpperCase()
+            })]);
+
+          case 2:
+            _yield$Promise$all3 = _context3.sent;
+            _yield$Promise$all4 = (0, _slicedToArray2["default"])(_yield$Promise$all3, 3);
+            free_delivery = _yield$Promise$all4[0];
+            user_setting = _yield$Promise$all4[1];
+            referral_code = _yield$Promise$all4[2];
+            return _context3.abrupt("return", {
+              free_delivery: free_delivery,
+              user_setting: user_setting,
+              referral_code: referral_code
+            });
+
+          case 8:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function createUserSubTables(_x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.createUserSubTables = createUserSubTables;
 var _default = {
   newCustomerService: newCustomerService,
   updateNewUserService: updateNewUserService

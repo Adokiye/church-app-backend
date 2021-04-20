@@ -53,7 +53,7 @@ var UserValidator = {
         last_name: _joi["default"].string().required(),
         other_name: _joi["default"].string(),
         dob: _joi["default"].date(),
-        gender: _joi["default"].string().valid('male', 'female'),
+        user_gender: _joi["default"].string().valid('male', 'female'),
         email: _joi["default"].string().email().required(),
         password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit').required(),
         phone_number: _joi["default"].string().min(11).max(11).required()
@@ -67,7 +67,7 @@ var UserValidator = {
         last_name: _joi["default"].string().required(),
         other_name: _joi["default"].string(),
         dob: _joi["default"].date(),
-        gender: _joi["default"].string().valid('male', 'female'),
+        user_gender: _joi["default"].string().valid('male', 'female'),
         email: _joi["default"].string().email().required(),
         password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit').required(),
         phone_number: _joi["default"].string().min(11).max(11).required()
@@ -82,9 +82,20 @@ var UserValidator = {
         other_name: _joi["default"].string(),
         username: _joi["default"].string(),
         dob: _joi["default"].date(),
-        gender: _joi["default"].string().valid('Male', 'Female', 'Unspecified'),
+        user_gender: _joi["default"].string().valid('Male', 'Female', 'Unspecified'),
         email: _joi["default"].string().email(),
-        password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit')
+        password: _joi["default"].string().pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')).message('Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'),
+        lat: _joi["default"].string(),
+        lng: _joi["default"].string()
+      }
+    });
+  },
+  updateDeviceToken: function updateDeviceToken() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        device_token: _joi["default"].string().required(),
+        device_name: _joi["default"].string().required(),
+        device_type: _joi["default"].string().required()
       }
     });
   },

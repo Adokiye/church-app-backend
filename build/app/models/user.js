@@ -31,6 +31,12 @@ var _free_delivery = _interopRequireDefault(require("./free_delivery"));
 
 var _user_setting = _interopRequireDefault(require("./user_setting"));
 
+var _device_token = _interopRequireDefault(require("./device_token"));
+
+var _user_saved_address = _interopRequireDefault(require("./user_saved_address"));
+
+var _referral_code = _interopRequireDefault(require("./referral_code"));
+
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -64,6 +70,30 @@ var User = /*#__PURE__*/function (_modelUuid) {
     modelClass: _free_delivery["default"],
     join: {
       from: 'free_deliveries.user_id',
+      to: 'users.id'
+    }
+  },
+  device_tokens: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _device_token["default"],
+    join: {
+      from: 'device_tokens.user_id',
+      to: 'users.id'
+    }
+  },
+  user_saved_addresses: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _user_saved_address["default"],
+    join: {
+      from: 'user_saved_addresses.user_id',
+      to: 'users.id'
+    }
+  },
+  referral_code: {
+    relation: _objection.Model.HasOneRelation,
+    modelClass: _referral_code["default"],
+    join: {
+      from: 'referral_codes.user_id',
       to: 'users.id'
     }
   }

@@ -9,6 +9,11 @@ exports.up = function (knex) {
     table["boolean"]('order_statement').defaultTo(true);
     table.string('statement_frequency');
     table["boolean"]('device_notification').defaultTo(true);
+    table["boolean"]('device_notification_all_deals_and_promotions').defaultTo(true);
+    table["boolean"]('device_notification_special_offers_and_announcements').defaultTo(true);
+    table["boolean"]('device_notification_when_order_is_on_the_way').defaultTo(true);
+    table["boolean"]('device_notification_when_order_is_arriving').defaultTo(true);
+    table["boolean"]('device_notification_when_order_is_being_prepared').defaultTo(true);
     table.timestamps(true, true);
   });
 };

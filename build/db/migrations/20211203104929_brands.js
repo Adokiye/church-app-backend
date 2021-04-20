@@ -11,8 +11,8 @@ var up = function up(knex) {
     table.uuid('cokitchen_id').references('id').inTable('cokitchens').onDelete('CASCADE').notNullable();
     table["boolean"]('active').notNullable().defaultTo(true);
     table.string('name').notNullable();
-    table.string('summary', 80).notNullable();
-    table.string('description', 1000).notNullable();
+    table.string('summary', 80);
+    table.string('description', 1000);
     table.time('opening_time');
     table.time('closing_time');
     table.string('logo');

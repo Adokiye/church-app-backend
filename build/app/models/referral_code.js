@@ -42,16 +42,6 @@ var ReferralCode = /*#__PURE__*/function (_modelUuid) {
 
 (0, _defineProperty2["default"])(ReferralCode, "tableName", 'referral_codes');
 (0, _defineProperty2["default"])(ReferralCode, "hidden", ['user_id']);
-(0, _defineProperty2["default"])(ReferralCode, "relationMappings", {
-  user: {
-    relation: _objection.Model.BelongsToOneRelation,
-    modelClass: _user["default"],
-    join: {
-      from: 'referral_codes.user_id',
-      to: 'users.id'
-    }
-  }
-});
 var _default = ReferralCode;
 exports["default"] = _default;
 //# sourceMappingURL=referral_code.js.map

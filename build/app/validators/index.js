@@ -11,9 +11,11 @@ var _exportNames = {
   BrandValidator: true,
   LogisticsValidator: true,
   DealsValidator: true,
-  KeywordValidator: true
+  KeywordValidator: true,
+  UserSettingsValidator: true,
+  FaqValidator: true
 };
-exports.KeywordValidator = exports.DealsValidator = exports.LogisticsValidator = exports.BrandValidator = exports.CokitchenPolygonValidator = exports.CokitchenValidator = void 0;
+exports.FaqValidator = exports.UserSettingsValidator = exports.KeywordValidator = exports.DealsValidator = exports.LogisticsValidator = exports.BrandValidator = exports.CokitchenPolygonValidator = exports.CokitchenValidator = void 0;
 
 var _userValidator = require("./user-validator");
 
@@ -52,4 +54,12 @@ exports.DealsValidator = _DealsValidator;
 var _KeywordValidator = _interopRequireWildcard(require("./keyword-validator"));
 
 exports.KeywordValidator = _KeywordValidator;
+
+var _UserSettingsValidator = _interopRequireWildcard(require("./user-settings-validator"));
+
+exports.UserSettingsValidator = _UserSettingsValidator;
+
+var _FaqValidator = _interopRequireWildcard(require("./faq-validator"));
+
+exports.FaqValidator = _FaqValidator;
 //# sourceMappingURL=index.js.map

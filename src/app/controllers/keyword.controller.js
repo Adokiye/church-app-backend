@@ -404,7 +404,7 @@ export const getAllKeywords = async ctx => {
       MealBusinessMetadata.query().catch(() => []),
       MealDescriptiveMetadata.query().catch(() => []),
       MealDietaryMetadata.query().catch(() => []),
-      MealTag.query().catch(() => []),
+      //  MealTag.query().catch(() => []),
       MealKeyword.query().catch(() => []),
       BrandKeyword.query().catch(() => []),
       BrandTag.query().catch(() => []),
@@ -418,7 +418,7 @@ export const getAllKeywords = async ctx => {
       meal_business_metadata,
       meal_descriptive_metadata,
       meal_dietary_metadata,
-      meal_tag,
+      // meal_tag,
       meal_keyword,
       brand_keyword,
       brand_tag,
@@ -446,6 +446,12 @@ export const updateKeyword = async ctx => {
           body
         )
         break
+      case 'meal_keyword':
+        keywordInDb = await MealKeyword.query().patchAndFetchById(
+          keyword_id,
+          body
+        )
+        break
     }
     return {
       status: 'success',
@@ -454,5 +460,41 @@ export const updateKeyword = async ctx => {
     }
   } else {
     throw Unauthorized('Unauthorized')
+  }
+}
+
+export const getUserMealKeywords = async ctx => {
+  const { body } = ctx.request
+  const { lat, lng } = body
+  const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
+    'cokitchen.[brands.[meals]]'
+  )
+  var cokitchens = []
+  var i = 0,
+    len = cokitchen_polygons.length
+  while (i < len) {
+    if (insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
+      cokitchens.push(cokitchen_polygons[i].cokitchen)
+      let meal_keywords = []
+      let meals = cokitchen_polygons[i].cokitchen.brands.meals
+      for (let j = 0; j < meals.length; j++) {
+        meal_keywords = meal_keywords.concat(meals[j].meal_keywords)
+      }
+      const uniqueArray = meal_keywords.filter((meal_keyword, index) => {
+        const _meal_keyword = JSON.stringify(meal_keyword)
+        return (
+          index ===
+          meal_keywords.findIndex(obj => {
+            return JSON.stringify(obj) === _meal_keyword
+          })
+        )
+      })
+      return {
+        status: 'success',
+        data: uniqueArray
+      }
+    }
+
+    i++
   }
 }

@@ -4,6 +4,27 @@ import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, insidePolygon } from '../helpers'
 
+export const createBrand = async ctx => {
+  const { id } = ctx.params
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const brand_data = await Brand.query().insert(body)
+    .catch((e) => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid body')
+    })
+    return {
+      status: 'success',
+      message: 'Brand Created Successfully',
+      ...brand_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Creation')
+  }
+}
+
 export const updateBrand = async ctx => {
   const { id } = ctx.params
   const { body } = ctx.request
@@ -28,7 +49,7 @@ export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
   const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
-    'cokitchen.[brands]'
+    'cokitchen.[brands.[meals]]'
   )
   var cokitchens = []
   var i = 0,
