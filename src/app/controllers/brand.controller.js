@@ -71,7 +71,7 @@ export const getBrandsForCustomer = async ctx => {
 }
 
 export const getBrandsForMarketing = async ctx => {
-  const brands = await Brand.query()
+  const brands = await Brand.query().withGraphFetched('[cokitchen, ]')
   return {
     status: 'success',
     data: brands
