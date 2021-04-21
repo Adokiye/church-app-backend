@@ -1,5 +1,5 @@
 import { baseModel, modelUuid } from './index'
-
+import path from 'path'
 import { Model } from 'objection'
 import Cokitchen from './cokitchen'
 import Meal from './meal'
