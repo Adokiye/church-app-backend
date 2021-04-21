@@ -2,6 +2,7 @@ import { baseModel, modelUuid } from './index'
 
 import { Model } from 'objection'
 import Cokitchen from './cokitchen'
+import Meal from './meal'
 
 class Brand extends modelUuid(baseModel) {
   static tableName = 'brands'
@@ -13,7 +14,15 @@ class Brand extends modelUuid(baseModel) {
       modelClass: Cokitchen,
       join: {
         from: 'brands.cokitchen_id',
-        to: 'cokitchen.id'
+        to: 'cokitchens.id'
+      }
+    },
+    meal: {
+      relation: Model.HasManyRelation,
+      modelClass: Cokitchen,
+      join: {
+        from: 'meals.brand_id',
+        to: 'brands.id'
       }
     }
   }

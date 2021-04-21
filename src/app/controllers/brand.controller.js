@@ -2,7 +2,7 @@ import Brand from '../models/brand'
 import Cokitchen from '../models/cokitchen'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
-import { Unauthorized, insidePolygon } from '../helpers'
+import { Unauthorized, insidePolygon, UnprocessableEntity } from '../helpers'
 
 export const createBrand = async ctx => {
   const { id } = ctx.params
@@ -10,11 +10,12 @@ export const createBrand = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
-    const brand_data = await Brand.query().insert(body)
-    .catch((e) => {
-      console.log(e)
-      throw UnprocessableEntity('Invalid body')
-    })
+    const brand_data = await Brand.query()
+      .insert(body)
+      .catch(e => {
+        console.log(e)
+        throw UnprocessableEntity('Invalid body')
+      })
     return {
       status: 'success',
       message: 'Brand Created Successfully',
@@ -33,7 +34,10 @@ export const updateBrand = async ctx => {
     if (body.posist_data) {
       delete body.posist_data
     }
-    const brand_data = await Brand.query().patchAndFetchById(body.brand_id, body)
+    const brand_data = await Brand.query().patchAndFetchById(
+      body.brand_id,
+      body
+    )
     return {
       status: 'success',
       message: 'Update Successful',
@@ -63,5 +67,13 @@ export const getBrandsForCustomer = async ctx => {
     }
 
     i++
+  }
+}
+
+export const getBrandsForMarketing = async ctx => {
+  const brands = await Brand.query().withGraphFetched('cokitchen, meals]')
+  return {
+    status: 'success',
+    data: brands
   }
 }

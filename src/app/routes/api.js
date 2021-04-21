@@ -156,7 +156,9 @@ router.put(
   Cokitchen.updateCokitchenPolygon
 )
 
-router.get('/internal/cokitchens', Cokitchen.getAllCokitchens)
+router.get('/internal/cokitchen', Cokitchen.getAllCokitchens)
+
+router.get('/internal/brand', Brand.getBrandsForMarketing)
 
 router.post(
   '/marketing/admin/create-marketing-staff',
