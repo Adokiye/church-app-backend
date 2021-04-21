@@ -6,15 +6,15 @@ import Meal from './meal'
 
 class Brand extends modelUuid(baseModel) {
   static tableName = 'brands'
-  static hidden = ['cokitchen_id']
+  //static hidden = ['cokitchen_id']
 
   static relationMappings = {
     cokitchen: {
-      relation: Model.HasOneRelation,
+      relation: Model.BelongsToOneRelation,
       modelClass: Cokitchen,
       join: {
-        from: 'cokitchens.id',
-        to: 'brands.cokitchen_id'
+        from: 'brands.cokitchen_id',
+        to: 'cokitchens.id'
       }
     },
     meals: {
