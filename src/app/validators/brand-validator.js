@@ -13,7 +13,9 @@ const BrandValidator = {
           .keys({
             customer_key: Joi.string().required()
           })
-          .required()
+          .required(),
+        cokitchen_id: Joi.string().required(),
+
       }
     }),
   updateBrand: () =>
