@@ -11,7 +11,7 @@ class Brand extends modelUuid(baseModel) {
   static relationMappings = {
     cokitchen: {
       relation: Model.BelongsToOneRelation,
-      modelClass: require('./cokitchen').default,
+      modelClass: path.join(__dirname, 'cokitchen'),
       join: {
         from: 'brands.cokitchen_id',
         to: 'cokitchens.id'
