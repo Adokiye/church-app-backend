@@ -36,7 +36,7 @@ export const updateBrand = async ctx => {
       delete body.posist_data
     }
     const brand_data = await Brand.query().patchAndFetchById(
-      body.brand_id,
+      brand_id,
       body
     )
     return {
