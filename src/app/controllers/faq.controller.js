@@ -131,7 +131,7 @@ export const deleteFaq = async ctx => {
       faq => faq != null&&faq.id == params.id
     )
     console.log(foundIndex)
-    delete faq_arrangement_data[0].faqs[foundIndex]
+    delete faq_arrangement_data[0].faqs.splice(foundIndex,1)
     console.log(faq_arrangement_data)
     faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
    
