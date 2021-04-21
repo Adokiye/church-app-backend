@@ -52,7 +52,7 @@ export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
   const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
-    'cokitchen.[brands.[meals]]'
+    '[cokitchen.[brands.[meals]]]'
   )
   var cokitchens = []
   var i = 0,
@@ -71,7 +71,8 @@ export const getBrandsForCustomer = async ctx => {
 }
 
 export const getBrandsForMarketing = async ctx => {
-  const brands = await Brand.query().withGraphFetched('[cokitchen, ]')
+  const brands = await Brand.query().withGraphFetched('cokitchen')
+  .catch((e) => {console.log(e);return [];})
   return {
     status: 'success',
     data: brands
