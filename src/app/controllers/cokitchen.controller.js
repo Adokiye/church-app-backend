@@ -87,7 +87,7 @@ export const updateCokitchenPolygon = async ctx => {
 }
 
 export const getAllCokitchens = async ctx => {
-  const cokitchens = await Cokitchen.query()
+  const cokitchens = await Cokitchen.query().withGraphFetched('brands')
   return {
     status: 'success',
     cokitchens
