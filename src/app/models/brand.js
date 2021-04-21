@@ -10,11 +10,11 @@ class Brand extends modelUuid(baseModel) {
 
   static relationMappings = {
     cokitchen: {
-      relation: Model.BelongsToOneRelation,
+      relation: Model.HasOneRelation,
       modelClass: Cokitchen,
       join: {
-        from: 'brands.cokitchen_id',
-        to: 'cokitchens.id'
+        from: 'cokitchens.id',
+        to: 'brands.cokitchen_id'
       }
     },
     meals: {
