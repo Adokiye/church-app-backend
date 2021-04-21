@@ -29,7 +29,8 @@ export const createBrand = async ctx => {
 export const updateBrand = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-
+  const brand_id = body.brand_id
+  delete body.brand_id
   if (await checkIfMarketing(role)) {
     if (body.posist_data) {
       delete body.posist_data

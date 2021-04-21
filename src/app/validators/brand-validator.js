@@ -26,8 +26,6 @@ const BrandValidator = {
         name: Joi.string(),
         summary: Joi.string(),
         description: Joi.string(),
-        opening_time: Joi.string(),
-        closing_time: Joi.string(),
         logo: Joi.string(),
         images: Joi.array().items(image),
         brand_keywords: Joi.array().items(
