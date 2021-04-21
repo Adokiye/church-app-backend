@@ -17,9 +17,9 @@ class Brand extends modelUuid(baseModel) {
         to: 'cokitchens.id'
       }
     },
-    meal: {
+    meals: {
       relation: Model.HasManyRelation,
-      modelClass: Cokitchen,
+      modelClass: Meal,
       join: {
         from: 'meals.brand_id',
         to: 'brands.id'
