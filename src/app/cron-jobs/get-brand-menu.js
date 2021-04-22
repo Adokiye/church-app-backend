@@ -36,6 +36,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         let super_meal_category = category_data.superCategory
         // check if super meal category exists, if not create it
         console.log(await SuperMealCategory.query())
+        console.log(super_meal_category._id)
         let superMealCategoryToCreate = await SuperMealCategory.query()
           .findOne({
             'posist_data:_id': super_meal_category._id
