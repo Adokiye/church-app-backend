@@ -30,7 +30,7 @@ export const updateMeal = async ctx => {
 
 export const getMeals = async ctx => {
   const meals_data = await await Meal.query()
-    .withGraphFetched('[addons.[meal_data],meal_category,brand.[cokitchen]]')
+    .withGraphFetched('[brand.[cokitchen]]')
     .catch(e => {
       console.log(e)
       return []
