@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBrandsForCustomer = exports.updateBrand = exports.createBrand = void 0;
+exports.getBrandsForMarketing = exports.getBrandsForCustomer = exports.updateBrand = exports.createBrand = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -49,7 +49,7 @@ var createBrand = /*#__PURE__*/function () {
             _context.next = 8;
             return _brand["default"].query().insert(body)["catch"](function (e) {
               console.log(e);
-              throw UnprocessableEntity('Invalid body');
+              throw (0, _helpers.UnprocessableEntity)('Invalid body');
             });
 
           case 8:
@@ -79,20 +79,21 @@ exports.createBrand = createBrand;
 
 var updateBrand = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(ctx) {
-    var id, body, role, brand_data;
+    var body, role, brand_id, brand_data;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            id = ctx.params.id;
             body = ctx.request.body;
             role = ctx.state.user.user.role;
-            _context2.next = 5;
+            brand_id = body.brand_id;
+            delete body.brand_id;
+            _context2.next = 6;
             return (0, _RoleService.checkIfMarketing)(role);
 
-          case 5:
+          case 6:
             if (!_context2.sent) {
-              _context2.next = 13;
+              _context2.next = 14;
               break;
             }
 
@@ -100,20 +101,20 @@ var updateBrand = /*#__PURE__*/function () {
               delete body.posist_data;
             }
 
-            _context2.next = 9;
-            return _brand["default"].query().patchAndFetchById(id, body);
+            _context2.next = 10;
+            return _brand["default"].query().patchAndFetchById(brand_id, body);
 
-          case 9:
+          case 10:
             brand_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, brand_data));
 
-          case 13:
+          case 14:
             throw (0, _helpers.Unauthorized)('Unauthorized Update');
 
-          case 14:
+          case 15:
           case "end":
             return _context2.stop();
         }
@@ -138,7 +139,7 @@ var getBrandsForCustomer = /*#__PURE__*/function () {
             body = ctx.request.body;
             lat = body.lat, lng = body.lng;
             _context3.next = 4;
-            return _cokitchen_polygon["default"].query().withGraphFetched('cokitchen.[brands.[meals]]');
+            return _cokitchen_polygon["default"].query().withGraphFetched('[cokitchen.[brands.[meals]]]');
 
           case 4:
             cokitchen_polygons = _context3.sent;
@@ -181,4 +182,39 @@ var getBrandsForCustomer = /*#__PURE__*/function () {
 }();
 
 exports.getBrandsForCustomer = getBrandsForCustomer;
+
+var getBrandsForMarketing = /*#__PURE__*/function () {
+  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(ctx) {
+    var brands;
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return _brand["default"].query().withGraphFetched('cokitchen')["catch"](function (e) {
+              console.log(e);
+              return [];
+            });
+
+          case 2:
+            brands = _context4.sent;
+            return _context4.abrupt("return", {
+              status: 'success',
+              data: brands
+            });
+
+          case 4:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function getBrandsForMarketing(_x4) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.getBrandsForMarketing = getBrandsForMarketing;
 //# sourceMappingURL=brand.controller.js.map

@@ -37,6 +37,10 @@ var _meal_allergy_metadata = _interopRequireDefault(require("../models/meal_alle
 
 var _meal_dietary_metadata = _interopRequireDefault(require("../models/meal_dietary_metadata"));
 
+var _cokitchen = _interopRequireDefault(require("../models/cokitchen"));
+
+var _cokitchen_polygon = _interopRequireDefault(require("../models/cokitchen_polygon"));
+
 var _RoleService = require("../services/RoleService");
 
 var _helpers = require("../helpers");
@@ -987,7 +991,7 @@ exports.deleteMealAllergyMetadata = deleteMealAllergyMetadata;
 
 var getAllKeywords = /*#__PURE__*/function () {
   var _ref21 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee21(ctx) {
-    var body, role, _yield$Promise$all, _yield$Promise$all2, meal_allergy_metadata, meal_business_metadata, meal_descriptive_metadata, meal_dietary_metadata, meal_tag, meal_keyword, brand_keyword, brand_tag, brand_descriptive_metadata, brand_business_metadata;
+    var body, role, _yield$Promise$all, _yield$Promise$all2, meal_allergy_metadata, meal_business_metadata, meal_descriptive_metadata, meal_dietary_metadata, meal_keyword, brand_keyword, brand_tag, brand_descriptive_metadata, brand_business_metadata;
 
     return _regenerator["default"].wrap(function _callee21$(_context21) {
       while (1) {
@@ -1000,7 +1004,7 @@ var getAllKeywords = /*#__PURE__*/function () {
 
           case 4:
             if (!_context21.sent) {
-              _context21.next = 22;
+              _context21.next = 21;
               break;
             }
 
@@ -1028,17 +1032,17 @@ var getAllKeywords = /*#__PURE__*/function () {
 
           case 7:
             _yield$Promise$all = _context21.sent;
-            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 10);
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 9);
             meal_allergy_metadata = _yield$Promise$all2[0];
             meal_business_metadata = _yield$Promise$all2[1];
             meal_descriptive_metadata = _yield$Promise$all2[2];
             meal_dietary_metadata = _yield$Promise$all2[3];
-            meal_tag = _yield$Promise$all2[4];
-            meal_keyword = _yield$Promise$all2[5];
-            brand_keyword = _yield$Promise$all2[6];
-            brand_tag = _yield$Promise$all2[7];
-            brand_descriptive_metadata = _yield$Promise$all2[8];
-            brand_business_metadata = _yield$Promise$all2[9];
+            //meal_tag,
+            meal_keyword = _yield$Promise$all2[4];
+            brand_keyword = _yield$Promise$all2[5];
+            brand_tag = _yield$Promise$all2[6];
+            brand_descriptive_metadata = _yield$Promise$all2[7];
+            brand_business_metadata = _yield$Promise$all2[8];
             return _context21.abrupt("return", {
               status: 'success',
               message: 'Keywords gotten Successfully!',
@@ -1054,10 +1058,10 @@ var getAllKeywords = /*#__PURE__*/function () {
               brand_business_metadata: brand_business_metadata
             });
 
-          case 22:
+          case 21:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 23:
+          case 22:
           case "end":
             return _context21.stop();
         }
@@ -1149,7 +1153,7 @@ var getUserMealKeywords = /*#__PURE__*/function () {
             body = ctx.request.body;
             lat = body.lat, lng = body.lng;
             _context23.next = 4;
-            return CokitchenPolygon.query().withGraphFetched('cokitchen.[brands.[meals]]');
+            return _cokitchen_polygon["default"].query().withGraphFetched('cokitchen.[brands.[meals]]');
 
           case 4:
             cokitchen_polygons = _context23.sent;

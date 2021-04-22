@@ -10,13 +10,17 @@ import {
   Keyword,
   UserSettings,
   Faq,
-  AppFeedback
+  AppFeedback,
+  Meal,
+  MealCategory
 } from '../controllers/'
 
 import UserValidator from '../validators/user-validator'
 import CokitchenValidator from '../validators/cokitchen-validator'
 import CokitchenPolygonValidator from '../validators/cokitchen-polygon-validator'
 import BrandValidator from '../validators/brand-validator'
+import MealCategoryValidator from '../validators/meal-category-validator'
+import MealValidator from '../validators/meal-validator'
 import LogisticsValidator from '../validators/logistics-validator'
 import DealsValidator from '../validators/deal-validator'
 import KeywordValidator from '../validators/keyword-validator'
@@ -314,6 +318,25 @@ router.post('/marketing/brand', BrandValidator.createBrand(), Brand.createBrand)
 //router.post('/marketing/cokitchen', CokitchenValidator.createCokitchen(), Brand.createBrand)
 
 router.put('/marketing/brand', BrandValidator.updateBrand(), Brand.updateBrand)
+
+router.put('/marketing/meal-category', MealCategoryValidator.updateMealCategory(), MealCategory.updateMealCategory)
+
+router.put('/marketing/meal', MealValidator.updateMeal(), Meal.updateMeal)
+
+router.get(
+  '/internal/meal',
+  Meal.getMeals
+)
+
+router.get(
+  '/internal/meal-category',
+  MealCategory.getMealCategories
+)
+
+router.get(
+  '/internal/meal-category-selection-type',
+  MealCategory.getMealCategorySelectionTypes
+)
 
 // user brand routes,
 router.post(

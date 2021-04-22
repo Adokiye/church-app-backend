@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('meals', table => {
       table.uuid('id').primary().notNullable()
-      table.string('name').unique()
+      table.string('name').notNullable()
       table.timestamps(true, true)
       table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
       table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}))
@@ -13,23 +13,36 @@ exports.up = function (knex) {
         .inTable('meal_categories')
         .onDelete('CASCADE')
         .notNullable()
-        table
+      table
         .uuid('brand_id')
         .references('id')
         .inTable('brands')
         .onDelete('CASCADE')
         .notNullable()
+      table.string('summary', 80)
+      table.string('description', 1000)
       table.boolean('is_addon').notNullable().defaultTo(false)
       table.boolean('is_combo').notNullable().defaultTo(false)
       table.string('amount').notNullable()
-      table.integer('preparation_time').notNullable()
+      table.string('preparation_time').notNullable()
       table.jsonb('meal_tags').notNullable().defaultTo(JSON.stringify([]))
       table.jsonb('meal_keywords').notNullable().defaultTo(JSON.stringify([]))
-      table.jsonb('meal_descriptive_metadatas').notNullable().defaultTo(JSON.stringify([]))
-      table.jsonb('meal_business_metadatas').notNullable().defaultTo(JSON.stringify([]))
-      table.jsonb('meal_dietary_metadatas').notNullable().defaultTo(JSON.stringify([]))
-      table.jsonb('meal_allergy_metadatas').notNullable().defaultTo(JSON.stringify([]))
-
+      table
+        .jsonb('meal_descriptive_metadatas')
+        .notNullable()
+        .defaultTo(JSON.stringify([]))
+      table
+        .jsonb('meal_business_metadatas')
+        .notNullable()
+        .defaultTo(JSON.stringify([]))
+      table
+        .jsonb('meal_dietary_metadatas')
+        .notNullable()
+        .defaultTo(JSON.stringify([]))
+      table
+        .jsonb('meal_allergy_metadatas')
+        .notNullable()
+        .defaultTo(JSON.stringify([]))
     })
 }
 

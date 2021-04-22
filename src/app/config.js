@@ -24,3 +24,6 @@ export const OTP_TOKEN_EXPIRE = process.env.OTP_TOKEN_EXPIRE
 export const CONFIRM_EMAIL_EXPIRE = process.env.CONFIRM_EMAIL_EXPIRE
 export const AFRICA_TALKING_USERNAME = process.env.AFRICA_TALKING_USERNAME
 export const AFRICA_TALKING_API_KEY = process.env.AFRICA_TALKING_API_KEY
+
+export const POSIST_API_URL = 'http://posistapi.com/api/v1/'
+export const POSIST_TOKEN = process.env.POSIST_TOKEN

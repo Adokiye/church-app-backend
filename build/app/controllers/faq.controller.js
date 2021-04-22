@@ -310,7 +310,7 @@ exports.updateFaqArrangement = updateFaqArrangement;
 
 var deleteFaq = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(ctx) {
-    var role, params, faq_data, faq_arrangement_data, foundIndex;
+    var role, params, faq_arrangement_data, foundIndex, faq_data;
     return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -322,43 +322,47 @@ var deleteFaq = /*#__PURE__*/function () {
 
           case 4:
             if (!_context5.sent) {
-              _context5.next = 20;
+              _context5.next = 22;
               break;
             }
 
             _context5.next = 7;
-            return _faq["default"].query().deleteById(params.id)["catch"](function () {
-              throw (0, _helpers.NotFound)('Faq with id ' + params.id + ' not found');
-            });
-
-          case 7:
-            faq_data = _context5.sent;
-            _context5.next = 10;
             return _faq_arrangement["default"].query()["catch"](function () {
               return [];
             });
 
-          case 10:
+          case 7:
             faq_arrangement_data = _context5.sent;
             foundIndex = faq_arrangement_data[0].faqs.findIndex(function (faq) {
-              return faq.id == params.id;
+              return faq != null && faq.id == params.id;
             });
-            delete faq_arrangement_data[0].faqs[foundIndex];
+            console.log(foundIndex);
+            delete faq_arrangement_data[0].faqs.splice(foundIndex, 1);
+            console.log(faq_arrangement_data);
             faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs);
-            _context5.next = 16;
-            return _faq_arrangement["default"].query().patchAndFetchById(faq_arrangement_data[0].id, faq_arrangement_data[0]);
+            _context5.next = 15;
+            return _faq_arrangement["default"].query().patchAndFetchById(faq_arrangement_data[0].id, faq_arrangement_data[0])["catch"](function () {
+              throw (0, _helpers.NotFound)('Faq not found');
+            });
 
-          case 16:
+          case 15:
             faq_arrangement_data = _context5.sent;
+            _context5.next = 18;
+            return _faq["default"].query().deleteById(params.id)["catch"](function () {
+              throw (0, _helpers.NotFound)('Faq with id ' + params.id + ' not found');
+            });
+
+          case 18:
+            faq_data = _context5.sent;
             return _context5.abrupt("return", {
               status: 'success',
               message: 'Faq Deleted Successfully'
             });
 
-          case 20:
+          case 22:
             throw (0, _helpers.Unauthorized)('Unauthorized Delete');
 
-          case 21:
+          case 23:
           case "end":
             return _context5.stop();
         }

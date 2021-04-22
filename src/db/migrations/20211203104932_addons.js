@@ -7,14 +7,16 @@ export const up = knex =>
       .inTable('meals')
       .onDelete('CASCADE')
       .notNullable()
-
-    table.string('name').notNullable()
+    table
+      .uuid('meal_addon_id')
+      .references('id')
+      .inTable('meals')
+      .onDelete('CASCADE')
+      .notNullable()
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
     table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}))
 
     table.boolean('is_combo').notNullable().defaultTo(false)
-    table.string('amount').notNullable()
-    table.integer('preparation_time').notNullable()
     table.timestamps(true, true)
   })
 

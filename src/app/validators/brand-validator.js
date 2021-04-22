@@ -15,7 +15,6 @@ const BrandValidator = {
           })
           .required(),
         cokitchen_id: Joi.string().required(),
-
       }
     }),
   updateBrand: () =>

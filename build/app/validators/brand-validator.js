@@ -20,18 +20,18 @@ var BrandValidator = {
         name: _joi["default"].string().required(),
         posist_data: _joi["default"].object().keys({
           customer_key: _joi["default"].string().required()
-        }).required()
+        }).required(),
+        cokitchen_id: _joi["default"].string().required()
       }
     });
   },
   updateBrand: function updateBrand() {
     return (0, _middlewares.validationMiddleware)({
       body: {
+        brand_id: _joi["default"].string().required(),
         name: _joi["default"].string(),
         summary: _joi["default"].string(),
         description: _joi["default"].string(),
-        opening_time: _joi["default"].string(),
-        closing_time: _joi["default"].string(),
         logo: _joi["default"].string(),
         images: _joi["default"].array().items(image),
         brand_keywords: _joi["default"].array().items(_joi["default"].object().keys({

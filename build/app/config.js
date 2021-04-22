@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AFRICA_TALKING_API_KEY = exports.AFRICA_TALKING_USERNAME = exports.CONFIRM_EMAIL_EXPIRE = exports.OTP_TOKEN_EXPIRE = exports.APP_KEY = exports.PAYSTACK_SECRET = exports.EXPIRE_TIME = exports.URL_FRONT = exports.NODE_ENV = exports.DATABASE_TEST = exports.DATABASE = exports.PORT = exports.JWT_SECRET = void 0;
+exports.POSIST_TOKEN = exports.POSIST_API_URL = exports.AFRICA_TALKING_API_KEY = exports.AFRICA_TALKING_USERNAME = exports.CONFIRM_EMAIL_EXPIRE = exports.OTP_TOKEN_EXPIRE = exports.APP_KEY = exports.PAYSTACK_SECRET = exports.EXPIRE_TIME = exports.URL_FRONT = exports.NODE_ENV = exports.DATABASE_TEST = exports.DATABASE = exports.PORT = exports.JWT_SECRET = void 0;
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
@@ -41,4 +41,8 @@ var AFRICA_TALKING_USERNAME = process.env.AFRICA_TALKING_USERNAME;
 exports.AFRICA_TALKING_USERNAME = AFRICA_TALKING_USERNAME;
 var AFRICA_TALKING_API_KEY = process.env.AFRICA_TALKING_API_KEY;
 exports.AFRICA_TALKING_API_KEY = AFRICA_TALKING_API_KEY;
+var POSIST_API_URL = 'http://posistapi.com/api/v1/';
+exports.POSIST_API_URL = POSIST_API_URL;
+var POSIST_TOKEN = process.env.POSIST_TOKEN;
+exports.POSIST_TOKEN = POSIST_TOKEN;
 //# sourceMappingURL=config.js.map

@@ -13,9 +13,6 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _uuid = require("uuid");
 
-var _require = require("../../app/config"),
-    APP_KEY = _require.APP_KEY;
-
 var seed = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(knex) {
     return _regenerator["default"].wrap(function _callee$(_context) {
@@ -23,19 +20,22 @@ var seed = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return knex('order_types').del();
+            return knex('meal_category_selection_types').del();
 
           case 2:
             _context.next = 4;
-            return knex('order_types').insert([{
+            return knex('meal_category_selection_types').insert([{
               id: (0, _uuid.v4)(),
-              name: 'WALLET'
+              name: 'SINGLE_SELECTION'
             }, {
               id: (0, _uuid.v4)(),
-              name: 'CARD'
+              name: 'SINGLE_SELECTION_WITH_QUANTITY'
             }, {
               id: (0, _uuid.v4)(),
-              name: 'CASH'
+              name: 'MULTI_SELECTION'
+            }, {
+              id: (0, _uuid.v4)(),
+              name: 'MULTI_SELECTION_WITH_QUANTITY'
             }]);
 
           case 4:

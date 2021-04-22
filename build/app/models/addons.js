@@ -19,6 +19,10 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var _index = require("./index");
 
+var _meal = _interopRequireDefault(require("./meal"));
+
+var _objection = require("objection");
+
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -37,6 +41,16 @@ var Addon = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Addon, "tableName", 'addons');
+(0, _defineProperty2["default"])(Addon, "relationMappings", {
+  meal_data: {
+    relation: _objection.Model.HasOneRelation,
+    modelClass: _meal["default"],
+    join: {
+      from: 'addons.meal_addon_id',
+      to: 'meals.id'
+    }
+  }
+});
 var _default = Addon;
 exports["default"] = _default;
 //# sourceMappingURL=addons.js.map

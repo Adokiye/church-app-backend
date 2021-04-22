@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app/index.js --exec babel-node --inspect src/app/index.js",
     "start": "node build/app/index.js",
+    "get-brands-data:task": "node build/app/cron-jobs/get-brand-menu.js",
     "build": "rm -rf build && mkdir build && babel src -s -d build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretest": "npm eslint",
@@ -48,6 +49,7 @@
     "@babel/preset-env": "^7.9.5",
     "@hapi/joi": "^17.1.1",
     "@koa/cors": "^3.1.0",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "bcrypt": "^5.0.0",
@@ -70,6 +72,7 @@
     "koa-unless": "celsomarques/koa-unless#koa-v2",
     "moment": "^2.29.1",
     "mv": "^2.1.1",
+    "node-schedule": "^2.0.0",
     "nodemon": "^2.0.7",
     "objection": "^2.2.14",
     "objection-db-errors": "^1.1.2",

@@ -19,9 +19,13 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var _index = require("./index");
 
+var _path = _interopRequireDefault(require("path"));
+
 var _objection = require("objection");
 
 var _cokitchen = _interopRequireDefault(require("./cokitchen"));
+
+var _meal = _interopRequireDefault(require("./meal"));
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
@@ -41,14 +45,21 @@ var Brand = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Brand, "tableName", 'brands');
-(0, _defineProperty2["default"])(Brand, "hidden", ['cokitchen_id']);
 (0, _defineProperty2["default"])(Brand, "relationMappings", {
   cokitchen: {
     relation: _objection.Model.BelongsToOneRelation,
-    modelClass: _cokitchen["default"],
+    modelClass: _path["default"].join(__dirname, 'cokitchen'),
     join: {
       from: 'brands.cokitchen_id',
-      to: 'cokitchen.id'
+      to: 'cokitchens.id'
+    }
+  },
+  meals: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _meal["default"],
+    join: {
+      from: 'meals.brand_id',
+      to: 'brands.id'
     }
   }
 });

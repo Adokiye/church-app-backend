@@ -21,6 +21,8 @@ var _objection = require("objection");
 
 var _supermeal_category = _interopRequireDefault(require("./supermeal_category"));
 
+var _meal_category_selection_type = _interopRequireDefault(require("./meal_category_selection_type"));
+
 var _index = require("./index");
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
@@ -48,6 +50,14 @@ var MealCategory = /*#__PURE__*/function (_modelUuid) {
     join: {
       from: 'meal_categories.super_meal_category_id',
       to: 'super_meal_categories.id'
+    }
+  },
+  meal_category_selection_type: {
+    relation: _objection.Model.BelongsToOneRelation,
+    modelClass: _meal_category_selection_type["default"],
+    join: {
+      from: 'meal_categories.meal_category_selection_type_id',
+      to: 'meal_category_selection_types.id'
     }
   }
 });

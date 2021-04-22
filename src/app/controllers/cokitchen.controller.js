@@ -1,4 +1,5 @@
 import Cokitchen from '../models/cokitchen'
+import Meal from '../models/meal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized } from '../helpers'
@@ -12,11 +13,12 @@ export const createCokitchen = async ctx => {
     if (body.posist_data) {
       delete body.posist_data
     }
-    const cokitchen_data = await Cokitchen.query().insert(body)
-    .catch((e) => {
-      console.log(e)
-      throw UnprocessableEntity('Invalid body')
-    })
+    const cokitchen_data = await Cokitchen.query()
+      .insert(body)
+      .catch(e => {
+        console.log(e)
+        throw UnprocessableEntity('Invalid body')
+      })
     return {
       status: 'success',
       message: 'Creation Successful',

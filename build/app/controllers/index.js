@@ -5,7 +5,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AppFeedback = exports.Faq = exports.UserSettings = exports.Keyword = exports.Order = exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0;
+exports.MealCategory = exports.Meal = exports.AppFeedback = exports.Faq = exports.UserSettings = exports.Keyword = exports.Order = exports.Deals = exports.Logistics = exports.Brand = exports.Cokitchen = exports.Auth = void 0;
 
 var _Auth = _interopRequireWildcard(require("./auth.controller"));
 
@@ -46,4 +46,12 @@ exports.Faq = _Faq;
 var _AppFeedback = _interopRequireWildcard(require("./app_feedback.controller"));
 
 exports.AppFeedback = _AppFeedback;
+
+var _Meal = _interopRequireWildcard(require("./meal.controller"));
+
+exports.Meal = _Meal;
+
+var _MealCategory = _interopRequireWildcard(require("./meal_category.controller"));
+
+exports.MealCategory = _MealCategory;
 //# sourceMappingURL=index.js.map

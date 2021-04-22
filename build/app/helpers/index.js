@@ -128,4 +128,18 @@ Object.keys(_string).forEach(function (key) {
     }
   });
 });
+
+var _posist = require("./posist");
+
+Object.keys(_posist).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _posist[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _posist[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

@@ -25,7 +25,7 @@ var KeywordValidator = {
         name: _joi["default"].string(),
         icon: _joi["default"].string(),
         keyword_id: _joi["default"].string().required(),
-        keyword_type: _joi["default"].string().required().valid('meal_allergy_metadata'),
+        keyword_type: _joi["default"].string().required().valid('meal_allergy_metadata', 'meal_keyword'),
         images: _joi["default"].array().items(_joi["default"].string().required())
       }
     });
