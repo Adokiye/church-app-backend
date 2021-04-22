@@ -94,6 +94,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
             amount: menu_data[j].rate.toString(),
             is_addon: menu_data[j].isAddOn,
             is_combo: menu_data[j].isCombo,
+            brand_id: brands[i].id,
             preparation_time: menu_data[j].preparationTime.time.toString()
           })
         } else {
@@ -101,7 +102,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
             name: menu_data[j].name,
             meal_category_id: mealCategoryToCreate.id,
             amount: menu_data[j].rate.toString(),
-
+            brand_id: brands[i].id,
             posist_data: menu_data[j],
             is_addon: menu_data[j].isAddOn,
             is_combo: menu_data[j].isCombo,
