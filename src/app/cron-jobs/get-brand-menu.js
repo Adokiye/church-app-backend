@@ -37,7 +37,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         // check if super meal category exists, if not create it
         let superMealCategoryToCreate = await SuperMealCategory.query()
           .findOne({
-            'posist_data:_id': super_meal_category._id
+            'posist_data._id': super_meal_category._id
           })
           .catch(() => false)
         console.log(superMealCategoryToCreate)
@@ -58,7 +58,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         //do the same for the meal category
         let mealCategoryToCreate = await MealCategory.query()
           .findOne({
-            'posist_data:_id': category_data._id
+            'posist_data._id': category_data._id
           })
           .catch(() => false)
         console.log(mealCategoryToCreate)
@@ -82,7 +82,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         //create or update the meal details
         let mealToCreate = await Meal.query()
           .findOne({
-            'posist_data:_id': menu_data[j]._id
+            'posist_data._id': menu_data[j]._id
           })
           .catch(() => false)
         console.log(mealToCreate)
@@ -114,7 +114,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
           for (let k = 0; k < menu_data[j].mapItems.length; k++) {
             let mealsAddonToCreate = await Meal.query()
               .findOne({
-                'posist_data:_id': menu_data[j].mapItems[k]._id
+                'posist_data._id': menu_data[j].mapItems[k]._id
               })
               .catch(() => false)
             let addon
