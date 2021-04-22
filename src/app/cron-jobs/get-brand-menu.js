@@ -41,7 +41,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
           .findOne({
             'posist_data:_id': super_meal_category._id
           })
-          .catch(() => false)
+          .catch((e) => {console.log(e);false})
         console.log(superMealCategoryToCreate)
         if (superMealCategoryToCreate) {
           superMealCategoryToCreate = await SuperMealCategory.query().patchAndFetchById(
