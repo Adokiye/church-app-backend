@@ -13,7 +13,7 @@ export const updateMeal = async ctx => {
   if (await checkIfMarketing(role)) {
     const meal_data = await await Meal.query()
       .patchAndFetchById(meal_id, body)
-      .withGraphFetched('[brand,addons.[meal_data]]')
+      .withGraphFetched('[brand]')
       .catch(e => {
         console.log(e)
         throw UnprocessableEntity('Invalid Body')
