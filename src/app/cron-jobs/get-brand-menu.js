@@ -9,8 +9,8 @@ import { NODE_ENV } from '../config'
 import { getPosistBrandMenu } from '../helpers'
 
 const jobEnvironment = {
-  development: '*/10 * * * *',
-  production: '*/30 * * * *'
+  development: '*/5 * * * *',
+  production: '*/5 * * * *'
 }
 
 const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
@@ -32,7 +32,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
       const menu_data = response.data
       for (let j = 0; j < menu_data.length; j++) {
         // first check if category exists
-        let category_data = menu_data[j].category_data
+        let category_data = menu_data[j].category
         let super_meal_category = category_data.superCategory
         // check if super meal category exists, if not create it
         let superMealCategoryToCreate = await SuperMealCategory.query()
@@ -91,6 +91,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
             name: menu_data[j].name,
             meal_category_id: mealCategoryToCreate.id,
             posist_data: menu_data[j],
+            amount: menu_data[j].rate.toString(),
             is_addon: menu_data[j].isAddOn,
             is_combo: menu_data[j].isCombo,
             preparation_time: menu_data[j].preparationTime.time.toString()
@@ -99,6 +100,8 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
           mealToCreate = await Meal.query().insert({
             name: menu_data[j].name,
             meal_category_id: mealCategoryToCreate.id,
+            amount: menu_data[j].rate.toString(),
+
             posist_data: menu_data[j],
             is_addon: menu_data[j].isAddOn,
             is_combo: menu_data[j].isCombo,
