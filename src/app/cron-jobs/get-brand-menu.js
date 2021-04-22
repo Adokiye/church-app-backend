@@ -38,11 +38,19 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         console.log(await SuperMealCategory.query())
         console.log(super_meal_category._id)
         let superMealCategoryToCreate = await SuperMealCategory.query()
-          .findOne({
-            'posist_data:_id': super_meal_category._id
-          })
-          .catch((e) => {console.log(e);false})
+          // .findOne({
+          //   'posist_data:_id': super_meal_category._id
+          // })
+          .where(
+            ref('super_meal_categories.posist_data:_id').castText(),
+            super_meal_category._id
+          )
+          .catch(e => [])
         console.log(superMealCategoryToCreate)
+        superMealCategoryToCreate =
+          superMealCategoryToCreate.length > 0
+            ? superMealCategoryToCreate[0]
+            : false
         if (superMealCategoryToCreate) {
           superMealCategoryToCreate = await SuperMealCategory.query().patchAndFetchById(
             superMealCategoryToCreate.id,
@@ -59,11 +67,19 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         }
         //do the same for the meal category
         let mealCategoryToCreate = await MealCategory.query()
-          .findOne({
-            'posist_data:_id': category_data._id
-          })
-          .catch(() => false)
+          // .findOne({
+          //   'posist_data:_id': category_data._id
+          // })
+          .where(
+            ref('meal_categories.posist_data:_id').castText(),
+            category_data._id
+          )
+
+          .catch(() => [])
         console.log(mealCategoryToCreate)
+        mealCategoryToCreate =
+          mealCategoryToCreate.length > 0 ? mealCategoryToCreate[0] : false
+
         if (mealCategoryToCreate) {
           mealCategoryToCreate = await MealCategory.query().patchAndFetchById(
             mealCategoryToCreate.id,
@@ -83,11 +99,15 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         }
         //create or update the meal details
         let mealToCreate = await Meal.query()
-          .findOne({
-            'posist_data:_id': menu_data[j]._id
-          })
-          .catch(() => false)
+          // .findOne({
+          //   'posist_data:_id': menu_data[j]._id
+          // })
+          .where(ref('meals.posist_data:_id').castText(), menu_data[j]._id)
+
+          .catch(() => [])
         console.log(mealToCreate)
+        mealToCreate = mealToCreate.length > 0 ? mealToCreate[0] : false
+
         if (mealToCreate) {
           mealToCreate = await Meal.query().patchAndFetchById(mealToCreate.id, {
             name: menu_data[j].name,
@@ -115,12 +135,20 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         if (!menu_data[j].isAddOn && menu_data[j].mapItems.length > 0) {
           for (let k = 0; k < menu_data[j].mapItems.length; k++) {
             let mealsAddonToCreate = await Meal.query()
-              .findOne({
-                'posist_data:_id': menu_data[j].mapItems[k]._id
-              })
-              .catch(() => false)
+              // .findOne({
+              //   'posist_data:_id': menu_data[j].mapItems[k]._id
+              // })
+              .where(
+                ref('meals.posist_data:_id').castText(),
+                menu_data[j].mapItems[k]._id
+              )
+
+              .catch(() => [])
             let addon
             console.log(mealsAddonToCreate)
+            mealsAddonToCreate =
+              mealsAddonToCreate.length > 0 ? mealsAddonToCreate[0] : false
+
             if (mealsAddonToCreate) {
               addon = await Addon.query()
                 .findOne({
