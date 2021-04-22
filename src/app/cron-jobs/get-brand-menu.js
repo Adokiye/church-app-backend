@@ -9,8 +9,8 @@ import { NODE_ENV } from '../config'
 import { getPosistBrandMenu } from '../helpers'
 
 const jobEnvironment = {
-  development: '* * * * *',
-  production: '*/10 * * * *'
+  development: '*/10 * * * *',
+  production: '*/30 * * * *'
 }
 
 const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
@@ -23,7 +23,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
     const response = await getPosistBrandMenu(
       brands[i].posist_data.customer_key
     )
-    console.log(response)
+    console.log(response.data)
 
     if (!response.data) {
       console.log(response)
