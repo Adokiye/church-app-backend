@@ -23,6 +23,8 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
     const response = await getPosistBrandMenu(
       brands[i].posist_data.customer_key
     )
+    console.log(response)
+
     if (!response.data) {
       console.log(response)
     } else {
