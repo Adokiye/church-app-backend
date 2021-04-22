@@ -30,7 +30,7 @@ class Cokitchen extends modelUuid(baseModel) {
       relation: Model.ManyToManyRelation,
       modelClass: Meal,
       join: {
-        from: 'coitchens.id',
+        from: 'cokitchens.id',
         through: {
           from: 'brands.cokitchen_id',
           to: 'brands.id'
