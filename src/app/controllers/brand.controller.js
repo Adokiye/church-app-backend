@@ -82,6 +82,8 @@ export const getBrandsForCustomer = async ctx => {
 
     i++
   }
+  throw UnprocessableEntity('Invalid Latitude and Longitude')
+
 }
 
 export const getBrandsForMarketing = async ctx => {
