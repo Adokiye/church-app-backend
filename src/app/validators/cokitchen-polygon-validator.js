@@ -21,7 +21,7 @@ const CokitchenPolygonValidator = {
         name: Joi.string()
       }
     }),
-    delete: () =>
+  delete: () =>
     validationMiddleware({
       params: {
         id: Joi.string().required()
