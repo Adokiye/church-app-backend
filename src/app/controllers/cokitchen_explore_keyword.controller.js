@@ -18,7 +18,18 @@ export const createCokitchenExploreKeyword = async ctx => {
       meal_keyword_data.images != null &&
       meal_keyword_data.images.length > 0
     ) {
-      const cokitchen_explore_keyword_data = await CokitchenExploreKeyword.query()
+      // check if cokitchen explore keyword with that data alreadye exists
+      let cokitchen_explore_keyword_data = await CokitchenExploreKeyword.query()
+        .findOne({
+          cokitchen_id: body.cokitchen_id,
+          meal_keyword_id: body.meal_keyword_id
+        })
+        //.withGraphFetched('[cokitchen, meal_keyword]')
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid body, explore data already exists')
+        })
+      cokitchen_explore_keyword_data = await CokitchenExploreKeyword.query()
         .insert(body)
         //.withGraphFetched('[cokitchen, meal_keyword]')
         .catch(e => {
@@ -42,9 +53,11 @@ export const createCokitchenExploreKeyword = async ctx => {
 
 export const getCokitchenExploreKeywords = async ctx => {
   const cokitchen_explore_keywords = await CokitchenExploreKeyword.query()
-  .withGraphFetched('[cokitchen, meal_keyword]').catch(
-    e => {console.log(e);return []}
-  )
+    .withGraphFetched('[cokitchen, meal_keyword]')
+    .catch(e => {
+      console.log(e)
+      return []
+    })
   return {
     status: 'success',
     message: 'Cokitchen explore keywords returned Successfully',
