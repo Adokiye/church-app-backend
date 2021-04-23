@@ -46,7 +46,7 @@ export const getMealCategories = async ctx => {
 
 export const getMealCategorySelectionTypes = async ctx => {
   const meal_category_selection_type_data = await await MealCategorySelectionType.query()
-    .withGraphFetched('[meal_categories]')
+  //  .withGraphFetched('[meal_categories]')
     .catch(e => {
       console.log(e)
       return []
