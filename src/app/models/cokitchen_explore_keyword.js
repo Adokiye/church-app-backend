@@ -7,7 +7,7 @@ import MealKeywords from './meal_keyword'
 
 class CokitchenExploreKeyword extends modelUuid(baseModel) {
   static tableName = 'cokitchen_home_page_posts'
-  static hidden = ['cokitchen_id', 'meal_keyword_id']
+//  static hidden = ['cokitchen_id', 'meal_keyword_id']
 
   static relationMappings = {
     cokitchen: {
