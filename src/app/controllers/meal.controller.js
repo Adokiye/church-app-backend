@@ -11,12 +11,28 @@ export const updateMeal = async ctx => {
   let meal_id = body.meal_id
   delete body.meal_id
   if (await checkIfMarketing(role)) {
-    if(body.images){
+    if (body.images) {
       body.images = JSON.stringify(body.images)
+    }
+    if (body.meal_descriptive_metadatas) {
+      body.meal_descriptive_metadatas = JSON.stringify(
+        body.meal_descriptive_metadatas
+      )
+    }
+    if (body.meal_business_metadatas) {
+      body.meal_business_metadatas = JSON.stringify(
+        body.meal_business_metadatas
+      )
+    }
+    if (body.meal_dietary_metadatas) {
+      body.meal_dietary_metadatas = JSON.stringify(body.meal_dietary_metadatas)
+    }
+    if (body.meal_allergy_metadatas) {
+      body.meal_allergy_metadatas = JSON.stringify(body.meal_allergy_metadatas)
     }
     const meal_data = await await Meal.query()
       .patchAndFetchById(meal_id, body)
-    //  .withGraphFetched('[brand]')
+      //  .withGraphFetched('[brand]')
       .catch(e => {
         console.log(e)
         throw UnprocessableEntity('Invalid Body')
@@ -33,7 +49,7 @@ export const updateMeal = async ctx => {
 
 export const getMeals = async ctx => {
   const meals_data = await await Meal.query()
-   // .withGraphFetched('[meal_category,brand]')
+    // .withGraphFetched('[meal_category,brand]')
     .catch(e => {
       console.log(e)
       return []
