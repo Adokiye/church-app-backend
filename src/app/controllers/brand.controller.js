@@ -56,7 +56,7 @@ export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
   const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
-    '[cokitchen.[brands.[meals],cokitchen_explore_keywords]]'
+    '[cokitchen.[brands.[meals]],cokitchen_explore_keywords]]'
   )
   var cokitchens = []
   var i = 0,
