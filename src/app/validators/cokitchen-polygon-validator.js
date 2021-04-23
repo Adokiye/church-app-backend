@@ -9,13 +9,22 @@ const CokitchenPolygonValidator = {
     validationMiddleware({
       body: {
         polygon: Joi.array().items(point).required(),
-        cokitchen_id: Joi.string().required()
+        cokitchen_id: Joi.string().required(),
+        name: Joi.string().required()
       }
     }),
   update: () =>
     validationMiddleware({
       body: {
-        polygon: Joi.array().items(point).required()
+        cokitchen_polygon_id: Joi.string().required(),
+        polygon: Joi.array().items(point),
+        name: Joi.string()
+      }
+    }),
+    delete: () =>
+    validationMiddleware({
+      params: {
+        id: Joi.string().required()
       }
     })
 }

@@ -12,7 +12,8 @@ import {
   Faq,
   AppFeedback,
   Meal,
-  MealCategory
+  MealCategory,
+  CokitchenExploreKeyword
 } from '../controllers/'
 
 import UserValidator from '../validators/user-validator'
@@ -27,6 +28,7 @@ import KeywordValidator from '../validators/keyword-validator'
 import UserSettingsValidator from '../validators/user-settings-validator'
 import FaqValidator from '../validators/faq-validator'
 import AppFeedbackValidator from '../validators/app-feedback-validator'
+import CokitchenExploreKeywordValidator from '../validators/cokitchen-explore-keyword-validator'
 
 const router = new Router()
 
@@ -132,10 +134,21 @@ router.put(
   Cokitchen.updateCokitchen
 )
 
-router.put(
-  '/marketing/update-cokitchen-polygon/:id',
-  CokitchenPolygonValidator.update(),
-  Brand.updateBrand
+router.post(
+  '/marketing/cokitchen-explore-keyword',
+  CokitchenExploreKeywordValidator.create(),
+  CokitchenExploreKeyword.createCokitchenExploreKeyword
+)
+
+router.get(
+  '/internal/cokitchen-explore-keyword',
+  CokitchenExploreKeyword.getCokitchenExploreKeywords
+)
+
+router.del(
+  '/marketing/cokitchen-explore-keyword/:id',
+  CokitchenExploreKeywordValidator.delete(),
+  CokitchenExploreKeyword.deleteCokitchenExploreKeyword
 )
 
 router.post('/marketing/faq', FaqValidator.createFaq(), Faq.addNewFaq)
@@ -154,10 +167,22 @@ router.put(
 
 router.get('/marketing/app-feedback', AppFeedback.getAppFeedbacks)
 
+router.post(
+  '/marketing/cokitchen-polygon',
+  CokitchenPolygonValidator.create(),
+  Cokitchen.createCokitchenPolygon
+)
+
 router.put(
-  '/marketing/update-cokitchen-polygon/:id',
+  '/marketing/cokitchen-polygon',
   CokitchenPolygonValidator.update(),
   Cokitchen.updateCokitchenPolygon
+)
+
+router.del(
+  '/marketing/cokitchen-polygon/:id',
+  CokitchenPolygonValidator.delete(),
+  Cokitchen.deleteCokitchenPolygon
 )
 
 router.get('/internal/cokitchen', Cokitchen.getAllCokitchens)

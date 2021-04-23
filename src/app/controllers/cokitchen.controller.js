@@ -35,9 +35,13 @@ export const updateCokitchen = async ctx => {
   let cokitchen_id = body.cokitchen_id
   delete body.cokitchen_id
   if (await checkIfMarketing(role)) {
+    if (body.images) {
+      body.images = JSON.stringify(body.images)
+    }
+
     const cokitchen_data = await Cokitchen.query()
       .patchAndFetchById(cokitchen_id, body)
-      .withGraphFetched('[brands,]')
+      .withGraphFetched('[brands]')
     return {
       status: 'success',
       message: 'Update Successful',
@@ -53,12 +57,15 @@ export const createCokitchenPolygon = async ctx => {
   const { id, role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
+    if (body.polygon) {
+      body.polygon = JSON.stringify(body.polygon)
+    }
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .insert(body)
       .withGraphFetched('[cokitchen]')
     return {
       status: 'success',
-      message: 'Update Successful',
+      message: 'Creation of cokitchen polygon Successful',
       ...cokitchen_polygon_data
     }
   } else {
@@ -67,13 +74,16 @@ export const createCokitchenPolygon = async ctx => {
 }
 
 export const updateCokitchenPolygon = async ctx => {
-  const { id } = ctx.params
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-
+  const cokitchen_polygon_id = body.cokitchen_polygon_id
+  delete body.cokitchen_polygon_id
   if (await checkIfMarketing(role)) {
+    if (body.polygon) {
+      body.polygon = JSON.stringify(body.polygon)
+    }
     const cokitchen_polygon_data = await CokitchenPolygon.query()
-      .patchAndFetchById(id, body)
+      .patchAndFetchById(cokitchen_polygon_id, body)
       .withGraphFetched('[cokitchen]')
     return {
       status: 'success',
@@ -86,8 +96,9 @@ export const updateCokitchenPolygon = async ctx => {
 }
 
 export const getAllCokitchens = async ctx => {
-  const cokitchens = await Cokitchen.query()
-  .withGraphFetched('[brands,meals]')
+  const cokitchens = await Cokitchen.query().withGraphFetched(
+    '[brands,meals,cokitchen_explore_keywords]'
+  )
   return {
     status: 'success',
     cokitchens

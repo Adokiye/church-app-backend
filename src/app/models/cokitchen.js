@@ -4,6 +4,7 @@ import { Model } from 'objection'
 import Brand from './brand'
 import CokitchenPolygon from './cokitchen_polygon'
 import Meal from './meal'
+import CokitchenExploreKeyword from './cokitchen_explore_keyword'
 
 class Cokitchen extends modelUuid(baseModel) {
   static tableName = 'cokitchens'
@@ -36,6 +37,14 @@ class Cokitchen extends modelUuid(baseModel) {
           to: 'brands.id'
         },
         to: 'meals.brand_id'
+      }
+    },
+    cokitchen_explore_keywords: {
+      relation: Model.HasManyRelation,
+      modelClass: CokitchenExploreKeyword,
+      join: {
+        from: 'cokitchen_explore_keywords.cokitchen_id',
+        to: 'cokitchens.id'
       }
     }
   }

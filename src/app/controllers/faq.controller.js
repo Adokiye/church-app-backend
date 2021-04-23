@@ -35,9 +35,14 @@ export const addNewFaq = async ctx => {
       let faqs = []
       faqs.push(faq)
       console.log(faq)
-      faq_arrangement_data = await FaqArrangement.query().insert({
-        faqs: JSON.stringify(faqs)
-      }).catch((e)=>{console.log(e);throw UnprocessableEntity('invalid data')})
+      faq_arrangement_data = await FaqArrangement.query()
+        .insert({
+          faqs: JSON.stringify(faqs)
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('invalid data')
+        })
       return {
         status: 'success',
         message: "Faq's Arrangement data returned Successfully",
@@ -46,7 +51,9 @@ export const addNewFaq = async ctx => {
     } else {
       console.log(faq_arrangement_data[0])
       faq_arrangement_data[0].faqs.push(faq)
-      faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+      faq_arrangement_data[0].faqs = JSON.stringify(
+        faq_arrangement_data[0].faqs
+      )
       faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
         faq_arrangement_data[0].id,
         faq_arrangement_data[0]
@@ -82,7 +89,9 @@ export const updateFaq = async ctx => {
         faq => faq.id == faq_id
       )
       faq_arrangement_data[0].faqs[foundIndex] = faq_data
-      faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
+      faq_arrangement_data[0].faqs = JSON.stringify(
+        faq_arrangement_data[0].faqs
+      )
 
       faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
         faq_arrangement_data[0].id,
@@ -115,7 +124,7 @@ export const updateFaqArrangement = async ctx => {
     return {
       status: 'success',
       message: 'Faq updated Successfully',
-      data:faq_arrangement_data.faqs
+      data: faq_arrangement_data.faqs
     }
   } else {
     throw Unauthorized('Unauthorized Update')
@@ -123,31 +132,29 @@ export const updateFaqArrangement = async ctx => {
 }
 
 export const deleteFaq = async ctx => {
-  const { role} = ctx.state.user.user
+  const { role } = ctx.state.user.user
   const { params } = ctx
   if (await checkIfMarketing(role)) {
-  let faq_arrangement_data = await FaqArrangement.query().catch(() => [])
+    let faq_arrangement_data = await FaqArrangement.query().catch(() => [])
     let foundIndex = faq_arrangement_data[0].faqs.findIndex(
-      faq => faq != null&&faq.id == params.id
+      faq => faq != null && faq.id == params.id
     )
     console.log(foundIndex)
-    delete faq_arrangement_data[0].faqs.splice(foundIndex,1)
+    delete faq_arrangement_data[0].faqs.splice(foundIndex, 1)
     console.log(faq_arrangement_data)
     faq_arrangement_data[0].faqs = JSON.stringify(faq_arrangement_data[0].faqs)
-   
-    faq_arrangement_data = await FaqArrangement.query().patchAndFetchById(
-      faq_arrangement_data[0].id,
-      faq_arrangement_data[0]
-    ) .catch(() => {
-      throw NotFound('Faq not found')
-    })
-  
+
+    faq_arrangement_data = await FaqArrangement.query()
+      .patchAndFetchById(faq_arrangement_data[0].id, faq_arrangement_data[0])
+      .catch(() => {
+        throw NotFound('Faq not found')
+      })
+
     const faq_data = await Faq.query()
       .deleteById(params.id)
       .catch(() => {
         throw NotFound('Faq with id ' + params.id + ' not found')
       })
-    
 
     return {
       status: 'success',

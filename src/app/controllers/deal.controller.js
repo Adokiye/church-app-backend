@@ -72,6 +72,9 @@ export const updateDeal = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     const deal_data = await Deal.query()
       .patchAndFetchById(id, body)
       .withGraphFetched('[deal_type]')

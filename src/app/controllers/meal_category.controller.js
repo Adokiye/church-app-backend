@@ -10,6 +10,9 @@ export const updateMealCategory = async ctx => {
   let meal_category_id = body.meal_category_id
   delete body.meal_category_id
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     const meal_category_data = await await MealCategory.query()
       .patchAndFetchById(meal_category_id, body)
       .withGraphFetched('[selection_type]')

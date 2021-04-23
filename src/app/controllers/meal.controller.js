@@ -11,6 +11,9 @@ export const updateMeal = async ctx => {
   let meal_id = body.meal_id
   delete body.meal_id
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     const meal_data = await await Meal.query()
       .patchAndFetchById(meal_id, body)
       .withGraphFetched('[brand]')

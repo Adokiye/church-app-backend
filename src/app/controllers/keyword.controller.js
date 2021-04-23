@@ -441,6 +441,9 @@ export const updateKeyword = async ctx => {
   delete body.keyword_id
   let keywordInDb
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     switch (keyword_type) {
       case 'meal_allergy_metadata':
         keywordInDb = await MealAllergyMetadata.query().patchAndFetchById(

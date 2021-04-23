@@ -10,6 +10,9 @@ export const createBrand = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     const brand_data = await Brand.query()
       .insert(body)
       .catch(e => {
@@ -32,6 +35,9 @@ export const updateBrand = async ctx => {
   const brand_id = body.brand_id
   delete body.brand_id
   if (await checkIfMarketing(role)) {
+    if(body.images){
+      body.images = JSON.stringify(body.images)
+    }
     if (body.posist_data) {
       delete body.posist_data
     }
