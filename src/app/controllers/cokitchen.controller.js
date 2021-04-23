@@ -30,17 +30,14 @@ export const createCokitchen = async ctx => {
 }
 
 export const updateCokitchen = async ctx => {
-  const { id } = ctx.params
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-
+  let cokitchen_id = body.cokitchen_id
+  delete body.cokitchen_id
   if (await checkIfMarketing(role)) {
-    if (body.posist_data) {
-      delete body.posist_data
-    }
     const cokitchen_data = await Cokitchen.query()
-      .patchAndFetchById(id, body)
-      .withGraphFetched('[brands, cokitchen_polygon]')
+      .patchAndFetchById(cokitchen_id, body)
+      .withGraphFetched('[brands,]')
     return {
       status: 'success',
       message: 'Update Successful',

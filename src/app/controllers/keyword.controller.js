@@ -398,7 +398,7 @@ export const getAllKeywords = async ctx => {
       //meal_tag,
       meal_keyword,
       brand_keyword,
-      brand_tag,
+    //  brand_tag,
       brand_descriptive_metadata,
       brand_business_metadata
     ] = await Promise.all([
@@ -409,7 +409,7 @@ export const getAllKeywords = async ctx => {
       //  MealTag.query().catch(() => []),
       MealKeyword.query().catch(() => []),
       BrandKeyword.query().catch(() => []),
-      BrandTag.query().catch(() => []),
+   //   BrandTag.query().catch(() => []),
       BrandDescriptiveMetadata.query().catch(() => []),
       BrandBusinessMetadata.query().catch(() => [])
     ])
@@ -423,7 +423,7 @@ export const getAllKeywords = async ctx => {
       // meal_tag,
       meal_keyword,
       brand_keyword,
-      brand_tag,
+    //  brand_tag,
       brand_descriptive_metadata,
       brand_business_metadata
     }

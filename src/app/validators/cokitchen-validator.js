@@ -12,7 +12,11 @@ const CokitchenValidator = {
     validationMiddleware({
       body: {
         name: Joi.string()
-        // cokitchen_id: Joi.string().required(),
+       cokitchen_id: Joi.string().required(),
+       lat:Joi.string(),
+       lng:Joi.string(),
+       address:Joi.string(),
+    
       }
     })
 }

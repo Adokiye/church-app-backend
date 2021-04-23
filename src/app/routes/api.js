@@ -127,7 +127,7 @@ router.get('/admin/get-user-roles', Auth.adminGetUserRoles)
 
 //marketing routes
 router.put(
-  '/marketing/update-cokitchen/:id',
+  '/marketing/cokitchen',
   CokitchenValidator.update(),
   Cokitchen.updateCokitchen
 )
