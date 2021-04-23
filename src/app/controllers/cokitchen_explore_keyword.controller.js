@@ -20,7 +20,7 @@ export const createCokitchenExploreKeyword = async ctx => {
     ) {
       const cokitchen_explore_keyword_data = await CokitchenExploreKeyword.query()
         .insert(body)
-        .withGraphFetched('[cokitchen, meal_keyword]')
+        //.withGraphFetched('[cokitchen, meal_keyword]')
         .catch(e => {
           console.log(e)
           throw UnprocessableEntity('Invalid body ' + e)
