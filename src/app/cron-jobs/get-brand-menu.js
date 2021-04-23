@@ -24,10 +24,10 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
     const response = await getPosistBrandMenu(
       brands[i].posist_data.customer_key
     )
-    console.log(response.data)
+    // console.log(response.data)
 
     if (!response.data) {
-      console.log(response)
+     console.log(response)
     } else {
       //loop through response data
       const menu_data = response.data
@@ -36,7 +36,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         let category_data = menu_data[j].category
         let super_meal_category = category_data.superCategory
         // check if super meal category exists, if not create it
-        console.log(await SuperMealCategory.query())
+        console.log(await SuperMealCategory.query().catch(e => []))
         console.log(super_meal_category._id)
         let superMealCategoryToCreate = await SuperMealCategory.query()
           // .findOne({
