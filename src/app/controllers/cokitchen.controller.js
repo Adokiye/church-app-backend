@@ -116,7 +116,7 @@ export const deleteCokitchenPolygon = async ctx => {
 
 export const getAllCokitchens = async ctx => {
   const cokitchens = await Cokitchen.query().withGraphFetched(
-    '[brands,meals,cokitchen_explore_keywords]'
+    '[brands,meals,]'
   )
   return {
     status: 'success',
