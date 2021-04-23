@@ -30,6 +30,9 @@ export const updateMeal = async ctx => {
     if (body.meal_allergy_metadatas) {
       body.meal_allergy_metadatas = JSON.stringify(body.meal_allergy_metadatas)
     }
+    if (body.meal_keywords) {
+      body.meal_keywords = JSON.stringify(body.meal_keywords)
+    }
     const meal_data = await await Meal.query()
       .patchAndFetchById(meal_id, body)
       //  .withGraphFetched('[brand]')

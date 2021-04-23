@@ -56,7 +56,7 @@ export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
   const cokitchen_polygons = await CokitchenPolygon.query()
-    .withGraphFetched('[cokitchen.[brands.[meals],cokitchen_explore_keywords]]')
+    // .withGraphFetched('[cokitchen.[brands.[meals],cokitchen_explore_keywords]]')
     .catch(e => {
       console.log(e)
       throw UnprocessableEntity('Invalid Body')
@@ -66,12 +66,17 @@ export const getBrandsForCustomer = async ctx => {
     len = cokitchen_polygons.length
   while (i < len) {
     if (insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
-      cokitchens.push(cokitchen_polygons[i].cokitchen)
+      // get cokitchen --> to be changed
+      cokitchens = await Cokitchen.query()
+        .withGraphFetched('[brands.[meals],cokitchen_explore_keywords]')
+        .catch(e => {
+          console.log(e)
+          return []
+        })
       return {
         status: 'success',
-        data: cokitchen_polygons[i].cokitchen.brands,
-        cokitchen_explore_keywords:
-          cokitchen_polygons[i].cokitchen.cokitchen_explore_keywords
+        data: cokitchens[0].brands,
+        cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords
       }
     }
 
