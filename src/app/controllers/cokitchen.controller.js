@@ -118,7 +118,10 @@ export const getAllCokitchens = async ctx => {
   const cokitchens = await Cokitchen.query()
   .withGraphFetched(
     '[brands,meals,cokitchen_explore_keywords]'
-  )
+  ).catch((e)=>{
+    console.log(e)
+    return []
+  })
   return {
     status: 'success',
     cokitchens
