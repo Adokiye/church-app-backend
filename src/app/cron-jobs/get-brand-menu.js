@@ -53,18 +53,19 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
             ? superMealCategoryToCreate[0]
             : false
         if (superMealCategoryToCreate) {
-          superMealCategoryToCreate = await SuperMealCategory.query().patchAndFetchById(
-            superMealCategoryToCreate.id,
-            {
+          superMealCategoryToCreate = await SuperMealCategory.query()
+            .patchAndFetchById(superMealCategoryToCreate.id, {
               name: super_meal_category.superCategoryName,
               posist_data: super_meal_category
-            }
-          )
+            })
+            .catch(e => console.log(e))
         } else {
-          superMealCategoryToCreate = await SuperMealCategory.query().insert({
-            posist_data: super_meal_category,
-            name: super_meal_category.superCategoryName
-          })
+          superMealCategoryToCreate = await SuperMealCategory.query()
+            .insert({
+              posist_data: super_meal_category,
+              name: super_meal_category.superCategoryName
+            })
+            .catch(e => console.log(e))
         }
         //do the same for the meal category
         let mealCategoryToCreate = await MealCategory.query()
@@ -82,21 +83,23 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
           mealCategoryToCreate.length > 0 ? mealCategoryToCreate[0] : false
 
         if (mealCategoryToCreate) {
-          mealCategoryToCreate = await MealCategory.query().patchAndFetchById(
-            mealCategoryToCreate.id,
-            {
+          mealCategoryToCreate = await MealCategory.query()
+            .patchAndFetchById(mealCategoryToCreate.id, {
               name: category_data.categoryName,
               super_meal_category_id: superMealCategoryToCreate.id,
               posist_data: category_data
-            }
-          )
+            })
+            .catch(e => console.log(e))
         } else {
-          mealCategoryToCreate = await MealCategory.query().insert({
-            posist_data: category_data,
-            name: category_data.categoryName,
-            super_meal_category_id: superMealCategoryToCreate.id,
-            meal_category_selection_type_id: meal_category_selection_types[0].id // set default meal category selection type
-          })
+          mealCategoryToCreate = await MealCategory.query()
+            .insert({
+              posist_data: category_data,
+              name: category_data.categoryName,
+              super_meal_category_id: superMealCategoryToCreate.id,
+              meal_category_selection_type_id:
+                meal_category_selection_types[0].id // set default meal category selection type
+            })
+            .catch(e => console.log(e))
         }
         //create or update the meal details
         let mealToCreate = await Meal.query()
@@ -110,27 +113,31 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
         mealToCreate = mealToCreate.length > 0 ? mealToCreate[0] : false
 
         if (mealToCreate) {
-          mealToCreate = await Meal.query().patchAndFetchById(mealToCreate.id, {
-            name: menu_data[j].name,
-            meal_category_id: mealCategoryToCreate.id,
-            posist_data: menu_data[j],
-            amount: menu_data[j].rate.toString(),
-            is_addon: menu_data[j].isAddOn,
-            is_combo: menu_data[j].isCombo,
-            brand_id: brands[i].id,
-            preparation_time: menu_data[j].preparationTime.time.toString()
-          })
+          mealToCreate = await Meal.query()
+            .patchAndFetchById(mealToCreate.id, {
+              name: menu_data[j].name,
+              meal_category_id: mealCategoryToCreate.id,
+              posist_data: menu_data[j],
+              amount: menu_data[j].rate.toString(),
+              is_addon: menu_data[j].isAddOn,
+              is_combo: menu_data[j].isCombo,
+              brand_id: brands[i].id,
+              preparation_time: menu_data[j].preparationTime.time.toString()
+            })
+            .catch(e => console.log(e))
         } else {
-          mealToCreate = await Meal.query().insert({
-            name: menu_data[j].name,
-            meal_category_id: mealCategoryToCreate.id,
-            amount: menu_data[j].rate.toString(),
-            brand_id: brands[i].id,
-            posist_data: menu_data[j],
-            is_addon: menu_data[j].isAddOn,
-            is_combo: menu_data[j].isCombo,
-            preparation_time: menu_data[j].preparationTime.time.toString()
-          })
+          mealToCreate = await Meal.query()
+            .insert({
+              name: menu_data[j].name,
+              meal_category_id: mealCategoryToCreate.id,
+              amount: menu_data[j].rate.toString(),
+              brand_id: brands[i].id,
+              posist_data: menu_data[j],
+              is_addon: menu_data[j].isAddOn,
+              is_combo: menu_data[j].isCombo,
+              preparation_time: menu_data[j].preparationTime.time.toString()
+            })
+            .catch(e => console.log(e))
         }
         // create addon if meal has addons and isaddon is false
         if (!menu_data[j].isAddOn && menu_data[j].mapItems.length > 0) {
@@ -159,10 +166,12 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
                 .catch(() => false)
               //if addon doesn't exist
               if (!addon) {
-                addon = await Addon.query().insert({
-                  meal_addon_id: mealsAddonToCreate.id,
-                  meal_id: mealToCreate.id
-                })
+                addon = await Addon.query()
+                  .insert({
+                    meal_addon_id: mealsAddonToCreate.id,
+                    meal_id: mealToCreate.id
+                  })
+                  .catch(e => console.log(e))
               }
             }
           }
