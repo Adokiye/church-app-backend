@@ -16,7 +16,7 @@ export const updateMeal = async ctx => {
     }
     const meal_data = await await Meal.query()
       .patchAndFetchById(meal_id, body)
-      .withGraphFetched('[brand]')
+    //  .withGraphFetched('[brand]')
       .catch(e => {
         console.log(e)
         throw UnprocessableEntity('Invalid Body')
@@ -33,7 +33,7 @@ export const updateMeal = async ctx => {
 
 export const getMeals = async ctx => {
   const meals_data = await await Meal.query()
-    .withGraphFetched('[meal_category,brand]')
+   // .withGraphFetched('[meal_category,brand]')
     .catch(e => {
       console.log(e)
       return []

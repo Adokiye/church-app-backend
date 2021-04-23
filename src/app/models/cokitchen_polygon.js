@@ -10,7 +10,7 @@ class CokitchenPolygon extends modelUuid(baseModel) {
 
   static relationMappings = {
     cokitchen: {
-      relation: Model.BelongsToOneRelation,
+      relation: Model.HasOneRelation,
       modelClass: Cokitchen,
       join: {
         from: 'cokitchen_polygons.cokitchen_id',
