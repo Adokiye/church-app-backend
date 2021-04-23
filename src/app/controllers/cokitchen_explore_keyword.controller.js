@@ -27,8 +27,12 @@ export const createCokitchenExploreKeyword = async ctx => {
         //.withGraphFetched('[cokitchen, meal_keyword]')
         .catch(e => {
           console.log(e)
-          throw UnprocessableEntity('Invalid body, explore data already exists')
+          return false
         })
+        if(cokitchen_explore_keyword_data){
+          throw UnprocessableEntity('Invalid body, explore data already exists')
+
+        }
       cokitchen_explore_keyword_data = await CokitchenExploreKeyword.query()
         .insert(body)
         //.withGraphFetched('[cokitchen, meal_keyword]')
