@@ -34,10 +34,23 @@ export const updateBrand = async ctx => {
   const { role } = ctx.state.user.user
   const brand_id = body.brand_id
   delete body.brand_id
+  if (body.images) {
+    body.images = JSON.stringify(body.images)
+  }
+  if (body.brand_descriptive_metadatas) {
+    body.brand_descriptive_metadatas = JSON.stringify(
+      body.brand_descriptive_metadatas
+    )
+  }
+  if (body.brand_business_metadatas) {
+    body.brand_business_metadatas = JSON.stringify(
+      body.brand_business_metadatas
+    )
+  }
+  if (body.brand_keywords) {
+    body.brand_keywords = JSON.stringify(body.brand_keywords)
+  }
   if (await checkIfMarketing(role)) {
-    if (body.images) {
-      body.images = JSON.stringify(body.images)
-    }
     if (body.posist_data) {
       delete body.posist_data
     }
