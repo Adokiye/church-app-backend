@@ -14,7 +14,7 @@ class CokitchenPolygon extends modelUuid(baseModel) {
       modelClass: Cokitchen,
       join: {
         from: 'cokitchen_polygons.cokitchen_id',
-        to: 'cokitchen.id'
+        to: 'cokitchens.id'
       }
     }
   }
