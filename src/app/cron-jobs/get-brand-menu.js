@@ -7,7 +7,7 @@ import Addon from '../models/addons'
 import MealCategorySelectionType from '../models/meal_category_selection_type'
 import { NODE_ENV } from '../config'
 import { getPosistBrandMenu } from '../helpers'
-import {ref} from 'objection'
+import { ref } from 'objection'
 
 const jobEnvironment = {
   development: '*/3 * * * *',
