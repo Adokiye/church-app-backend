@@ -95,6 +95,25 @@ export const updateCokitchenPolygon = async ctx => {
   }
 }
 
+export const deleteCokitchenPolygon = async ctx => {
+  const { params } = ctx
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    await CokitchenPolygon.query()
+      .deleteById(params.id)
+      .catch(() => {
+        throw NotFound('Cokitchen polygon not found')
+      })
+    return {
+      status: 'success',
+      message: 'Cokitchen polygon Deleted Successfully'
+    }
+  } else {
+    throw Unauthorized('Unauthorized Delete')
+  }
+}
+
 export const getAllCokitchens = async ctx => {
   const cokitchens = await Cokitchen.query().withGraphFetched(
     '[brands,meals,cokitchen_explore_keywords]'
