@@ -6,7 +6,7 @@ import Cokitchen from './cokitchen'
 
 class CokitchenPolygon extends modelUuid(baseModel) {
   static tableName = 'cokitchen_polygons'
-  static hidden = ['cokitchen_id']
+ // static hidden = ['cokitchen_id']
 
   static relationMappings = {
     cokitchen: {
