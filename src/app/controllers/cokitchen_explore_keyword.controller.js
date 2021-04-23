@@ -57,7 +57,7 @@ export const createCokitchenExploreKeyword = async ctx => {
 
 export const getCokitchenExploreKeywords = async ctx => {
   const cokitchen_explore_keywords = await CokitchenExploreKeyword.query()
-    .withGraphFetched('[cokitchen, meal_keyword]')
+    .withGraphFetched('[meal_keyword]')
     .catch(e => {
       console.log(e)
       return []
