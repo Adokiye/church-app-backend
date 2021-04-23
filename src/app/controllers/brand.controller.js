@@ -55,9 +55,12 @@ export const updateBrand = async ctx => {
 export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
-  const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
-    '[cokitchen.[brands.[meals]],cokitchen_explore_keywords]]'
-  )
+  const cokitchen_polygons = await CokitchenPolygon.query()
+    .withGraphFetched('[cokitchen.[brands.[meals],cokitchen_explore_keywords]]')
+    .catch(e => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid Body')
+    })
   var cokitchens = []
   var i = 0,
     len = cokitchen_polygons.length
