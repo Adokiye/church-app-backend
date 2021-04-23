@@ -10,7 +10,7 @@ export const createBrand = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
-    if(body.images){
+    if (body.images) {
       body.images = JSON.stringify(body.images)
     }
     const brand_data = await Brand.query()
@@ -35,16 +35,13 @@ export const updateBrand = async ctx => {
   const brand_id = body.brand_id
   delete body.brand_id
   if (await checkIfMarketing(role)) {
-    if(body.images){
+    if (body.images) {
       body.images = JSON.stringify(body.images)
     }
     if (body.posist_data) {
       delete body.posist_data
     }
-    const brand_data = await Brand.query().patchAndFetchById(
-      brand_id,
-      body
-    )
+    const brand_data = await Brand.query().patchAndFetchById(brand_id, body)
     return {
       status: 'success',
       message: 'Update Successful',
@@ -59,7 +56,7 @@ export const getBrandsForCustomer = async ctx => {
   const { body } = ctx.request
   const { lat, lng } = body
   const cokitchen_polygons = await CokitchenPolygon.query().withGraphFetched(
-    '[cokitchen.[brands.[meals]]]'
+    '[cokitchen.[brands.[meals],cokitchen_explore_keywords]]'
   )
   var cokitchens = []
   var i = 0,
@@ -69,7 +66,9 @@ export const getBrandsForCustomer = async ctx => {
       cokitchens.push(cokitchen_polygons[i].cokitchen)
       return {
         status: 'success',
-        data: cokitchen_polygons[i].cokitchen.brands
+        data: cokitchen_polygons[i].cokitchen.brands,
+        cokitchen_explore_keywords:
+          cokitchen_polygons[i].cokitchen.cokitchen_explore_keywords
       }
     }
 
@@ -78,8 +77,12 @@ export const getBrandsForCustomer = async ctx => {
 }
 
 export const getBrandsForMarketing = async ctx => {
-  const brands = await Brand.query().withGraphFetched('[cokitchen,meals]')
-  .catch((e) => {console.log(e);return [];})
+  const brands = await Brand.query()
+    .withGraphFetched('[cokitchen,meals]')
+    .catch(e => {
+      console.log(e)
+      return []
+    })
   return {
     status: 'success',
     data: brands
