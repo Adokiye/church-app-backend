@@ -2,7 +2,7 @@ import Cokitchen from '../models/cokitchen'
 import Meal from '../models/meal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
-import { Unauthorized } from '../helpers'
+import { Unauthorized, UnprocessableEntity } from '../helpers'
 
 export const createCokitchen = async ctx => {
   const { id } = ctx.params
@@ -61,8 +61,10 @@ export const createCokitchenPolygon = async ctx => {
       body.polygon = JSON.stringify(body.polygon)
     }
     const cokitchen_polygon_data = await CokitchenPolygon.query()
-      .insert(body)
-      .withGraphFetched('[cokitchen]')
+      .insert(body).catch((e)=>{console.log(e);
+        throw UnprocessableEntity('Invalid Body')
+      })
+    //  .withGraphFetched('[cokitchen]')
     return {
       status: 'success',
       message: 'Creation of cokitchen polygon Successful',
