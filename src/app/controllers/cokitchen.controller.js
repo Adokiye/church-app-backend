@@ -61,7 +61,9 @@ export const createCokitchenPolygon = async ctx => {
       body.polygon = JSON.stringify(body.polygon)
     }
     const cokitchen_polygon_data = await CokitchenPolygon.query()
-      .insert(body).catch((e)=>{console.log(e);
+      .insert(body)
+      .catch(e => {
+        console.log(e)
         throw UnprocessableEntity('Invalid Body')
       })
     //  .withGraphFetched('[cokitchen]')
@@ -118,7 +120,7 @@ export const deleteCokitchenPolygon = async ctx => {
 
 export const getAllCokitchens = async ctx => {
   const cokitchens = await Cokitchen.query()
-   .withGraphFetched('[brands.[meals],cokitchen_explore_keywords]')
+    .withGraphFetched('[brands.[meals],cokitchen_explore_keywords]')
     .catch(e => {
       console.log(e)
       return []
