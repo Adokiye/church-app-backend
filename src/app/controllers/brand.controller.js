@@ -68,7 +68,9 @@ export const getBrandsForCustomer = async ctx => {
     if (insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
       // get cokitchen --> to be changed
       cokitchens = await Cokitchen.query()
-        .withGraphFetched('[brands.[meals],cokitchen_explore_keywords]')
+        .withGraphFetched(
+          '[brands.[meals],cokitchen_explore_keywords.[meal_keyword]]'
+        )
         .catch(e => {
           console.log(e)
           return []
@@ -83,7 +85,6 @@ export const getBrandsForCustomer = async ctx => {
     i++
   }
   throw UnprocessableEntity('Invalid Latitude and Longitude')
-
 }
 
 export const getBrandsForMarketing = async ctx => {
