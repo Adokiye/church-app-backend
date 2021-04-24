@@ -85,8 +85,8 @@ export const getBrandsForCustomer = async ctx => {
           '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
         )
 
-       // .where('id', cokitchen_polygons[i].cokitchen_id)
         .where('brands:meals.is_addon', false)
+        .where('id', cokitchen_polygons[i].cokitchen_id)
 
         .catch(e => {
           console.log(e)
