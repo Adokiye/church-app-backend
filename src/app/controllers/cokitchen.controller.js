@@ -133,7 +133,7 @@ export const getAllCokitchens = async ctx => {
   const [cokitchens, meal_categories] = await Promise.all([
     Cokitchen.query()
       .withGraphJoined(
-        '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
+        '[brands.[meals.[addons.[meal_data],meal_category.[meal_category_selection_type]]],cokitchen_explore_keywords, cokitchen_polygons]'
       )
 
       .where('brands:meals.is_addon', false)
@@ -143,12 +143,12 @@ export const getAllCokitchens = async ctx => {
         return []
       }),
     MealCategory.query()
-    .withGraphFetched('[meal_category_selection_type]')
-    
-    .catch(e => {
-      console.log(e)
-      return []
-    })
+      .withGraphFetched('[meal_category_selection_type]')
+
+      .catch(e => {
+        console.log(e)
+        return []
+      })
   ])
   return {
     status: 'success',
