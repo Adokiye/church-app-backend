@@ -93,7 +93,7 @@ export const getBrandsForCustomer = async ctx => {
             selectNameAndId(builder) {
               builder.select('name', 'id');
             },
-          }
+          })
           .catch(e => {
             console.log(e)
             return []
