@@ -85,11 +85,15 @@ export const getBrandsForCustomer = async ctx => {
           .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
 
           .withGraphJoined(
-            '[brands.[meals.[addons,meal_category.[meal_category_selection_type]]],cokitchen_explore_keywords, cokitchen_polygons]'
+            '[brands.[meals.[addons,meal_category.[meal_category_selection_type(selectNameAndId)]]],cokitchen_explore_keywords, cokitchen_polygons]'
           )
 
           .where('brands:meals.is_addon', false)
-          .eagerOptions({ minimize: true })
+          .modifiers({
+            selectNameAndId(builder) {
+              builder.select('name', 'id');
+            },
+          }
           .catch(e => {
             console.log(e)
             return []
