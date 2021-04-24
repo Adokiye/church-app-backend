@@ -15,6 +15,7 @@ exports.up = function (knex) {
         .references('id')
         .inTable('meal_category_selection_types')
         .onDelete('CASCADE')
+        .notNullable()
       table
         .uuid('super_meal_category_id')
         .references('id')

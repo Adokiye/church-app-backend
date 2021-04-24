@@ -99,19 +99,6 @@ export const getBrandsForCustomer = async ctx => {
           return []
         })
       ])
-      // cokitchens = await Cokitchen.query()
-      //   .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
-
-      //   .withGraphJoined(
-      //     '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
-      //   )
-
-      //   .where('brands:meals.is_addon', false)
-
-      //   .catch(e => {
-      //     console.log(e)
-      //     return []
-      //   })
       return {
         status: 'success',
         data: cokitchens[0].brands,
