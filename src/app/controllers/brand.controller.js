@@ -94,10 +94,12 @@ export const getBrandsForCustomer = async ctx => {
             console.log(e)
             return []
           }),
-        MealCategory.query().withGraphFetched('[meal_category_selection_type]').catch(e => {
-          console.log(e)
-          return []
-        })
+        MealCategory.query()
+          .withGraphFetched('[meal_category_selection_type]')
+          .catch(e => {
+            console.log(e)
+            return []
+          })
       ])
       return {
         status: 'success',
