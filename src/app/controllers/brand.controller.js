@@ -85,7 +85,7 @@ export const getBrandsForCustomer = async ctx => {
           .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
 
           .withGraphJoined(
-            '[brands.[meals.[addons.[meal_data],meal_category.[meal_category_selection_type]]],cokitchen_explore_keywords, cokitchen_polygons]'
+            '[brands.[meals.[addons,meal_category.[meal_category_selection_type]]],cokitchen_explore_keywords, cokitchen_polygons]'
           )
 
           .where('brands:meals.is_addon', false)

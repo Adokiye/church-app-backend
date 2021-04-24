@@ -7,7 +7,7 @@ class Addon extends modelUuid(baseModel) {
 
   static relationMappings = {
     meal_data: {
-      relation: Model.HasOneRelation,
+      relation: Model.BelongsToOneRelation,
       modelClass: Meal,
       join: {
         from: 'addons.meal_addon_id',
