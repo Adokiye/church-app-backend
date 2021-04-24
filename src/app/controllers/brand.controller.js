@@ -81,7 +81,7 @@ export const getBrandsForCustomer = async ctx => {
     if (insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
       // get cokitchen --> to be changed
       cokitchens = await Cokitchen.query()
-      .where('id', cokitchen_polygons[i].cokitchen_id)
+      .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
       
         .withGraphJoined(
           '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
