@@ -89,7 +89,7 @@ export const getBrandsForCustomer = async ctx => {
           )
 
           .where('brands:meals.is_addon', false)
-
+          .eagerOptions({ minimize: true })
           .catch(e => {
             console.log(e)
             return []

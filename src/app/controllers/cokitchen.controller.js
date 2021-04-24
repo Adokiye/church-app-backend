@@ -135,7 +135,7 @@ export const getAllCokitchens = async ctx => {
       .withGraphJoined(
         '[brands.[meals.[addons,meal_category.[meal_category_selection_type]]],cokitchen_explore_keywords, cokitchen_polygons]'
       )
-
+      .eagerOptions({ minimize: true })
       .where('brands:meals.is_addon', false)
 
       .catch(e => {
