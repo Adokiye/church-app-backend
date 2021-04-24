@@ -1,6 +1,7 @@
 import Brand from '../models/brand'
 import Cokitchen from '../models/cokitchen'
 import CokitchenPolygon from '../models/cokitchen_polygon'
+import MealCategory from '../models/meal_category'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, insidePolygon, UnprocessableEntity } from '../helpers'
 
@@ -74,29 +75,48 @@ export const getBrandsForCustomer = async ctx => {
       console.log(e)
       throw UnprocessableEntity('Invalid Body')
     })
-  var cokitchens = []
   var i = 0,
     len = cokitchen_polygons.length
   while (i < len) {
     if (insidePolygon([lat, lng], cokitchen_polygons[i].polygon)) {
       // get cokitchen --> to be changed
-      cokitchens = await Cokitchen.query()
-      .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
-      
-        .withGraphJoined(
-          '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
-        )
+      const [cokitchens, meal_categories] = await Promise.all([
+        Cokitchen.query()
+          .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
 
-        .where('brands:meals.is_addon', false)
+          .withGraphJoined(
+            '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
+          )
 
-        .catch(e => {
+          .where('brands:meals.is_addon', false)
+
+          .catch(e => {
+            console.log(e)
+            return []
+          }),
+        MealCategory.query().catch(e => {
           console.log(e)
           return []
         })
+      ])
+      // cokitchens = await Cokitchen.query()
+      //   .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
+
+      //   .withGraphJoined(
+      //     '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
+      //   )
+
+      //   .where('brands:meals.is_addon', false)
+
+      //   .catch(e => {
+      //     console.log(e)
+      //     return []
+      //   })
       return {
         status: 'success',
         data: cokitchens[0].brands,
-        cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords
+        cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords,
+        meal_categories: meal_categories
       }
     }
     i++

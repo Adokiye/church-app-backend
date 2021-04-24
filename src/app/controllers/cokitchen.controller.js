@@ -1,5 +1,6 @@
 import Cokitchen from '../models/cokitchen'
 import Meal from '../models/meal'
+import MealCategory from '../models/meal_category'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, UnprocessableEntity } from '../helpers'
@@ -119,17 +120,36 @@ export const deleteCokitchenPolygon = async ctx => {
 }
 
 export const getAllCokitchens = async ctx => {
-  const cokitchens = await Cokitchen.query()
-    .withGraphJoined(
-      '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
-    )
-    .where('brands:meals.is_addon', false)
-    .catch(e => {
+  // const cokitchens = await Cokitchen.query()
+  //   .withGraphJoined(
+  //     '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
+  //   )
+
+  //   .where('brands:meals.is_addon', false)
+  //   .catch(e => {
+  //     console.log(e)
+  //     return []
+  //   })
+  const [cokitchens, meal_categories] = await Promise.all([
+    Cokitchen.query()
+      .withGraphJoined(
+        '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
+      )
+
+      .where('brands:meals.is_addon', false)
+
+      .catch(e => {
+        console.log(e)
+        return []
+      }),
+    MealCategory.query().catch(e => {
       console.log(e)
       return []
     })
+  ])
   return {
     status: 'success',
-    cokitchens
+    cokitchens,
+    meal_categories
   }
 }
