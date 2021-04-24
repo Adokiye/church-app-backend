@@ -120,10 +120,10 @@ export const deleteCokitchenPolygon = async ctx => {
 
 export const getAllCokitchens = async ctx => {
   const cokitchens = await Cokitchen.query()
-    .withGraphFetched(
+    .withGraphJoined(
       '[brands.[meals.[addons,meal_category]],cokitchen_explore_keywords, cokitchen_polygons]'
     )
-    .where('cokitchen:brands.meals.is_addon', false)
+    .where('brands:meals.is_addon', false)
     .catch(e => {
       console.log(e)
       return []
