@@ -95,7 +95,6 @@ export const getBrandsForCustomer = async ctx => {
         cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords
       }
     }
-
     i++
   }
   throw UnprocessableEntity('Invalid Latitude and Longitude')
