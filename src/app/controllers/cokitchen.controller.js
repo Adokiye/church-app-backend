@@ -142,7 +142,10 @@ export const getAllCokitchens = async ctx => {
         console.log(e)
         return []
       }),
-    MealCategory.query().catch(e => {
+    MealCategory.query()
+    .withGraphFetched('[meal_category_selection_type]')
+    
+    .catch(e => {
       console.log(e)
       return []
     })
