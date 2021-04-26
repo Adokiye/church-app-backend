@@ -4,6 +4,9 @@ import { Model } from 'objection'
 
 class Addon extends modelUuid(baseModel) {
   static tableName = 'addons'
+  static hidden = [
+    'meal_id'
+  ]
 
   static relationMappings = {
     meal_data: {

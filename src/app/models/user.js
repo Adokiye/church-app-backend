@@ -54,7 +54,7 @@ class User extends modelUuid(baseModel) {
         to: 'users.id'
       }
     },
-    referral_code:{
+    referral_code: {
       relation: Model.HasOneRelation,
       modelClass: ReferralCode,
       join: {
