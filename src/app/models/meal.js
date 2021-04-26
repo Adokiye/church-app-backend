@@ -1,7 +1,7 @@
 import { Model } from 'objection'
 
 import MealCategory from './meal_category'
-import Addons from './addons'
+import Addon from './addons'
 import Brand from './brand'
 
 import { baseModel, modelUuid, modelUnique } from './index'
@@ -30,7 +30,7 @@ class Meal extends modelUuid(baseModel) {
     },
     addons: {
       relation: Model.HasManyRelation,
-      modelClass: Addons,
+      modelClass: Addon,
       join: {
         from: 'addons.meal_id',
         to: 'meals.id'
