@@ -4,17 +4,15 @@ import { Model } from 'objection'
 
 class Addon extends modelUuid(baseModel) {
   static tableName = 'addons'
-  static hidden = [
-    'meal_id'
-  ]
+  static hidden = ['meal_id']
 
   static relationMappings = {
-    meal_data: {
-      relation: Model.BelongsToOneRelation,
+    meal: {
+      relation: Model.HasOneRelation,
       modelClass: Meal,
       join: {
-        from: 'addons.meal_addon_id',
-        to: 'meals.id'
+        from: 'meals.id',
+        to: 'addons.meal_addon_id'
       }
     }
   }
