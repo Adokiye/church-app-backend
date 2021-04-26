@@ -1,5 +1,6 @@
 import { baseModel, modelUuid } from './index'
 import Meal from './meal'
+import path from 'path'
 import { Model } from 'objection'
 
 class Addon extends modelUuid(baseModel) {
