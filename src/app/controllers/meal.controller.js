@@ -77,7 +77,7 @@ export const getMealAddons = async ctx => {
     })
   return {
     status: 'success',
-    message: 'Meals returned Successfully',
+    message: 'Addons returned Successfully',
     data: meals_data
   }
 }

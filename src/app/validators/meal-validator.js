@@ -43,6 +43,12 @@ const MealValidator = {
           })
         )
       }
+    }),
+  getMealAddons: () =>
+    validationMiddleware({
+      body: {
+        meal_id: Joi.string().required()
+      }
     })
 }
 

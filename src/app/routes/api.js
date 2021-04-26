@@ -348,6 +348,8 @@ router.put('/marketing/meal-category', MealCategoryValidator.updateMealCategory(
 
 router.put('/marketing/meal', MealValidator.updateMeal(), Meal.updateMeal)
 
+router.put('/internal/meal-addon', MealValidator.getMealAddons(), Meal.getMealAddons)
+
 router.get(
   '/internal/meal',
   Meal.getMeals
