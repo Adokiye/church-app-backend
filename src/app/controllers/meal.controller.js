@@ -70,7 +70,7 @@ export const getMealAddons = async ctx => {
   let meal_id = body.meal_id
   const meals_data = await await Addons.query()
     .where('meal_id', meal_id)
-    .withGraphFetched('[meal]')
+    .withGraphFetched('[meal_data]')
     .catch(e => {
       console.log(e)
       return []
