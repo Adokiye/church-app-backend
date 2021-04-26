@@ -1,5 +1,6 @@
 import MealCategory from '../models/meal_category'
 import Meal from '../models/meal'
+import Addons from '../models/addons'
 import MealCategorySelectionType from '../models/meal_category_selection_type'
 import User from '../models/user'
 import { checkIfMarketing } from '../services/RoleService'
@@ -53,6 +54,23 @@ export const updateMeal = async ctx => {
 export const getMeals = async ctx => {
   const meals_data = await await Meal.query()
     // .withGraphFetched('[meal_category,brand]')
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success',
+    message: 'Meals returned Successfully',
+    data: meals_data
+  }
+}
+
+export const getMealAddons = async ctx => {
+  const { body } = ctx.request
+  let meal_id = body.meal_id
+  const meals_data = await await Addons.query()
+    .where('meal_id', meal_id)
+    .withGraphFetched('[meal_data]')
     .catch(e => {
       console.log(e)
       return []
