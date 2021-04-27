@@ -47,7 +47,8 @@ const MealValidator = {
   getMealAddons: () =>
     validationMiddleware({
       body: {
-        meal_id: Joi.string().required()
+        meal_id: Joi.string().required(),
+        by_category: Joi.boolean().required()
       }
     })
 }

@@ -1,6 +1,7 @@
 import MealCategory from '../models/meal_category'
 import Meal from '../models/meal'
 import Addons from '../models/addons'
+import MealCategory from '../models/meal_category'
 import MealCategorySelectionType from '../models/meal_category_selection_type'
 import User from '../models/user'
 import { checkIfMarketing } from '../services/RoleService'
@@ -68,7 +69,26 @@ export const getMeals = async ctx => {
 export const getMealAddons = async ctx => {
   const { body } = ctx.request
   let meal_id = body.meal_id
-  const meals_data = await await Addons.query()
+  if(body.by_category){
+    const meals_data = await await MealCategory.query()
+    .where('addons.meal_id', meal_id)
+    .withGraphFetched('[addons, meal_category_selection_type(selectNameAndId)]')
+    .modifiers({
+      selectNameAndId(builder) {
+        builder.select('name', 'id')
+      }
+    })
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success',
+    message: 'Addons returned Successfully',
+    data: meals_data
+  }
+  }else{
+    const meals_data = await await Addons.query()
     .where('meal_id', meal_id)
     .withGraphFetched('[meal_data.[meal_category.[meal_category_selection_type(selectNameAndId)]]]')
     .modifiers({
@@ -85,4 +105,6 @@ export const getMealAddons = async ctx => {
     message: 'Addons returned Successfully',
     data: meals_data
   }
+  }
+
 }
