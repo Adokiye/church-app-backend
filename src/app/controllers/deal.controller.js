@@ -30,7 +30,7 @@ export const createDeal = async ctx => {
         len = brands.length
       while (i < len) {
         const brand_data = await Brand.query()
-          .findById(brands[i].id)
+          .where('id',brands[i].id)
           .catch(() => false)
         if (brand_data) {
           body.brand_id = brand_data.id
@@ -43,7 +43,7 @@ export const createDeal = async ctx => {
             status: 'error',
             message: 'Not Found',
             errors: {
-              deal_type: ['Brand not found for ' + brands[i]]
+              deal_type: ['Brand not found']
             }
           })
         }
