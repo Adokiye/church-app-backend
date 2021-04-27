@@ -7,10 +7,13 @@ import { Unauthorized } from '../helpers'
 export const createDeal = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-
+   const deal_type_id = body.deal_type_id
+   const brands = body.brands
+   delete body.brands
+   delete body.deal_type_id
   if (await checkIfMarketing(role)) {
     const deal_type_data = await DealType.query()
-      .findById(body.deal_type_id)
+      .findById(deal_type_id)
       .catch(() => false)
     if (!deal_type_data) {
       return res.status(404).json({
@@ -24,10 +27,10 @@ export const createDeal = async ctx => {
     if (deal_type_data.name === 'BRAND') {
       var deals = []
       var i = 0,
-        len = body.brands.length
+        len = brands.length
       while (i < len) {
         const brand_data = await Brand.query()
-          .findById(body.brands[i])
+          .findById(brands[i].id)
           .catch(() => false)
         if (brand_data) {
           body.brand_id = brand_data.id
@@ -40,7 +43,7 @@ export const createDeal = async ctx => {
             status: 'error',
             message: 'Not Found',
             errors: {
-              deal_type: ['Brand not found for ' + body.brands[i]]
+              deal_type: ['Brand not found for ' + brands[i]]
             }
           })
         }
@@ -53,7 +56,7 @@ export const createDeal = async ctx => {
       }
     } else {
       const brand_data = await Brand.query().catch(() => [])
-      body.brand_id = brand_data[0]
+      body.brand_id = brand_data[0].id
       const deal_data = await Deal.query()
         .insert(body)
         .withGraphFetched('[deal_type]')
