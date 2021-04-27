@@ -1,7 +1,6 @@
 import MealCategory from '../models/meal_category'
 import Meal from '../models/meal'
 import Addons from '../models/addons'
-import MealCategory from '../models/meal_category'
 import MealCategorySelectionType from '../models/meal_category_selection_type'
 import User from '../models/user'
 import { checkIfMarketing } from '../services/RoleService'
