@@ -13,7 +13,9 @@ const DealsValidator = {
         name: Joi.string().required(),
         description: Joi.string().required(),
         images: Joi.array().items(image).required(),
-        rate: Joi.number().required()
+        rate: Joi.number().required(),
+        min: Joi.string(),
+        to_expire:Joi.date()
       }
     }),
   updateDeal: () =>
@@ -24,7 +26,9 @@ const DealsValidator = {
         name: Joi.string(),
         description: Joi.string(),
         images: Joi.array().items(image),
-        rate: Joi.number()
+        rate: Joi.number().required(),
+        min: Joi.string(),
+        to_expire:Joi.date()
       }
     })
 }

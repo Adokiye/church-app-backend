@@ -196,13 +196,13 @@ router.post(
 )
 
 router.post(
-  '/marketing/create-deal',
+  '/marketing/deal',
   DealsValidator.createDeal(),
   Deals.createDeal
 )
 
 router.put(
-  '/marketing/update-deal/:id',
+  '/marketing/deal/:id',
   DealsValidator.updateDeal(),
   Deals.updateDeal
 )
@@ -335,7 +335,7 @@ router.put(
   Keyword.updateKeyword
 )
 
-router.get('/marketing/get-all-deal-types', Deals.getDealTypes)
+router.get('/internal/deal-types', Deals.getDealTypes)
 
 // brand details marketing
 router.post('/marketing/brand', BrandValidator.createBrand(), Brand.createBrand)

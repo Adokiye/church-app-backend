@@ -52,6 +52,9 @@ export const createDeal = async ctx => {
         data: deals
       }
     } else {
+      const brand_data = await Brand.query()
+      .catch(() => [])
+      body.brand_id = brand_data[0]
       const deal_data = await Deal.query()
         .insert(body)
         .withGraphFetched('[deal_type]')
