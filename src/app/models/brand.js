@@ -27,7 +27,7 @@ class Brand extends modelUuid(baseModel) {
     },
     meal_categories: {
       relation: Model.ManyToManyRelation,
-      modelClass: path.join(__dirname, 'meal_categories'),
+      modelClass: path.join(__dirname, 'meal_category'),
       join: {
         from: 'brands.id',
         through: {
