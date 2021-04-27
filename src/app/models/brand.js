@@ -32,7 +32,7 @@ class Brand extends modelUuid(baseModel) {
         from: 'brands.id',
         through: {
           from: 'meals.brand_id',
-          to: 'meals.id'
+          to: 'meals.meal_category_id'
         },
         to: 'meal_categories.id'
       }
