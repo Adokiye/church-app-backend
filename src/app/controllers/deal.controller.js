@@ -52,8 +52,7 @@ export const createDeal = async ctx => {
         data: deals
       }
     } else {
-      const brand_data = await Brand.query()
-      .catch(() => [])
+      const brand_data = await Brand.query().catch(() => [])
       body.brand_id = brand_data[0]
       const deal_data = await Deal.query()
         .insert(body)
@@ -75,7 +74,7 @@ export const updateDeal = async ctx => {
   const { role } = ctx.state.user.user
 
   if (await checkIfMarketing(role)) {
-    if(body.images){
+    if (body.images) {
       body.images = JSON.stringify(body.images)
     }
     const deal_data = await Deal.query()
@@ -92,15 +91,10 @@ export const updateDeal = async ctx => {
 }
 
 export const getDealTypes = async ctx => {
-  const { role } = ctx.state.user.user
-  if (await checkIfMarketing(role)) {
-    const deal_types = DealType.query()
-    return {
-      status: 'success',
-      message: 'Successful',
-      data: deal_types
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
+  const deal_types = await DealType.query().catch(e => [])
+  return {
+    status: 'success',
+    message: 'Successful',
+    data: deal_types
   }
 }
