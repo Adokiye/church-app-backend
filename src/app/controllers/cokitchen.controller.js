@@ -89,7 +89,7 @@ export const updateCokitchenPolygon = async ctx => {
     }
     const cokitchen_polygon_data = await CokitchenPolygon.query()
       .patchAndFetchById(cokitchen_polygon_id, body)
-      .withGraphFetched('[cokitchen]')
+   //   .withGraphFetched('[cokitchen]')
     return {
       status: 'success',
       message: 'Update Successful',
