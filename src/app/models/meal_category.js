@@ -2,6 +2,7 @@ import { Model } from 'objection'
 
 import SuperMealCategory from './supermeal_category'
 import MealCategorySelectionType from './meal_category_selection_type'
+import path from 'path'
 
 import { baseModel, modelUuid, modelUnique } from './index'
 
