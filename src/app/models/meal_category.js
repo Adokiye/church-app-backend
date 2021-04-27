@@ -37,6 +37,14 @@ class MealCategory extends modelUuid(baseModel) {
         },
         to: 'addons.meal_addon_id'
       }
+    },
+    meals: {
+      relation: Model.HasManyRelation,
+      modelClass: path.join(__dirname, 'meals'),
+      join: {
+        from: 'meals.meal_category_id',
+        to: 'meal_categories.id'
+      }
     }
   }
 }

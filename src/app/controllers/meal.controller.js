@@ -68,42 +68,45 @@ export const getMeals = async ctx => {
 export const getMealAddons = async ctx => {
   const { body } = ctx.request
   let meal_id = body.meal_id
-  if(body.by_category){
+  if (body.by_category) {
     const meals_data = await await MealCategory.query()
-    .where('addons.meal_id', meal_id)
-    .withGraphJoined('[addons, meal_category_selection_type(selectNameAndId)]')
-    .modifiers({
-      selectNameAndId(builder) {
-        builder.select('name', 'id')
-      }
-    })
-    .catch(e => {
-      console.log(e)
-      return []
-    })
-  return {
-    status: 'success',
-    message: 'Addons returned Successfully',
-    data: meals_data
-  }
-  }else{
+      .where('addons.meal_id', meal_id)
+      .withGraphJoined(
+        '[addons, meal_category_selection_type(selectNameAndId)]'
+      )
+      .modifiers({
+        selectNameAndId(builder) {
+          builder.select('name', 'id')
+        }
+      })
+      .catch(e => {
+        console.log(e)
+        return []
+      })
+    return {
+      status: 'success',
+      message: 'Addons returned Successfully',
+      data: meals_data
+    }
+  } else {
     const meals_data = await await Addons.query()
-    .where('meal_id', meal_id)
-    .withGraphJoined('[meal_data.[meal_category.[meal_category_selection_type(selectNameAndId)]]]')
-    .modifiers({
-      selectNameAndId(builder) {
-        builder.select('name', 'id')
-      }
-    })
-    .catch(e => {
-      console.log(e)
-      return []
-    })
-  return {
-    status: 'success',
-    message: 'Addons returned Successfully',
-    data: meals_data
+      .where('meal_id', meal_id)
+      .withGraphJoined(
+        '[meal_data.[meal_category.[meal_category_selection_type(selectNameAndId)]]]'
+      )
+      .modifiers({
+        selectNameAndId(builder) {
+          builder.select('name', 'id')
+        }
+      })
+      .catch(e => {
+        console.log(e)
+        return []
+      })
+    return {
+      status: 'success',
+      message: 'Addons returned Successfully',
+      data: meals_data
+    }
   }
-  }
-
 }
