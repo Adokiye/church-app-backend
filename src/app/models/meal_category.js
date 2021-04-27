@@ -40,7 +40,7 @@ class MealCategory extends modelUuid(baseModel) {
     },
     meals: {
       relation: Model.HasManyRelation,
-      modelClass: path.join(__dirname, 'meals'),
+      modelClass: path.join(__dirname, 'meal'),
       join: {
         from: 'meals.meal_category_id',
         to: 'meal_categories.id'
