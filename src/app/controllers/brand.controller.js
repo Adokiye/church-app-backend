@@ -88,7 +88,7 @@ export const getBrandsForCustomer = async ctx => {
             '[brands.[meal_categories.[meals,meal_category_selection_type(selectNameAndId)]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]'
           )
 
-         // .where('brands:meal_categories.meals.is_addon', false)
+          .where('brands:meal_categories.meals.is_addon', false)
           .modifiers({
             selectNameAndId(builder) {
               builder.select('name', 'id')
