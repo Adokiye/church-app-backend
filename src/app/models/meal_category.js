@@ -8,7 +8,7 @@ import { baseModel, modelUuid, modelUnique } from './index'
 
 class MealCategory extends modelUuid(baseModel) {
   static tableName = 'meal_categories'
-  static hidden = ['meal_category_selection_type_id']
+  static hidden = ['meal_category_selection_type_id','posist_data']
   static relationMappings = {
     super_meal_category: {
       relation: Model.BelongsToOneRelation,

@@ -83,7 +83,6 @@ export const getBrandsForCustomer = async ctx => {
       const [cokitchens, meal_categories] = await Promise.all([
         Cokitchen.query()
           .where('cokitchens.id', cokitchen_polygons[i].cokitchen_id)
-
           .withGraphJoined(
             '[brands.[meal_categories.[meals,meal_category_selection_type(selectNameAndId)]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]'
           )
