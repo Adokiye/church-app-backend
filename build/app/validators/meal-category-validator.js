@@ -21,7 +21,8 @@ var MealCategoryValidator = {
         summary: _joi["default"].string(),
         description: _joi["default"].string(),
         images: _joi["default"].array().items(image),
-        meal_category_selection_type_id: _joi["default"].string()
+        meal_category_selection_type_id: _joi["default"].string(),
+        selection_no: _joi["default"].string()
       }
     });
   }

@@ -991,7 +991,7 @@ exports.deleteMealAllergyMetadata = deleteMealAllergyMetadata;
 
 var getAllKeywords = /*#__PURE__*/function () {
   var _ref21 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee21(ctx) {
-    var body, role, _yield$Promise$all, _yield$Promise$all2, meal_allergy_metadata, meal_business_metadata, meal_descriptive_metadata, meal_dietary_metadata, meal_keyword, brand_keyword, brand_tag, brand_descriptive_metadata, brand_business_metadata;
+    var body, role, _yield$Promise$all, _yield$Promise$all2, meal_allergy_metadata, meal_business_metadata, meal_descriptive_metadata, meal_dietary_metadata, meal_keyword, brand_keyword, brand_descriptive_metadata, brand_business_metadata;
 
     return _regenerator["default"].wrap(function _callee21$(_context21) {
       while (1) {
@@ -1004,7 +1004,7 @@ var getAllKeywords = /*#__PURE__*/function () {
 
           case 4:
             if (!_context21.sent) {
-              _context21.next = 21;
+              _context21.next = 20;
               break;
             }
 
@@ -1022,9 +1022,8 @@ var getAllKeywords = /*#__PURE__*/function () {
               return [];
             }), _brand_keyword["default"].query()["catch"](function () {
               return [];
-            }), _brand_tag["default"].query()["catch"](function () {
-              return [];
-            }), _brand_descriptive_metadata["default"].query()["catch"](function () {
+            }), //   BrandTag.query().catch(() => []),
+            _brand_descriptive_metadata["default"].query()["catch"](function () {
               return [];
             }), _brand_business_metadata["default"].query()["catch"](function () {
               return [];
@@ -1032,7 +1031,7 @@ var getAllKeywords = /*#__PURE__*/function () {
 
           case 7:
             _yield$Promise$all = _context21.sent;
-            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 9);
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 8);
             meal_allergy_metadata = _yield$Promise$all2[0];
             meal_business_metadata = _yield$Promise$all2[1];
             meal_descriptive_metadata = _yield$Promise$all2[2];
@@ -1040,9 +1039,9 @@ var getAllKeywords = /*#__PURE__*/function () {
             //meal_tag,
             meal_keyword = _yield$Promise$all2[4];
             brand_keyword = _yield$Promise$all2[5];
-            brand_tag = _yield$Promise$all2[6];
-            brand_descriptive_metadata = _yield$Promise$all2[7];
-            brand_business_metadata = _yield$Promise$all2[8];
+            //  brand_tag,
+            brand_descriptive_metadata = _yield$Promise$all2[6];
+            brand_business_metadata = _yield$Promise$all2[7];
             return _context21.abrupt("return", {
               status: 'success',
               message: 'Keywords gotten Successfully!',
@@ -1053,15 +1052,15 @@ var getAllKeywords = /*#__PURE__*/function () {
               // meal_tag,
               meal_keyword: meal_keyword,
               brand_keyword: brand_keyword,
-              brand_tag: brand_tag,
+              //  brand_tag,
               brand_descriptive_metadata: brand_descriptive_metadata,
               brand_business_metadata: brand_business_metadata
             });
 
-          case 21:
+          case 20:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 22:
+          case 21:
           case "end":
             return _context21.stop();
         }
@@ -1094,40 +1093,44 @@ var updateKeyword = /*#__PURE__*/function () {
 
           case 8:
             if (!_context22.sent) {
-              _context22.next = 23;
+              _context22.next = 24;
               break;
             }
 
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
             _context22.t0 = keyword_type;
-            _context22.next = _context22.t0 === 'meal_allergy_metadata' ? 12 : _context22.t0 === 'meal_keyword' ? 16 : 20;
+            _context22.next = _context22.t0 === 'meal_allergy_metadata' ? 13 : _context22.t0 === 'meal_keyword' ? 17 : 21;
             break;
 
-          case 12:
-            _context22.next = 14;
+          case 13:
+            _context22.next = 15;
             return _meal_allergy_metadata["default"].query().patchAndFetchById(keyword_id, body);
 
-          case 14:
+          case 15:
             keywordInDb = _context22.sent;
-            return _context22.abrupt("break", 20);
+            return _context22.abrupt("break", 21);
 
-          case 16:
-            _context22.next = 18;
+          case 17:
+            _context22.next = 19;
             return _meal_keyword2["default"].query().patchAndFetchById(keyword_id, body);
 
-          case 18:
+          case 19:
             keywordInDb = _context22.sent;
-            return _context22.abrupt("break", 20);
+            return _context22.abrupt("break", 21);
 
-          case 20:
+          case 21:
             return _context22.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, keywordInDb));
 
-          case 23:
+          case 24:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 24:
+          case 25:
           case "end":
             return _context22.stop();
         }

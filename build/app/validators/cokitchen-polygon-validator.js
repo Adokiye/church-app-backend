@@ -18,14 +18,26 @@ var CokitchenPolygonValidator = {
     return (0, _middlewares.validationMiddleware)({
       body: {
         polygon: _joi["default"].array().items(point).required(),
-        cokitchen_id: _joi["default"].string().required()
+        cokitchen_id: _joi["default"].string().required(),
+        name: _joi["default"].string().required(),
+        delivery_fee: _joi["default"].string().required()
       }
     });
   },
   update: function update() {
     return (0, _middlewares.validationMiddleware)({
       body: {
-        polygon: _joi["default"].array().items(point).required()
+        cokitchen_polygon_id: _joi["default"].string().required(),
+        polygon: _joi["default"].array().items(point),
+        name: _joi["default"].string(),
+        delivery_fee: _joi["default"].string()
+      }
+    });
+  },
+  "delete": function _delete() {
+    return (0, _middlewares.validationMiddleware)({
+      params: {
+        id: _joi["default"].string().required()
       }
     });
   }

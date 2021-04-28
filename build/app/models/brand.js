@@ -45,6 +45,7 @@ var Brand = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Brand, "tableName", 'brands');
+(0, _defineProperty2["default"])(Brand, "hidden", ['posist_data']);
 (0, _defineProperty2["default"])(Brand, "relationMappings", {
   cokitchen: {
     relation: _objection.Model.BelongsToOneRelation,
@@ -60,6 +61,18 @@ var Brand = /*#__PURE__*/function (_modelUuid) {
     join: {
       from: 'meals.brand_id',
       to: 'brands.id'
+    }
+  },
+  meal_categories: {
+    relation: _objection.Model.ManyToManyRelation,
+    modelClass: _path["default"].join(__dirname, 'meal_category'),
+    join: {
+      from: 'brands.id',
+      through: {
+        from: 'meals.brand_id',
+        to: 'meals.meal_category_id'
+      },
+      to: 'meal_categories.id'
     }
   }
 });

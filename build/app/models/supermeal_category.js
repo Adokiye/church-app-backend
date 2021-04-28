@@ -39,6 +39,7 @@ var SuperMealCategory = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(SuperMealCategory, "tableName", 'super_meal_categories');
+(0, _defineProperty2["default"])(SuperMealCategory, "hidden", ['posist_data']);
 var _default = SuperMealCategory;
 exports["default"] = _default;
 //# sourceMappingURL=supermeal_category.js.map

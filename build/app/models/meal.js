@@ -45,7 +45,7 @@ var Meal = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Meal, "tableName", 'meals');
-(0, _defineProperty2["default"])(Meal, "hidden", ['meal_category_id', 'brand_id']);
+(0, _defineProperty2["default"])(Meal, "hidden", ['meal_category_id', 'brand_id', 'posist_data']);
 (0, _defineProperty2["default"])(Meal, "relationMappings", {
   meal_category: {
     relation: _objection.Model.BelongsToOneRelation,

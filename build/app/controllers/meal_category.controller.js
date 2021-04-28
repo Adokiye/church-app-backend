@@ -43,27 +43,31 @@ var updateMealCategory = /*#__PURE__*/function () {
 
           case 6:
             if (!_context.sent) {
-              _context.next = 13;
+              _context.next = 14;
               break;
             }
 
-            _context.next = 9;
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            _context.next = 10;
             return _meal_category["default"].query().patchAndFetchById(meal_category_id, body).withGraphFetched('[selection_type]')["catch"](function (e) {
               console.log(e);
               throw (0, _helpers.UnprocessableEntity)('Invalid Body');
             });
 
-          case 9:
+          case 10:
             meal_category_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Meal category updated Successfully'
             }, meal_category_data));
 
-          case 13:
+          case 14:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
@@ -122,7 +126,8 @@ var getMealCategorySelectionTypes = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _meal_category_selection_type["default"].query().withGraphFetched('[meal_categories]')["catch"](function (e) {
+            return _meal_category_selection_type["default"].query() //  .withGraphFetched('[meal_categories]')
+            ["catch"](function (e) {
               console.log(e);
               return [];
             });

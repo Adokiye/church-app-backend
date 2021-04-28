@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMeals = exports.updateMeal = void 0;
+exports.getMealAddons = exports.getMeals = exports.updateMeal = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -16,6 +16,8 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 var _meal_category = _interopRequireDefault(require("../models/meal_category"));
 
 var _meal = _interopRequireDefault(require("../models/meal"));
+
+var _addons = _interopRequireDefault(require("../models/addons"));
 
 var _meal_category_selection_type = _interopRequireDefault(require("../models/meal_category_selection_type"));
 
@@ -45,27 +47,52 @@ var updateMeal = /*#__PURE__*/function () {
 
           case 6:
             if (!_context.sent) {
-              _context.next = 13;
+              _context.next = 19;
               break;
             }
 
-            _context.next = 9;
-            return _meal["default"].query().patchAndFetchById(meal_id, body).withGraphFetched('[brand,addons.[meal_data]]')["catch"](function (e) {
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            if (body.meal_descriptive_metadatas) {
+              body.meal_descriptive_metadatas = JSON.stringify(body.meal_descriptive_metadatas);
+            }
+
+            if (body.meal_business_metadatas) {
+              body.meal_business_metadatas = JSON.stringify(body.meal_business_metadatas);
+            }
+
+            if (body.meal_dietary_metadatas) {
+              body.meal_dietary_metadatas = JSON.stringify(body.meal_dietary_metadatas);
+            }
+
+            if (body.meal_allergy_metadatas) {
+              body.meal_allergy_metadatas = JSON.stringify(body.meal_allergy_metadatas);
+            }
+
+            if (body.meal_keywords) {
+              body.meal_keywords = JSON.stringify(body.meal_keywords);
+            }
+
+            _context.next = 15;
+            return _meal["default"].query().patchAndFetchById(meal_id, body) //  .withGraphFetched('[brand]')
+            ["catch"](function (e) {
               console.log(e);
               throw (0, _helpers.UnprocessableEntity)('Invalid Body');
             });
 
-          case 9:
+          case 15:
             meal_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Meal updated Successfully'
             }, meal_data));
 
-          case 13:
+          case 19:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 14:
+          case 20:
           case "end":
             return _context.stop();
         }
@@ -88,7 +115,8 @@ var getMeals = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _meal["default"].query().withGraphFetched('[addons.[meal_data],meal_category,brand.[cokitchen]]')["catch"](function (e) {
+            return _meal["default"].query() // .withGraphFetched('[meal_category,brand]')
+            ["catch"](function (e) {
               console.log(e);
               return [];
             });
@@ -115,4 +143,72 @@ var getMeals = /*#__PURE__*/function () {
 }();
 
 exports.getMeals = getMeals;
+
+var getMealAddons = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(ctx) {
+    var body, meal_id, meals_data, _meals_data;
+
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            body = ctx.request.body;
+            meal_id = body.meal_id;
+
+            if (!body.by_category) {
+              _context3.next = 9;
+              break;
+            }
+
+            _context3.next = 5;
+            return _meal_category["default"].query().where('addons.meal_id', meal_id).withGraphJoined('[addons.[meal_data], meal_category_selection_type(selectNameAndId)]').modifiers({
+              selectNameAndId: function selectNameAndId(builder) {
+                builder.select('name', 'id');
+              }
+            })["catch"](function (e) {
+              console.log(e);
+              return [];
+            });
+
+          case 5:
+            meals_data = _context3.sent;
+            return _context3.abrupt("return", {
+              status: 'success',
+              message: 'Addons returned Successfully',
+              data: meals_data
+            });
+
+          case 9:
+            _context3.next = 11;
+            return _addons["default"].query().where('meal_id', meal_id).withGraphJoined('[meal_data.[meal_category.[meal_category_selection_type(selectNameAndId)]]]').modifiers({
+              selectNameAndId: function selectNameAndId(builder) {
+                builder.select('name', 'id');
+              }
+            })["catch"](function (e) {
+              console.log(e);
+              return [];
+            });
+
+          case 11:
+            _meals_data = _context3.sent;
+            return _context3.abrupt("return", {
+              status: 'success',
+              message: 'Addons returned Successfully',
+              data: _meals_data
+            });
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function getMealAddons(_x3) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.getMealAddons = getMealAddons;
 //# sourceMappingURL=meal.controller.js.map

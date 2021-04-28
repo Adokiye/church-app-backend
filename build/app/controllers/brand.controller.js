@@ -9,6 +9,8 @@ exports.getBrandsForMarketing = exports.getBrandsForCustomer = exports.updateBra
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -18,6 +20,8 @@ var _brand = _interopRequireDefault(require("../models/brand"));
 var _cokitchen = _interopRequireDefault(require("../models/cokitchen"));
 
 var _cokitchen_polygon = _interopRequireDefault(require("../models/cokitchen_polygon"));
+
+var _meal_category = _interopRequireDefault(require("../models/meal_category"));
 
 var _RoleService = require("../services/RoleService");
 
@@ -42,27 +46,31 @@ var createBrand = /*#__PURE__*/function () {
 
           case 5:
             if (!_context.sent) {
-              _context.next = 12;
+              _context.next = 13;
               break;
             }
 
-            _context.next = 8;
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            _context.next = 9;
             return _brand["default"].query().insert(body)["catch"](function (e) {
               console.log(e);
               throw (0, _helpers.UnprocessableEntity)('Invalid body');
             });
 
-          case 8:
+          case 9:
             brand_data = _context.sent;
             return _context.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Brand Created Successfully'
             }, brand_data));
 
-          case 12:
+          case 13:
             throw (0, _helpers.Unauthorized)('Unauthorized Creation');
 
-          case 13:
+          case 14:
           case "end":
             return _context.stop();
         }
@@ -88,12 +96,29 @@ var updateBrand = /*#__PURE__*/function () {
             role = ctx.state.user.user.role;
             brand_id = body.brand_id;
             delete body.brand_id;
-            _context2.next = 6;
+
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            if (body.brand_descriptive_metadatas) {
+              body.brand_descriptive_metadatas = JSON.stringify(body.brand_descriptive_metadatas);
+            }
+
+            if (body.brand_business_metadatas) {
+              body.brand_business_metadatas = JSON.stringify(body.brand_business_metadatas);
+            }
+
+            if (body.brand_keywords) {
+              body.brand_keywords = JSON.stringify(body.brand_keywords);
+            }
+
+            _context2.next = 10;
             return (0, _RoleService.checkIfMarketing)(role);
 
-          case 6:
+          case 10:
             if (!_context2.sent) {
-              _context2.next = 14;
+              _context2.next = 18;
               break;
             }
 
@@ -101,20 +126,20 @@ var updateBrand = /*#__PURE__*/function () {
               delete body.posist_data;
             }
 
-            _context2.next = 10;
+            _context2.next = 14;
             return _brand["default"].query().patchAndFetchById(brand_id, body);
 
-          case 10:
+          case 14:
             brand_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, brand_data));
 
-          case 14:
+          case 18:
             throw (0, _helpers.Unauthorized)('Unauthorized Update');
 
-          case 15:
+          case 19:
           case "end":
             return _context2.stop();
         }
@@ -131,7 +156,8 @@ exports.updateBrand = updateBrand;
 
 var getBrandsForCustomer = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(ctx) {
-    var body, lat, lng, cokitchen_polygons, cokitchens, i, len;
+    var body, lat, lng, cokitchen_polygons, i, len, _yield$Promise$all, _yield$Promise$all2, cokitchens, meal_categories;
+
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -139,36 +165,61 @@ var getBrandsForCustomer = /*#__PURE__*/function () {
             body = ctx.request.body;
             lat = body.lat, lng = body.lng;
             _context3.next = 4;
-            return _cokitchen_polygon["default"].query().withGraphFetched('[cokitchen.[brands.[meals]]]');
+            return _cokitchen_polygon["default"].query() // .withGraphFetched('[cokitchen.[brands.[meals],cokitchen_explore_keywords]]')
+            ["catch"](function (e) {
+              console.log(e);
+              throw (0, _helpers.UnprocessableEntity)('Invalid Body');
+            });
 
           case 4:
             cokitchen_polygons = _context3.sent;
-            cokitchens = [];
             i = 0, len = cokitchen_polygons.length;
 
-          case 7:
+          case 6:
             if (!(i < len)) {
-              _context3.next = 14;
+              _context3.next = 18;
               break;
             }
 
             if (!(0, _helpers.insidePolygon)([lat, lng], cokitchen_polygons[i].polygon)) {
-              _context3.next = 11;
+              _context3.next = 15;
               break;
             }
 
-            cokitchens.push(cokitchen_polygons[i].cokitchen);
+            _context3.next = 10;
+            return Promise.all([_cokitchen["default"].query().where('cokitchens.id', cokitchen_polygons[i].cokitchen_id).withGraphJoined('[brands.[meal_categories.[meals,meal_category_selection_type(selectNameAndId)]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]').where('brands:meal_categories:meals.is_addon', false).modifiers({
+              selectNameAndId: function selectNameAndId(builder) {
+                builder.select('name', 'id');
+              }
+            })["catch"](function (e) {
+              console.log(e);
+              return [];
+            }), _meal_category["default"].query().withGraphFetched('[meal_category_selection_type]')["catch"](function (e) {
+              console.log(e);
+              return [];
+            })]);
+
+          case 10:
+            _yield$Promise$all = _context3.sent;
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 2);
+            cokitchens = _yield$Promise$all2[0];
+            meal_categories = _yield$Promise$all2[1];
             return _context3.abrupt("return", {
               status: 'success',
-              data: cokitchen_polygons[i].cokitchen.brands
+              data: cokitchens[0].brands,
+              cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords,
+              meal_categories: meal_categories
             });
 
-          case 11:
+          case 15:
             i++;
-            _context3.next = 7;
+            _context3.next = 6;
             break;
 
-          case 14:
+          case 18:
+            throw (0, _helpers.UnprocessableEntity)('Invalid Latitude and Longitude');
+
+          case 19:
           case "end":
             return _context3.stop();
         }
@@ -191,7 +242,7 @@ var getBrandsForMarketing = /*#__PURE__*/function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return _brand["default"].query().withGraphFetched('cokitchen')["catch"](function (e) {
+            return _brand["default"].query().withGraphFetched('[cokitchen,meals]')["catch"](function (e) {
               console.log(e);
               return [];
             });

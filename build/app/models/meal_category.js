@@ -23,6 +23,8 @@ var _supermeal_category = _interopRequireDefault(require("./supermeal_category")
 
 var _meal_category_selection_type = _interopRequireDefault(require("./meal_category_selection_type"));
 
+var _path = _interopRequireDefault(require("path"));
+
 var _index = require("./index");
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
@@ -43,6 +45,7 @@ var MealCategory = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(MealCategory, "tableName", 'meal_categories');
+(0, _defineProperty2["default"])(MealCategory, "hidden", ['meal_category_selection_type_id', 'posist_data']);
 (0, _defineProperty2["default"])(MealCategory, "relationMappings", {
   super_meal_category: {
     relation: _objection.Model.BelongsToOneRelation,
@@ -58,6 +61,26 @@ var MealCategory = /*#__PURE__*/function (_modelUuid) {
     join: {
       from: 'meal_categories.meal_category_selection_type_id',
       to: 'meal_category_selection_types.id'
+    }
+  },
+  addons: {
+    relation: _objection.Model.ManyToManyRelation,
+    modelClass: _path["default"].join(__dirname, 'addons'),
+    join: {
+      from: 'meal_categories.id',
+      through: {
+        from: 'meals.meal_category_id',
+        to: 'meals.id'
+      },
+      to: 'addons.meal_addon_id'
+    }
+  },
+  meals: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _path["default"].join(__dirname, 'meal'),
+    join: {
+      from: 'meals.meal_category_id',
+      to: 'meal_categories.id'
     }
   }
 });

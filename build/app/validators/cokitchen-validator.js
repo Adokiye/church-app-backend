@@ -20,8 +20,11 @@ var CokitchenValidator = {
   update: function update() {
     return (0, _middlewares.validationMiddleware)({
       body: {
-        name: _joi["default"].string() // cokitchen_id: Joi.string().required(),
-
+        name: _joi["default"].string(),
+        cokitchen_id: _joi["default"].string().required(),
+        lat: _joi["default"].string(),
+        lng: _joi["default"].string(),
+        address: _joi["default"].string()
       }
     });
   }

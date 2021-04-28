@@ -35,6 +35,8 @@ var _faqValidator = _interopRequireDefault(require("../validators/faq-validator"
 
 var _appFeedbackValidator = _interopRequireDefault(require("../validators/app-feedback-validator"));
 
+var _cokitchenExploreKeywordValidator = _interopRequireDefault(require("../validators/cokitchen-explore-keyword-validator"));
+
 var router = new _koaRouter["default"](); //authentication and user routes
 
 router.put('/auth/user', _userValidator["default"].update(), _controllers.Auth.update);
@@ -64,20 +66,24 @@ router.post('/admin/update-user', _controllers.Auth.adminUpdateUser);
 router.get('/admin/get-users', _controllers.Auth.adminGetUsers);
 router.get('/admin/get-user-roles', _controllers.Auth.adminGetUserRoles); //marketing routes
 
-router.put('/marketing/update-cokitchen/:id', _cokitchenValidator["default"].update(), _controllers.Cokitchen.updateCokitchen);
-router.put('/marketing/update-cokitchen-polygon/:id', _cokitchenPolygonValidator["default"].update(), _controllers.Brand.updateBrand);
+router.put('/marketing/cokitchen', _cokitchenValidator["default"].update(), _controllers.Cokitchen.updateCokitchen);
+router.post('/marketing/cokitchen-explore-keyword', _cokitchenExploreKeywordValidator["default"].create(), _controllers.CokitchenExploreKeyword.createCokitchenExploreKeyword);
+router.get('/internal/cokitchen-explore-keyword', _controllers.CokitchenExploreKeyword.getCokitchenExploreKeywords);
+router.del('/marketing/cokitchen-explore-keyword/:id', _cokitchenExploreKeywordValidator["default"]["delete"](), _controllers.CokitchenExploreKeyword.deleteCokitchenExploreKeyword);
 router.post('/marketing/faq', _faqValidator["default"].createFaq(), _controllers.Faq.addNewFaq);
 router.del('/marketing/faq/:id', _faqValidator["default"].deleteFaq(), _controllers.Faq.deleteFaq);
 router.put('/marketing/faq', _faqValidator["default"].updateFaq(), _controllers.Faq.updateFaq);
 router.get('/marketing/faq-arrangement', _controllers.Faq.getFaqArrangement);
 router.put('/marketing/faq-arrangement', _faqValidator["default"].updateFaqArrangment(), _controllers.Faq.updateFaqArrangement);
 router.get('/marketing/app-feedback', _controllers.AppFeedback.getAppFeedbacks);
-router.put('/marketing/update-cokitchen-polygon/:id', _cokitchenPolygonValidator["default"].update(), _controllers.Cokitchen.updateCokitchenPolygon);
+router.post('/marketing/cokitchen-polygon', _cokitchenPolygonValidator["default"].create(), _controllers.Cokitchen.createCokitchenPolygon);
+router.put('/marketing/cokitchen-polygon', _cokitchenPolygonValidator["default"].update(), _controllers.Cokitchen.updateCokitchenPolygon);
+router.del('/marketing/cokitchen-polygon/:id', _cokitchenPolygonValidator["default"]["delete"](), _controllers.Cokitchen.deleteCokitchenPolygon);
 router.get('/internal/cokitchen', _controllers.Cokitchen.getAllCokitchens);
 router.get('/internal/brand', _controllers.Brand.getBrandsForMarketing);
 router.post('/marketing/admin/create-marketing-staff', _userValidator["default"].createMarketingStaff(), _controllers.Auth.marketingCreateStaff);
-router.post('/marketing/create-deal', _dealValidator["default"].createDeal(), _controllers.Deals.createDeal);
-router.put('/marketing/update-deal/:id', _dealValidator["default"].updateDeal(), _controllers.Deals.updateDeal);
+router.post('/marketing/deal', _dealValidator["default"].createDeal(), _controllers.Deals.createDeal);
+router.put('/marketing/deal/:id', _dealValidator["default"].updateDeal(), _controllers.Deals.updateDeal);
 router.post('/marketing/create-brand-business-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createBrandBusinessMetadata);
 router.post('/marketing/delete-brand-business-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandBusinessMetadata);
 router.post('/marketing/create-brand-descriptive-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createBrandDescriptiveMetadata);
@@ -100,13 +106,15 @@ router.post('/marketing/create-meal-allergy-metadata', _keywordValidator["defaul
 router.post('/marketing/delete-meal-allergy-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteMealAllergyMetadata);
 router.get('/marketing/keywords', _controllers.Keyword.getAllKeywords);
 router.put('/marketing/keyword', _keywordValidator["default"].update(), _controllers.Keyword.updateKeyword);
-router.get('/marketing/get-all-deal-types', _controllers.Deals.getDealTypes); // brand details marketing
+router.get('/internal/deal-types', _controllers.Deals.getDealTypes);
+router.get('/internal/cokitchen/deal', _controllers.Deals.getCokitchenDeals); // brand details marketing
 
-router.post('/marketing/brand', _brandValidator["default"].createBrand(), _controllers.Brand.createBrand); //router.post('/marketing/cokitchen', CokitchenValidator.createCokitchen(), Brand.createBrand)
-
+router.post('/marketing/brand', _brandValidator["default"].createBrand(), _controllers.Brand.createBrand);
+router.get('/marketing/user', _controllers.Auth.getAllUsers);
 router.put('/marketing/brand', _brandValidator["default"].updateBrand(), _controllers.Brand.updateBrand);
 router.put('/marketing/meal-category', _mealCategoryValidator["default"].updateMealCategory(), _controllers.MealCategory.updateMealCategory);
 router.put('/marketing/meal', _mealValidator["default"].updateMeal(), _controllers.Meal.updateMeal);
+router.post('/internal/meal-addon', _mealValidator["default"].getMealAddons(), _controllers.Meal.getMealAddons);
 router.get('/internal/meal', _controllers.Meal.getMeals);
 router.get('/internal/meal-category', _controllers.MealCategory.getMealCategories);
 router.get('/internal/meal-category-selection-type', _controllers.MealCategory.getMealCategorySelectionTypes); // user brand routes,

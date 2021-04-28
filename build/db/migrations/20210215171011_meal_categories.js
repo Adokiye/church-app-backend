@@ -10,7 +10,8 @@ exports.up = function (knex) {
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]));
     table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}));
     table.string('icon');
-    table.uuid('meal_category_selection_type_id').references('id').inTable('meal_category_selection_types').onDelete('CASCADE');
+    table.string('selection_no');
+    table.uuid('meal_category_selection_type_id').references('id').inTable('meal_category_selection_types').onDelete('CASCADE').notNullable();
     table.uuid('super_meal_category_id').references('id').inTable('super_meal_categories').onDelete('CASCADE');
   });
 };

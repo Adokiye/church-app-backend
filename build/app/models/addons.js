@@ -21,6 +21,8 @@ var _index = require("./index");
 
 var _meal = _interopRequireDefault(require("./meal"));
 
+var _path = _interopRequireDefault(require("path"));
+
 var _objection = require("objection");
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
@@ -43,8 +45,8 @@ var Addon = /*#__PURE__*/function (_modelUuid) {
 (0, _defineProperty2["default"])(Addon, "tableName", 'addons');
 (0, _defineProperty2["default"])(Addon, "relationMappings", {
   meal_data: {
-    relation: _objection.Model.HasOneRelation,
-    modelClass: _meal["default"],
+    relation: _objection.Model.BelongsToOneRelation,
+    modelClass: _path["default"].join(__dirname, 'meal'),
     join: {
       from: 'addons.meal_addon_id',
       to: 'meals.id'

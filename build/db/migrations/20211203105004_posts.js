@@ -9,9 +9,9 @@ var up = function up(knex) {
   return knex.schema.createTable('posts', function (table) {
     table.uuid('id').primary().notNullable();
     table["boolean"]('active').notNullable().defaultTo(true);
-    table.string('name').notNullable();
-    table.string('summary', 500);
-    table.string('description', 10000).notNullable();
+    table.string('title').notNullable();
+    table.string('heading');
+    table.string('body', 10000);
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]));
     table.uuid('deal_id').references('id').inTable('deals').onDelete('CASCADE');
     table.timestamps(true, true);

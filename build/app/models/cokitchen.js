@@ -21,9 +21,15 @@ var _index = require("./index");
 
 var _objection = require("objection");
 
+var _path = _interopRequireDefault(require("path"));
+
 var _brand = _interopRequireDefault(require("./brand"));
 
 var _cokitchen_polygon = _interopRequireDefault(require("./cokitchen_polygon"));
+
+var _meal = _interopRequireDefault(require("./meal"));
+
+var _cokitchen_explore_keyword = _interopRequireDefault(require("./cokitchen_explore_keyword"));
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
@@ -57,6 +63,34 @@ var Cokitchen = /*#__PURE__*/function (_modelUuid) {
     modelClass: _cokitchen_polygon["default"],
     join: {
       from: 'cokitchen_polygons.cokitchen_id',
+      to: 'cokitchens.id'
+    }
+  },
+  meals: {
+    relation: _objection.Model.ManyToManyRelation,
+    modelClass: _meal["default"],
+    join: {
+      from: 'cokitchens.id',
+      through: {
+        from: 'brands.cokitchen_id',
+        to: 'brands.id'
+      },
+      to: 'meals.brand_id'
+    }
+  },
+  deals: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _path["default"].join(__dirname, 'deal'),
+    join: {
+      from: 'deals.cokitchen_id',
+      to: 'cokitchens.id'
+    }
+  },
+  cokitchen_explore_keywords: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _cokitchen_explore_keyword["default"],
+    join: {
+      from: 'cokitchen_explore_keywords.cokitchen_id',
       to: 'cokitchens.id'
     }
   }

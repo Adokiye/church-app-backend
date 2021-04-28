@@ -43,6 +43,14 @@ var MealValidator = {
         }))
       }
     });
+  },
+  getMealAddons: function getMealAddons() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        meal_id: _joi["default"].string().required(),
+        by_category: _joi["default"]["boolean"]().required()
+      }
+    });
   }
 };
 var _default = MealValidator;

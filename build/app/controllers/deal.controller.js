@@ -5,11 +5,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getDealTypes = exports.updateDeal = exports.createDeal = void 0;
+exports.getCokitchenDeals = exports.getDealTypes = exports.updateDeal = exports.createDeal = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -18,6 +20,14 @@ var _brand = _interopRequireDefault(require("../models/brand"));
 var _deal = _interopRequireDefault(require("../models/deal"));
 
 var _deal_type = _interopRequireDefault(require("../models/deal_type"));
+
+var _deal_eligibility_type = _interopRequireDefault(require("../models/deal_eligibility_type"));
+
+var _deal_requirement_type = _interopRequireDefault(require("../models/deal_requirement_type"));
+
+var _deal_value_type = _interopRequireDefault(require("../models/deal_value_type"));
+
+var _cokitchen = _interopRequireDefault(require("../models/cokitchen"));
 
 var _RoleService = require("../services/RoleService");
 
@@ -29,7 +39,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 var createDeal = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(ctx) {
-    var body, role, deal_type_data, deals, i, len, brand_data, deal_data, _deal_data;
+    var body, role, _yield$Promise$all, _yield$Promise$all2, deal_type_data, deal_eligibility_type_data, deal_value_type_data, deal_requirement_type_data, brands, deals, i, len, brand_data, deal_data, _deal_data;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -37,25 +47,41 @@ var createDeal = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
-            _context.next = 4;
+
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            _context.next = 5;
             return (0, _RoleService.checkIfMarketing)(role);
 
-          case 4:
+          case 5:
             if (!_context.sent) {
-              _context.next = 38;
+              _context.next = 79;
               break;
             }
 
-            _context.next = 7;
-            return _deal_type["default"].query().findById(body.deal_type_id)["catch"](function () {
+            _context.next = 8;
+            return Promise.all([_deal_type["default"].query().findById(body.deal_type_id)["catch"](function (e) {
               return false;
-            });
+            }), _deal_eligibility_type["default"].query().findById(body.deal_eligibility_type_id)["catch"](function (e) {
+              return false;
+            }), _deal_value_type["default"].query().findById(body.deal_value_type_id)["catch"](function (e) {
+              return false;
+            }), _deal_requirement_type["default"].query().findById(body.deal_requirement_type_id)["catch"](function (e) {
+              return false;
+            })]);
 
-          case 7:
-            deal_type_data = _context.sent;
+          case 8:
+            _yield$Promise$all = _context.sent;
+            _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 4);
+            deal_type_data = _yield$Promise$all2[0];
+            deal_eligibility_type_data = _yield$Promise$all2[1];
+            deal_value_type_data = _yield$Promise$all2[2];
+            deal_requirement_type_data = _yield$Promise$all2[3];
 
             if (deal_type_data) {
-              _context.next = 10;
+              _context.next = 16;
               break;
             }
 
@@ -67,85 +93,222 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 10:
-            if (!(deal_type_data.name === 'BRAND')) {
-              _context.next = 32;
-              break;
-            }
-
-            deals = [];
-            i = 0, len = body.brands.length;
-
-          case 13:
-            if (!(i < len)) {
-              _context.next = 29;
-              break;
-            }
-
-            _context.next = 16;
-            return _brand["default"].query().findById(body.brands[i])["catch"](function () {
-              return false;
-            });
-
           case 16:
-            brand_data = _context.sent;
-
-            if (!brand_data) {
-              _context.next = 25;
+            if (deal_eligibility_type_data) {
+              _context.next = 18;
               break;
             }
 
-            body.brand_id = brand_data.id;
-            _context.next = 21;
-            return _deal["default"].query().insert(body).withGraphFetched('[deal_type]');
-
-          case 21:
-            deal_data = _context.sent;
-            deals.push(deal_data);
-            _context.next = 26;
-            break;
-
-          case 25:
             return _context.abrupt("return", res.status(404).json({
               status: 'error',
               message: 'Not Found',
               errors: {
-                deal_type: ['Brand not found for ' + body.brands[i]]
+                deal_eligibility_type: ['Deal Eligibility type not found with that id']
               }
             }));
 
+          case 18:
+            if (deal_value_type_data) {
+              _context.next = 20;
+              break;
+            }
+
+            return _context.abrupt("return", res.status(404).json({
+              status: 'error',
+              message: 'Not Found',
+              errors: {
+                deal_value_type: ['Deal Value type not found with that id']
+              }
+            }));
+
+          case 20:
+            if (deal_requirement_type_data) {
+              _context.next = 22;
+              break;
+            }
+
+            return _context.abrupt("return", res.status(404).json({
+              status: 'error',
+              message: 'Not Found',
+              errors: {
+                deal_requirement_type: ['Deal Value type not found with that id']
+              }
+            }));
+
+          case 22:
+            if (!(deal_eligibility_type_data.name === 'SPECIFIC_CUSTOMERS')) {
+              _context.next = 26;
+              break;
+            }
+
+            if (body.specific_customers) {
+              _context.next = 25;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('For eligibility type SPECIFIC_CUSTOMERS, specific_customers array is required');
+
+          case 25:
+            body.specific_customers = JSON.stringify(body.specific_customers);
+
           case 26:
-            i++;
-            _context.next = 13;
+            _context.t0 = deal_requirement_type_data.name;
+            _context.next = _context.t0 === 'MINIMUM_PURCHASE_AMOUNT' ? 29 : _context.t0 === 'MINIMUM_QUANTITY_OF_ITEMS' ? 32 : 35;
             break;
 
           case 29:
-            return _context.abrupt("return", {
-              status: 'success',
-              message: 'Creation Successful',
-              data: deals
-            });
+            if (body.min_amount) {
+              _context.next = 31;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('For requirement type MINIMUM_PURCHASE_AMOUNT, min_amount is required');
+
+          case 31:
+            return _context.abrupt("break", 35);
 
           case 32:
-            _context.next = 34;
-            return _deal["default"].query().insert(body).withGraphFetched('[deal_type]');
+            if (body.min_items) {
+              _context.next = 34;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('For requirement type MINIMUM_QUANTITY_OF_ITEMS, min_items is required');
 
           case 34:
-            _deal_data = _context.sent;
-            return _context.abrupt("return", {
-              status: 'success',
-              message: 'Creation Successful',
-              data: _deal_data
-            });
+            return _context.abrupt("break", 35);
 
-          case 36:
-            _context.next = 39;
+          case 35:
+            _context.t1 = deal_value_type_data.name;
+            _context.next = _context.t1 === 'PERCENTAGE' ? 38 : _context.t1 === 'FIXED_AMOUNT' ? 41 : 44;
             break;
 
           case 38:
+            if (body.rate) {
+              _context.next = 40;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('For value type PERCENTAGE, rate is required');
+
+          case 40:
+            return _context.abrupt("break", 44);
+
+          case 41:
+            if (body.fixed_amount) {
+              _context.next = 43;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('For value type FIXED_AMOUNT, fixed_amount is required');
+
+          case 43:
+            return _context.abrupt("break", 44);
+
+          case 44:
+            if (!(deal_type_data.name === 'BRAND')) {
+              _context.next = 71;
+              break;
+            }
+
+            if (body.brands) {
+              _context.next = 47;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('for deal type BRAND, brands array is required');
+
+          case 47:
+            brands = body.brands;
+            delete body.brands;
+            deals = [];
+            i = 0, len = brands.length;
+
+          case 51:
+            if (!(i < len)) {
+              _context.next = 68;
+              break;
+            }
+
+            _context.next = 54;
+            return _brand["default"].query().where('id', brands[i].id)["catch"](function () {
+              return false;
+            });
+
+          case 54:
+            brand_data = _context.sent;
+
+            if (!brand_data) {
+              _context.next = 64;
+              break;
+            }
+
+            body.brand_id = brand_data[0].id;
+            body.cokitchen_id = brand_data[0].cokitchen_id;
+            _context.next = 60;
+            return _deal["default"].query().insert(body)["catch"](function (e) {
+              console.log(e);
+              throw (0, _helpers.UnprocessableEntity)('Invalid Body');
+            });
+
+          case 60:
+            deal_data = _context.sent;
+            deals.push(deal_data);
+            _context.next = 65;
+            break;
+
+          case 64:
+            return _context.abrupt("return", res.status(404).json({
+              status: 'error',
+              message: 'Not Found',
+              errors: {
+                brand: ['Brand not found for id ' + brands[i].id]
+              }
+            }));
+
+          case 65:
+            i++;
+            _context.next = 51;
+            break;
+
+          case 68:
+            return _context.abrupt("return", {
+              status: 'success',
+              message: 'Deal Creation Successful',
+              data: deals
+            });
+
+          case 71:
+            if (body.cokitchen_id) {
+              _context.next = 73;
+              break;
+            }
+
+            throw (0, _helpers.UnprocessableEntity)('for deal type ALL, cokitchen_id is required');
+
+          case 73:
+            _context.next = 75;
+            return _deal["default"].query().insert(body)["catch"](function (e) {
+              console.log(e);
+              throw (0, _helpers.UnprocessableEntity)('Invalid Body');
+            });
+
+          case 75:
+            _deal_data = _context.sent;
+            return _context.abrupt("return", {
+              status: 'success',
+              message: 'Deal Creation Successful',
+              data: _deal_data
+            });
+
+          case 77:
+            _context.next = 80;
+            break;
+
+          case 79:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 39:
+          case 80:
           case "end":
             return _context.stop();
         }
@@ -175,24 +338,28 @@ var updateDeal = /*#__PURE__*/function () {
 
           case 5:
             if (!_context2.sent) {
-              _context2.next = 12;
+              _context2.next = 13;
               break;
             }
 
-            _context2.next = 8;
+            if (body.images) {
+              body.images = JSON.stringify(body.images);
+            }
+
+            _context2.next = 9;
             return _deal["default"].query().patchAndFetchById(id, body).withGraphFetched('[deal_type]');
 
-          case 8:
+          case 9:
             deal_data = _context2.sent;
             return _context2.abrupt("return", _objectSpread({
               status: 'success',
               message: 'Update Successful'
             }, deal_data));
 
-          case 12:
+          case 13:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 13:
+          case 14:
           case "end":
             return _context2.stop();
         }
@@ -209,30 +376,38 @@ exports.updateDeal = updateDeal;
 
 var getDealTypes = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(ctx) {
-    var role, deal_types;
+    var _yield$Promise$all3, _yield$Promise$all4, deal_types, deal_eligibility_types, deal_value_types, deal_requirement_types;
+
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            role = ctx.state.user.user.role;
-            _context3.next = 3;
-            return (0, _RoleService.checkIfMarketing)(role);
+            _context3.next = 2;
+            return Promise.all([_deal_type["default"].query()["catch"](function (e) {
+              return [];
+            }), _deal_eligibility_type["default"].query()["catch"](function (e) {
+              return [];
+            }), _deal_value_type["default"].query()["catch"](function (e) {
+              return [];
+            }), _deal_requirement_type["default"].query()["catch"](function (e) {
+              return [];
+            })]);
 
-          case 3:
-            if (!_context3.sent) {
-              _context3.next = 8;
-              break;
-            }
-
-            deal_types = _deal_type["default"].query();
+          case 2:
+            _yield$Promise$all3 = _context3.sent;
+            _yield$Promise$all4 = (0, _slicedToArray2["default"])(_yield$Promise$all3, 4);
+            deal_types = _yield$Promise$all4[0];
+            deal_eligibility_types = _yield$Promise$all4[1];
+            deal_value_types = _yield$Promise$all4[2];
+            deal_requirement_types = _yield$Promise$all4[3];
             return _context3.abrupt("return", {
               status: 'success',
               message: 'Successful',
-              data: deal_types
+              deal_types: deal_types,
+              deal_eligibility_types: deal_eligibility_types,
+              deal_value_types: deal_value_types,
+              deal_requirement_types: deal_requirement_types
             });
-
-          case 8:
-            throw (0, _helpers.Unauthorized)('Unauthorized');
 
           case 9:
           case "end":
@@ -248,4 +423,40 @@ var getDealTypes = /*#__PURE__*/function () {
 }();
 
 exports.getDealTypes = getDealTypes;
+
+var getCokitchenDeals = /*#__PURE__*/function () {
+  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(ctx) {
+    var cokitchen_with_deals;
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return _cokitchen["default"].query().withGraphFetched('[deals.[deal_type, deal_value_type, deal_eligibility_type, deal_requirement_type]]')["catch"](function (e) {
+              console.log(e);
+              return [];
+            });
+
+          case 2:
+            cokitchen_with_deals = _context4.sent;
+            return _context4.abrupt("return", {
+              status: 'success',
+              message: 'Successful',
+              data: cokitchen_with_deals
+            });
+
+          case 4:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function getCokitchenDeals(_x4) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.getCokitchenDeals = getCokitchenDeals;
 //# sourceMappingURL=deal.controller.js.map

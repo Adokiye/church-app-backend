@@ -48,7 +48,7 @@ var CokithenHomePagePost = /*#__PURE__*/function (_modelUuid) {
     modelClass: _cokitchen["default"],
     join: {
       from: 'cokitchen_home_page_posts.cokitchen_id',
-      to: 'cokitchen.id'
+      to: 'cokitchens.id'
     }
   }
 });

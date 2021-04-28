@@ -41,14 +41,13 @@ var CokitchenPolygon = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(CokitchenPolygon, "tableName", 'cokitchen_polygons');
-(0, _defineProperty2["default"])(CokitchenPolygon, "hidden", ['cokitchen_id']);
 (0, _defineProperty2["default"])(CokitchenPolygon, "relationMappings", {
   cokitchen: {
-    relation: _objection.Model.BelongsToOneRelation,
+    relation: _objection.Model.HasOneRelation,
     modelClass: _cokitchen["default"],
     join: {
       from: 'cokitchen_polygons.cokitchen_id',
-      to: 'cokitchen.id'
+      to: 'cokitchens.id'
     }
   }
 });

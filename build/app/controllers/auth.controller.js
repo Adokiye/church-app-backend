@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.me = exports.findUserName = exports.verifyUser = exports.loginLogisticsAdmin = exports.loginMarketing = exports.login = exports.adminGetUserRoles = exports.adminGetUsers = exports.registerAsLogisticsAdmin = exports.registerAsMarketing = exports.marketingCreateStaff = exports.adminUpdateUser = exports.updateDeviceToken = exports.update = exports.create = exports.verifyOtp = exports.sendOtp = void 0;
+exports.getAllUsers = exports.me = exports.findUserName = exports.verifyUser = exports.loginLogisticsAdmin = exports.loginMarketing = exports.login = exports.adminGetUserRoles = exports.adminGetUsers = exports.registerAsLogisticsAdmin = exports.registerAsMarketing = exports.marketingCreateStaff = exports.adminUpdateUser = exports.updateDeviceToken = exports.update = exports.create = exports.verifyOtp = exports.sendOtp = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -954,4 +954,53 @@ var me = /*#__PURE__*/function () {
 }();
 
 exports.me = me;
+
+var getAllUsers = /*#__PURE__*/function () {
+  var _ref18 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee18(ctx) {
+    var role, user_data;
+    return _regenerator["default"].wrap(function _callee18$(_context18) {
+      while (1) {
+        switch (_context18.prev = _context18.next) {
+          case 0:
+            role = ctx.state.user.user.role;
+            _context18.next = 3;
+            return (0, _RoleService.checkIfMarketing)(role);
+
+          case 3:
+            if (!_context18.sent) {
+              _context18.next = 10;
+              break;
+            }
+
+            _context18.next = 6;
+            return _user["default"].query()["catch"](function (e) {
+              console.log(e);
+              return [];
+            });
+
+          case 6:
+            user_data = _context18.sent;
+            return _context18.abrupt("return", {
+              status: status,
+              message: 'Users gotten successfully',
+              data: user_data
+            });
+
+          case 10:
+            throw (0, _helpers.Unauthorized)('Unauthorized');
+
+          case 11:
+          case "end":
+            return _context18.stop();
+        }
+      }
+    }, _callee18);
+  }));
+
+  return function getAllUsers(_x19) {
+    return _ref18.apply(this, arguments);
+  };
+}();
+
+exports.getAllUsers = getAllUsers;
 //# sourceMappingURL=auth.controller.js.map

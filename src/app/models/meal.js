@@ -9,7 +9,7 @@ import { baseModel, modelUuid, modelUnique } from './index'
 class Meal extends modelUuid(baseModel) {
   static tableName = 'meals'
 
-  static hidden = ['meal_category_id', 'brand_id', 'posist_data']
+  static hidden = ['meal_category_id', 'posist_data']
 
   static relationMappings = {
     meal_category: {
