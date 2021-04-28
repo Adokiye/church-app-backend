@@ -15,7 +15,7 @@ export const seed = async knex => {
     },
     {
       id: v4(),
-      name: 'MIMIMUM_QUANTITY_OF_ITEMS'
+      name: 'MINIMUM_QUANTITY_OF_ITEMS'
     }
   ])
 }

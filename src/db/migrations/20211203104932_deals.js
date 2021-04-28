@@ -46,7 +46,7 @@ export const up = knex =>
     table.string('to_start_date').notNullable()
     table.time('to_start_time').notNullable()
     table.string('to_expire_date').notNullable()
-    table.time('to_expire_time')
+    table.time('to_expire_time').notNullable()
 
     table.timestamps(true, true)
   })
