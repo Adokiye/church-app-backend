@@ -7,7 +7,24 @@ export const up = knex =>
       .inTable('deal_types')
       .onDelete('CASCADE')
       .notNullable()
-
+    table
+      .uuid('deal_value_type_id')
+      .references('id')
+      .inTable('deal_value_types')
+      .onDelete('CASCADE')
+      .notNullable()
+    table
+      .uuid('deal_requirement_type_id')
+      .references('id')
+      .inTable('deal_requirement_types')
+      .onDelete('CASCADE')
+      .notNullable()
+    table
+      .uuid('deal_eligibility_type_id')
+      .references('id')
+      .inTable('deal_eligibility_types')
+      .onDelete('CASCADE')
+      .notNullable()
     table
       .uuid('brand_id')
       .references('id')
