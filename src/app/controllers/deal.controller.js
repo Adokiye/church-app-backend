@@ -33,7 +33,7 @@ export const createDeal = async ctx => {
           .where('id',brands[i].id)
           .catch(() => false)
         if (brand_data) {
-          body.brand_id = brand_data.id
+          body.brand_id = brand_data[0].id
           const deal_data = await Deal.query()
             .insert(body)
             .withGraphFetched('[deal_type]')
