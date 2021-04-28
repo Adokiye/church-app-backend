@@ -7,18 +7,16 @@ import { Unauthorized } from '../helpers'
 export const createDeal = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-   const deal_type_id = body.deal_type_id
    body.max = '0'
    if(body.images){
      body.images = JSON.stringify(body.images)
    }
    const brands = body.brands
    delete body.brands
-   delete body.deal_type_id
    console.log(body)
   if (await checkIfMarketing(role)) {
     const deal_type_data = await DealType.query()
-      .findById(deal_type_id)
+      .findById(body.deal_type_id)
       .catch(() => false)
     if (!deal_type_data) {
       return res.status(404).json({
