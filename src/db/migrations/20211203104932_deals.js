@@ -40,7 +40,7 @@ export const up = knex =>
     table.string('max_items').notNullable().defaultTo('0')
     table.string('max_usage').notNullable().defaultTo('0')
 
-    table.string('discount_code').notNullable()
+    table.string('discount_code').unique().notNullable()
     table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
     table.decimal('rate', 2, 1)
     table.string('to_start_date').notNullable()
