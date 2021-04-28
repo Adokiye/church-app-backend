@@ -27,6 +27,9 @@ const DealsValidator = {
 
         body: Joi.string().required(),
         images: Joi.array().items(image).required(),
+        specific_customers: Joi.array().items(image),
+        fixed_amount: Joi.string(),
+
         rate: Joi.number().required(),
         min_amount: Joi.string(),
         max_amount: Joi.string(),
@@ -37,7 +40,7 @@ const DealsValidator = {
         to_expire_date: Joi.date().required(),
         to_expire_time: Joi.string().required(),
         to_start_date: Joi.date().required(),
-        to_start_time: Joi.string()
+        to_start_time: Joi.string().required()
       }
     }),
   updateDeal: () =>
@@ -70,7 +73,9 @@ const DealsValidator = {
         to_expire_date: Joi.date(),
         to_expire_time: Joi.string(),
         to_start_date: Joi.date(),
-        to_start_time: Joi.string()
+        to_start_time: Joi.string(),
+        specific_customers: Joi.array().items(image),
+        fixed_amount: Joi.string()
       }
     })
 }

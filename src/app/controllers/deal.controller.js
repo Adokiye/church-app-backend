@@ -5,22 +5,34 @@ import DealEligibilityType from '../models/deal_eligibility_type'
 import DealRequirementType from '../models/deal_requirement_type'
 import DealValueType from '../models/deal_value_type'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
-import { Unauthorized } from '../helpers'
+import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-  body.max = '0'
   if (body.images) {
     body.images = JSON.stringify(body.images)
   }
-  const brands = body.brands
-  delete body.brands
-  console.log(body)
   if (await checkIfMarketing(role)) {
-    const deal_type_data = await DealType.query()
-      .findById(body.deal_type_id)
-      .catch(() => false)
+    const [
+      deal_type_data,
+      deal_eligibility_type_data,
+      deal_value_type_data,
+      deal_requirement_type_data
+    ] = await Promise.all([
+      DealType.query()
+        .findById(body.deal_type_id)
+        .catch(e => false),
+      DealEligibilityType.query()
+        .findById(body.deal_eligibility_type_id)
+        .catch(e => false),
+      DealValueType.query()
+        .findById(body.deal_value_type_id)
+        .catch(e => false),
+      DealRequirementType.query()
+        .findById(body.deal_requirement_type_id)
+        .catch(e => false)
+    ])
     if (!deal_type_data) {
       return res.status(404).json({
         status: 'error',
@@ -30,7 +42,83 @@ export const createDeal = async ctx => {
         }
       })
     }
+    if (!deal_eligibility_type_data) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Not Found',
+        errors: {
+          deal_eligibility_type: [
+            'Deal Eligibility type not found with that id'
+          ]
+        }
+      })
+    }
+    if (!deal_value_type_data) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Not Found',
+        errors: {
+          deal_value_type: ['Deal Value type not found with that id']
+        }
+      })
+    }
+    if (!deal_requirement_type_data) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Not Found',
+        errors: {
+          deal_requirement_type: ['Deal Value type not found with that id']
+        }
+      })
+    }
+    if (deal_eligibility_type_data.name === 'SPECIFIC_CUSTOMERS') {
+      if (!body.specific_customers) {
+        throw UnprocessableEntity(
+          'For eligibility type SPECIFIC_CUSTOMERS, specific_customers array is required'
+        )
+      }
+      body.specific_customers = JSON.stringify(body.specific_customers)
+    }
+    switch (deal_requirement_type_data.name) {
+      case 'MINIMUM_PURCHASE_AMOUNT':
+        if (!body.min_amount) {
+          throw UnprocessableEntity(
+            'For requirement type MINIMUM_PURCHASE_AMOUNT, min_amount is required'
+          )
+        }
+        break
+      case 'MINIMUM_QUANTITY_OF_ITEMS':
+        if (!body.min_items) {
+          throw UnprocessableEntity(
+            'For requirement type MINIMUM_QUANTITY_OF_ITEMS, min_items is required'
+          )
+        }
+        break
+    }
+    switch (deal_value_type_data.name) {
+      case 'PERCENTAGE':
+        if (!body.rate) {
+          throw UnprocessableEntity(
+            'For value type PERCENTAGE, rate is required'
+          )
+        }
+        break
+      case 'FIXED_AMOUNT':
+        if (!body.fixed_amount) {
+          throw UnprocessableEntity(
+            'For value type FIXED_AMOUNT, fixed_amount is required'
+          )
+        }
+        break
+    }
     if (deal_type_data.name === 'BRAND') {
+      if (!body.brands) {
+        throw UnprocessableEntity(
+          'for deal type BRAND, brands array is required'
+        )
+      }
+      const brands = body.brands
+      delete body.brands
       var deals = []
       var i = 0,
         len = brands.length
@@ -42,8 +130,10 @@ export const createDeal = async ctx => {
           body.brand_id = brand_data[0].id
           const deal_data = await Deal.query()
             .insert(body)
-            .withGraphFetched('[deal_type]')
-            .catch(e => console.log(e))
+            .catch(e => {
+              console.log(e)
+              throw UnprocessableEntity('Invalid Body')
+            })
           deals.push(deal_data)
         } else {
           return res.status(404).json({
@@ -58,18 +148,19 @@ export const createDeal = async ctx => {
       }
       return {
         status: 'success',
-        message: 'Creation Successful',
+        message: 'Deal Creation Successful',
         data: deals
       }
     } else {
-      const brand_data = await Brand.query().catch(() => [])
-      body.brand_id = brand_data[0].id
       const deal_data = await Deal.query()
         .insert(body)
-        .withGraphFetched('[deal_type]')
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid Body')
+        })
       return {
         status: 'success',
-        message: 'Creation Successful',
+        message: 'Deal Creation Successful',
         data: deal_data
       }
     }

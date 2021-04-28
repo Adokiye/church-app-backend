@@ -408,10 +408,11 @@ export const me = async ctx => {
     .findOne({
       id: user.id
     })
-    .withGraphFetched(
-      '[free_deliveries, referral_code]'
-    )
-    .catch((e) => {console.log(e);return false;})
+    .withGraphFetched('[free_deliveries, referral_code]')
+    .catch(e => {
+      console.log(e)
+      return false
+    })
 
   if (!user_data) {
     throw Unauthorized('User not found. Please sign up')
@@ -421,5 +422,23 @@ export const me = async ctx => {
       message: 'User data gotten successfully',
       ...user_data
     }
+  }
+}
+
+export const getAllUsers = async ctx => {
+  const { role } = ctx.state.user.user
+
+  if (await checkIfMarketing(role)) {
+    const user_data = await User.query().catch(e => {
+      console.log(e)
+      return []
+    })
+    return {
+      status,
+      message: 'Users gotten successfully',
+      data: user_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized')
   }
 }

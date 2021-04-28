@@ -340,7 +340,7 @@ router.get('/internal/deal-types', Deals.getDealTypes)
 // brand details marketing
 router.post('/marketing/brand', BrandValidator.createBrand(), Brand.createBrand)
 
-//router.post('/marketing/cokitchen', CokitchenValidator.createCokitchen(), Brand.createBrand)
+router.get('/marketing/user', Auth.getAllUsers)
 
 router.put('/marketing/brand', BrandValidator.updateBrand(), Brand.updateBrand)
 

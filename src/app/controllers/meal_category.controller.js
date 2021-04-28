@@ -13,6 +13,7 @@ export const updateMealCategory = async ctx => {
     if(body.images){
       body.images = JSON.stringify(body.images)
     }
+    
     const meal_category_data = await await MealCategory.query()
       .patchAndFetchById(meal_category_id, body)
       .withGraphFetched('[selection_type]')

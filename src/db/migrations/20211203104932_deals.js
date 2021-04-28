@@ -36,6 +36,12 @@ export const up = knex =>
     table.string('body', 10000).notNullable()
     table.string('min_amount').notNullable().defaultTo('0')
     table.string('max_amount').notNullable().defaultTo('0')
+    table.string('fixed_amount').notNullable().defaultTo('0')
+    table
+      .jsonb('specific_customers')
+      .notNullable()
+      .defaultTo(JSON.stringify([]))
+
     table.string('min_items').notNullable().defaultTo('0')
     table.string('max_items').notNullable().defaultTo('0')
     table.string('max_usage').notNullable().defaultTo('0')

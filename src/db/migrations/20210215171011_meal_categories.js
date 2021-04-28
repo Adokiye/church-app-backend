@@ -10,6 +10,8 @@ exports.up = function (knex) {
       table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
       table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}))
       table.string('icon')
+      table.string('selection_no')
+
       table
         .uuid('meal_category_selection_type_id')
         .references('id')

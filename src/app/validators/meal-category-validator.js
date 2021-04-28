@@ -12,7 +12,8 @@ const MealCategoryValidator = {
         summary: Joi.string(),
         description: Joi.string(),
         images: Joi.array().items(image),
-        meal_category_selection_type_id: Joi.string()
+        meal_category_selection_type_id: Joi.string(),
+        selection_no: Joi.string()
       }
     })
 }
