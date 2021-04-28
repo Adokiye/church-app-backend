@@ -1,19 +1,22 @@
 import Brand from '../models/brand'
 import Deal from '../models/deal'
 import DealType from '../models/deal_type'
+import DealEligibilityType from '../models/deal_eligibility_type'
+import DealRequirementType from '../models/deal_requirement_type'
+import DealValueType from '../models/deal_value_type'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized } from '../helpers'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
-   body.max = '0'
-   if(body.images){
-     body.images = JSON.stringify(body.images)
-   }
-   const brands = body.brands
-   delete body.brands
-   console.log(body)
+  body.max = '0'
+  if (body.images) {
+    body.images = JSON.stringify(body.images)
+  }
+  const brands = body.brands
+  delete body.brands
+  console.log(body)
   if (await checkIfMarketing(role)) {
     const deal_type_data = await DealType.query()
       .findById(body.deal_type_id)
@@ -33,14 +36,14 @@ export const createDeal = async ctx => {
         len = brands.length
       while (i < len) {
         const brand_data = await Brand.query()
-          .where('id',brands[i].id)
+          .where('id', brands[i].id)
           .catch(() => false)
         if (brand_data) {
           body.brand_id = brand_data[0].id
           const deal_data = await Deal.query()
             .insert(body)
             .withGraphFetched('[deal_type]')
-            .catch((e)=>console.log(e))
+            .catch(e => console.log(e))
           deals.push(deal_data)
         } else {
           return res.status(404).json({
@@ -98,10 +101,23 @@ export const updateDeal = async ctx => {
 }
 
 export const getDealTypes = async ctx => {
-  const deal_types = await DealType.query().catch(e => [])
+  const [
+    deal_types,
+    deal_eligibility_types,
+    deal_value_types,
+    deal_requirement_types
+  ] = await Promise.all([
+    DealType.query().catch(e => []),
+    DealEligibilityType.query().catch(e => []),
+    DealValueType.query().catch(e => []),
+    DealRequirementType.query().catch(e => [])
+  ])
   return {
     status: 'success',
     message: 'Successful',
-    data: deal_types
+    deal_types,
+    deal_eligibility_types,
+    deal_value_types,
+    deal_requirement_types
   }
 }
