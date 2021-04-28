@@ -9,6 +9,9 @@ export const createDeal = async ctx => {
   const { role } = ctx.state.user.user
    const deal_type_id = body.deal_type_id
    body.max = '0'
+   if(body.images){
+     body.images = JSON.stringify(body.images)
+   }
    const brands = body.brands
    delete body.brands
    delete body.deal_type_id
