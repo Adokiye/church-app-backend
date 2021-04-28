@@ -14,7 +14,7 @@ const DealsValidator = {
         deal_value_type_id: Joi.string().required(),
         deal_requirement_type_id: Joi.string().required(),
         deal_eligibility_type_id: Joi.string().required(),
-
+        cokitchen_id: Joi.string(),
         brands: Joi.array().items(
           Joi.object().keys({
             name: Joi.string().required(),

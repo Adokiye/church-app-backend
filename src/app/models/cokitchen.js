@@ -1,6 +1,6 @@
 import { baseModel, modelUuid } from './index'
 import { Model } from 'objection'
-
+import path from 'path'
 import Brand from './brand'
 import CokitchenPolygon from './cokitchen_polygon'
 import Meal from './meal'
@@ -37,6 +37,14 @@ class Cokitchen extends modelUuid(baseModel) {
           to: 'brands.id'
         },
         to: 'meals.brand_id'
+      }
+    },
+    deals: {
+      relation: Model.HasManyRelation,
+      modelClass: path.join(__dirname, 'deal'),
+      join: {
+        from: 'deals.cokitchen_id',
+        to: 'cokitchens.id'
       }
     },
     cokitchen_explore_keywords: {

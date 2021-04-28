@@ -30,6 +30,12 @@ export const up = knex =>
       .references('id')
       .inTable('brands')
       .onDelete('CASCADE')
+    table
+      .uuid('cokitchen_id')
+      .references('id')
+      .inTable('cokitchens')
+      .onDelete('CASCADE')
+      .notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.string('title').notNullable()
     table.string('heading').notNullable()

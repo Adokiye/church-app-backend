@@ -4,6 +4,7 @@ import DealType from '../models/deal_type'
 import DealEligibilityType from '../models/deal_eligibility_type'
 import DealRequirementType from '../models/deal_requirement_type'
 import DealValueType from '../models/deal_value_type'
+import Cokitchen from '../models/cokitchen'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
 
@@ -128,6 +129,7 @@ export const createDeal = async ctx => {
           .catch(() => false)
         if (brand_data) {
           body.brand_id = brand_data[0].id
+          body.cokitchen_id = brand_data[0].cokitchen_id
           const deal_data = await Deal.query()
             .insert(body)
             .catch(e => {
@@ -140,7 +142,7 @@ export const createDeal = async ctx => {
             status: 'error',
             message: 'Not Found',
             errors: {
-              deal_type: ['Brand not found']
+              brand: ['Brand not found for id ' + brands[i].id]
             }
           })
         }
@@ -152,6 +154,9 @@ export const createDeal = async ctx => {
         data: deals
       }
     } else {
+      if (!body.cokitchen_id) {
+        throw UnprocessableEntity('for deal type ALL, cokitchen_id is required')
+      }
       const deal_data = await Deal.query()
         .insert(body)
         .catch(e => {
@@ -210,5 +215,21 @@ export const getDealTypes = async ctx => {
     deal_eligibility_types,
     deal_value_types,
     deal_requirement_types
+  }
+}
+
+export const getCokitchenDeals = async ctx => {
+  const cokitchen_with_deals = await Cokitchen.query()
+    .withGraphFetched(
+      '[deals.[deal_type, deal_value_type, deal_eligibility_type, deal_requirement_type]]'
+    )
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success',
+    message: 'Successful',
+    data: cokitchen_with_deals
   }
 }
