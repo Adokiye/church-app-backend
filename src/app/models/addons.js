@@ -10,7 +10,7 @@ class Addon extends modelUuid(baseModel) {
     meal_data: {
       relation: Model.BelongsToOneRelation,
       modelClass: path.join(__dirname, 'meal'),
-      
+
       join: {
         from: 'addons.meal_addon_id',
         to: 'meals.id'

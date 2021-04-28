@@ -72,7 +72,7 @@ export const getMealAddons = async ctx => {
     const meals_data = await await MealCategory.query()
       .where('addons.meal_id', meal_id)
       .withGraphJoined(
-        '[addons, meal_category_selection_type(selectNameAndId)]'
+        '[addons.[meal_data], meal_category_selection_type(selectNameAndId)]'
       )
       .modifiers({
         selectNameAndId(builder) {

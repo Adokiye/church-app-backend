@@ -11,6 +11,9 @@ const DealsValidator = {
     validationMiddleware({
       body: {
         deal_type_id: Joi.string().required(),
+        deal_value_type_id: Joi.string().required(),
+        deal_type_id: Joi.string().required(),
+
         brands: Joi.array().items(
           Joi.object().keys({
             name: Joi.string().required(),
