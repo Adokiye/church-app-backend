@@ -15,6 +15,7 @@ export const createDeal = async ctx => {
    const brands = body.brands
    delete body.brands
    delete body.deal_type_id
+   console.log(body)
   if (await checkIfMarketing(role)) {
     const deal_type_data = await DealType.query()
       .findById(deal_type_id)
