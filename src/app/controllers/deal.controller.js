@@ -38,6 +38,7 @@ export const createDeal = async ctx => {
           const deal_data = await Deal.query()
             .insert(body)
             .withGraphFetched('[deal_type]')
+            .catch((e)=>console.log(e))
           deals.push(deal_data)
         } else {
           return res.status(404).json({
