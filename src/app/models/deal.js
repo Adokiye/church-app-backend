@@ -6,7 +6,7 @@ import Brand from './brand'
 class Deal extends modelUuid(baseModel) {
   static tableName = 'deals'
 
-  static hidden = ['deal_type_id', 'brand_id']
+  static hidden = ['deal_type_id', 'brand_id','deal_value_type_id','deal_requirement_type_id','deal_eligibility_type_id']
 
   static relationMappings = {
     deal_type: {
