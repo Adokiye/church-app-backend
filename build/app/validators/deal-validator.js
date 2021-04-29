@@ -43,7 +43,8 @@ var DealsValidator = {
         to_expire_date: _joi["default"].date().required(),
         to_expire_time: _joi["default"].string().required(),
         to_start_date: _joi["default"].date().required(),
-        to_start_time: _joi["default"].string().required()
+        to_start_time: _joi["default"].string().required(),
+        post: _joi["default"].bool()
       }
     });
   },

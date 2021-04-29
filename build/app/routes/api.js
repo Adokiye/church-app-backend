@@ -37,6 +37,8 @@ var _appFeedbackValidator = _interopRequireDefault(require("../validators/app-fe
 
 var _cokitchenExploreKeywordValidator = _interopRequireDefault(require("../validators/cokitchen-explore-keyword-validator"));
 
+var _orderValidator = _interopRequireDefault(require("../validators/order-validator"));
+
 var router = new _koaRouter["default"](); //authentication and user routes
 
 router.put('/auth/user', _userValidator["default"].update(), _controllers.Auth.update);
@@ -124,7 +126,9 @@ router.post('/internal/meal-keywords', _brandValidator["default"].getUserBrands(
 
 router.post('/logistics/admin/create-logistics-company', _logisticsValidator["default"].createLogisticsCompany(), _controllers.Logistics.createLogisticsCompany);
 router.post('/logistics/admin/create-logistics-admin', _logisticsValidator["default"].createLogisticsStaff(), _controllers.Logistics.createLogisticsAdmin);
-router.post('/logistics/create-logistics-rider', _logisticsValidator["default"].createLogisticsStaff(), _controllers.Logistics.createLogisticsRider);
+router.post('/logistics/create-logistics-rider', _logisticsValidator["default"].createLogisticsStaff(), _controllers.Logistics.createLogisticsRider); //orders
+
+router.post('/order/calculate', _orderValidator["default"].calculateOrder(), _controllers.Order.calculateOrder);
 
 var _default = router.routes();
 

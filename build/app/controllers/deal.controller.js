@@ -19,6 +19,8 @@ var _brand = _interopRequireDefault(require("../models/brand"));
 
 var _deal = _interopRequireDefault(require("../models/deal"));
 
+var _posts = _interopRequireDefault(require("../models/posts"));
+
 var _deal_type = _interopRequireDefault(require("../models/deal_type"));
 
 var _deal_eligibility_type = _interopRequireDefault(require("../models/deal_eligibility_type"));
@@ -39,7 +41,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 var createDeal = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(ctx) {
-    var body, role, _yield$Promise$all, _yield$Promise$all2, deal_type_data, deal_eligibility_type_data, deal_value_type_data, deal_requirement_type_data, brands, deals, i, len, brand_data, deal_data, _deal_data;
+    var body, role, post, _yield$Promise$all, _yield$Promise$all2, deal_type_data, deal_eligibility_type_data, deal_value_type_data, deal_requirement_type_data, brands, deals, i, len, brand_data, deal_data, _deal_data;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -47,21 +49,27 @@ var createDeal = /*#__PURE__*/function () {
           case 0:
             body = ctx.request.body;
             role = ctx.state.user.user.role;
+            post = false;
 
             if (body.images) {
               body.images = JSON.stringify(body.images);
             }
 
-            _context.next = 5;
+            if (body.post) {
+              post = body.post;
+              delete body.post;
+            }
+
+            _context.next = 7;
             return (0, _RoleService.checkIfMarketing)(role);
 
-          case 5:
+          case 7:
             if (!_context.sent) {
-              _context.next = 79;
+              _context.next = 81;
               break;
             }
 
-            _context.next = 8;
+            _context.next = 10;
             return Promise.all([_deal_type["default"].query().findById(body.deal_type_id)["catch"](function (e) {
               return false;
             }), _deal_eligibility_type["default"].query().findById(body.deal_eligibility_type_id)["catch"](function (e) {
@@ -72,7 +80,7 @@ var createDeal = /*#__PURE__*/function () {
               return false;
             })]);
 
-          case 8:
+          case 10:
             _yield$Promise$all = _context.sent;
             _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 4);
             deal_type_data = _yield$Promise$all2[0];
@@ -81,7 +89,7 @@ var createDeal = /*#__PURE__*/function () {
             deal_requirement_type_data = _yield$Promise$all2[3];
 
             if (deal_type_data) {
-              _context.next = 16;
+              _context.next = 18;
               break;
             }
 
@@ -93,9 +101,9 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 16:
+          case 18:
             if (deal_eligibility_type_data) {
-              _context.next = 18;
+              _context.next = 20;
               break;
             }
 
@@ -107,9 +115,9 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 18:
+          case 20:
             if (deal_value_type_data) {
-              _context.next = 20;
+              _context.next = 22;
               break;
             }
 
@@ -121,9 +129,9 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 20:
+          case 22:
             if (deal_requirement_type_data) {
-              _context.next = 22;
+              _context.next = 24;
               break;
             }
 
@@ -135,129 +143,129 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 22:
+          case 24:
             if (!(deal_eligibility_type_data.name === 'SPECIFIC_CUSTOMERS')) {
-              _context.next = 26;
+              _context.next = 28;
               break;
             }
 
             if (body.specific_customers) {
-              _context.next = 25;
+              _context.next = 27;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('For eligibility type SPECIFIC_CUSTOMERS, specific_customers array is required');
 
-          case 25:
+          case 27:
             body.specific_customers = JSON.stringify(body.specific_customers);
 
-          case 26:
+          case 28:
             _context.t0 = deal_requirement_type_data.name;
-            _context.next = _context.t0 === 'MINIMUM_PURCHASE_AMOUNT' ? 29 : _context.t0 === 'MINIMUM_QUANTITY_OF_ITEMS' ? 32 : 35;
+            _context.next = _context.t0 === 'MINIMUM_PURCHASE_AMOUNT' ? 31 : _context.t0 === 'MINIMUM_QUANTITY_OF_ITEMS' ? 34 : 37;
             break;
 
-          case 29:
+          case 31:
             if (body.min_amount) {
-              _context.next = 31;
+              _context.next = 33;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('For requirement type MINIMUM_PURCHASE_AMOUNT, min_amount is required');
 
-          case 31:
-            return _context.abrupt("break", 35);
+          case 33:
+            return _context.abrupt("break", 37);
 
-          case 32:
+          case 34:
             if (body.min_items) {
-              _context.next = 34;
+              _context.next = 36;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('For requirement type MINIMUM_QUANTITY_OF_ITEMS, min_items is required');
 
-          case 34:
-            return _context.abrupt("break", 35);
+          case 36:
+            return _context.abrupt("break", 37);
 
-          case 35:
+          case 37:
             _context.t1 = deal_value_type_data.name;
-            _context.next = _context.t1 === 'PERCENTAGE' ? 38 : _context.t1 === 'FIXED_AMOUNT' ? 41 : 44;
+            _context.next = _context.t1 === 'PERCENTAGE' ? 40 : _context.t1 === 'FIXED_AMOUNT' ? 43 : 46;
             break;
 
-          case 38:
+          case 40:
             if (body.rate) {
-              _context.next = 40;
+              _context.next = 42;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('For value type PERCENTAGE, rate is required');
 
-          case 40:
-            return _context.abrupt("break", 44);
+          case 42:
+            return _context.abrupt("break", 46);
 
-          case 41:
+          case 43:
             if (body.fixed_amount) {
-              _context.next = 43;
+              _context.next = 45;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('For value type FIXED_AMOUNT, fixed_amount is required');
 
-          case 43:
-            return _context.abrupt("break", 44);
+          case 45:
+            return _context.abrupt("break", 46);
 
-          case 44:
+          case 46:
             if (!(deal_type_data.name === 'BRAND')) {
-              _context.next = 71;
+              _context.next = 73;
               break;
             }
 
             if (body.brands) {
-              _context.next = 47;
+              _context.next = 49;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('for deal type BRAND, brands array is required');
 
-          case 47:
+          case 49:
             brands = body.brands;
             delete body.brands;
             deals = [];
             i = 0, len = brands.length;
 
-          case 51:
+          case 53:
             if (!(i < len)) {
-              _context.next = 68;
+              _context.next = 70;
               break;
             }
 
-            _context.next = 54;
+            _context.next = 56;
             return _brand["default"].query().where('id', brands[i].id)["catch"](function () {
               return false;
             });
 
-          case 54:
+          case 56:
             brand_data = _context.sent;
 
             if (!brand_data) {
-              _context.next = 64;
+              _context.next = 66;
               break;
             }
 
             body.brand_id = brand_data[0].id;
             body.cokitchen_id = brand_data[0].cokitchen_id;
-            _context.next = 60;
+            _context.next = 62;
             return _deal["default"].query().insert(body)["catch"](function (e) {
               console.log(e);
               throw (0, _helpers.UnprocessableEntity)('Invalid Body');
             });
 
-          case 60:
+          case 62:
             deal_data = _context.sent;
             deals.push(deal_data);
-            _context.next = 65;
+            _context.next = 67;
             break;
 
-          case 64:
+          case 66:
             return _context.abrupt("return", res.status(404).json({
               status: 'error',
               message: 'Not Found',
@@ -266,34 +274,34 @@ var createDeal = /*#__PURE__*/function () {
               }
             }));
 
-          case 65:
+          case 67:
             i++;
-            _context.next = 51;
+            _context.next = 53;
             break;
 
-          case 68:
+          case 70:
             return _context.abrupt("return", {
               status: 'success',
               message: 'Deal Creation Successful',
               data: deals
             });
 
-          case 71:
+          case 73:
             if (body.cokitchen_id) {
-              _context.next = 73;
+              _context.next = 75;
               break;
             }
 
             throw (0, _helpers.UnprocessableEntity)('for deal type ALL, cokitchen_id is required');
 
-          case 73:
-            _context.next = 75;
+          case 75:
+            _context.next = 77;
             return _deal["default"].query().insert(body)["catch"](function (e) {
               console.log(e);
               throw (0, _helpers.UnprocessableEntity)('Invalid Body');
             });
 
-          case 75:
+          case 77:
             _deal_data = _context.sent;
             return _context.abrupt("return", {
               status: 'success',
@@ -301,14 +309,14 @@ var createDeal = /*#__PURE__*/function () {
               data: _deal_data
             });
 
-          case 77:
-            _context.next = 80;
+          case 79:
+            _context.next = 82;
             break;
 
-          case 79:
+          case 81:
             throw (0, _helpers.Unauthorized)('Unauthorized');
 
-          case 80:
+          case 82:
           case "end":
             return _context.stop();
         }

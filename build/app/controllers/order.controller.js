@@ -66,13 +66,21 @@ exports.getOrderTypes = getOrderTypes;
 
 var calculateOrder = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(ctx) {
-    var body, service_charge, deal, _dealInDb, cokitchen_polygon, cokitchenPolygonInDb, i, len, meals, total_meal_amount, mealInDb, addons, addons_len, addonInDb, brand_found, _x3, _i, calculated_order;
+    var body, discount_code, cokitchen_polygon_id, meals, address, dealInDb, service_charge, cokitchenPolygonInDb, i, len, selected_meals, total_meal_amount, mealInDb, addons, addons_len, addonInDb, brand_found, _x3, _i, calculated_order;
 
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            body = ctx.request.body;
+            body = ctx.request.body; // initialize the body variables
+
+            discount_code = body.discount_code;
+            cokitchen_polygon_id = body.cokitchen_polygon_id;
+            meals = body.meals;
+            address = body.address;
+            dealInDb = {
+              id: ''
+            };
 
             Array.prototype.sum = function (prop) {
               var total = 0;
@@ -82,28 +90,29 @@ var calculateOrder = /*#__PURE__*/function () {
               }
 
               return total;
-            };
+            }; // make service charge 0 at first in case the order is greater than 1999
 
-            service_charge = 0; //1- get deal from the db based on the request
 
-            if (!body.deal) {
-              _context2.next = 10;
+            service_charge = 0; // calculate the order based on each body value
+            //1- get deal from the db based on the request if discount code exists
+
+            if (!discount_code) {
+              _context2.next = 14;
               break;
             }
 
-            deal = body.deal;
-            _context2.next = 7;
+            _context2.next = 11;
             return _deal["default"].query().where({
-              id: deal
-            }).withGraphFetched('[brand, deal_type]')["catch"](function () {
+              discount_code: discount_code
+            }).withGraphFetched('[brand, deal_type, deal_requirement_type, deal_eligibility_type, deal_value_type]')["catch"](function () {
               return false;
             });
 
-          case 7:
-            _dealInDb = _context2.sent;
+          case 11:
+            dealInDb = _context2.sent;
 
-            if (_dealInDb) {
-              _context2.next = 10;
+            if (dealInDb) {
+              _context2.next = 14;
               break;
             }
 
@@ -111,25 +120,23 @@ var calculateOrder = /*#__PURE__*/function () {
               status: 'error',
               message: 'Not Found',
               errors: {
-                deal: ["deal not found id:".concat(deal)]
+                discount_code: ["deal not found for discount code:".concat(discount_code)]
               }
             }));
 
-          case 10:
-            //2- get the users cokitchen polygon
-            cokitchen_polygon = body.cokitchen_polygon;
-            _context2.next = 13;
+          case 14:
+            _context2.next = 16;
             return _cokitchen_polygon["default"].query().where({
-              id: cokitchen_polygon
+              id: cokitchen_polygon_id
             })["catch"](function () {
               return false;
             });
 
-          case 13:
+          case 16:
             cokitchenPolygonInDb = _context2.sent;
 
             if (cokitchenPolygonInDb) {
-              _context2.next = 16;
+              _context2.next = 19;
               break;
             }
 
@@ -137,214 +144,218 @@ var calculateOrder = /*#__PURE__*/function () {
               status: 'error',
               message: 'Not Found',
               errors: {
-                cokitchen_polygon: ["cokitchen_polygon not found id:".concat(cokitchen_polygon)]
+                cokitchen_polygon_id: ["cokitchen_polygon not found for id:".concat(cokitchen_polygon_id)]
               }
             }));
 
-          case 16:
+          case 19:
             //step 3- get all meals and addons from the db based on the request
-            i = 0, len = body.meal_details.length;
-            meals = [];
+            i = 0, len = meals.length;
+            selected_meals = [];
             total_meal_amount = 0;
 
-          case 19:
+          case 22:
             if (!(i < len)) {
-              _context2.next = 61;
+              _context2.next = 64;
               break;
             }
 
-            _context2.next = 22;
+            _context2.next = 25;
             return _meal["default"].query().where({
-              id: body.meal_details[i].meal_id
+              id: meals[i].id
             }).withGraphFetched('[brand]')["catch"](function () {
               return false;
             });
 
-          case 22:
+          case 25:
             mealInDb = _context2.sent;
 
             if (!mealInDb) {
-              _context2.next = 57;
+              _context2.next = 60;
               break;
             }
 
             addons = [];
 
-            if (!(body.meal_details[i].addons.length > 0)) {
-              _context2.next = 41;
+            if (!(meals[i].addons.length > 0)) {
+              _context2.next = 44;
               break;
             }
 
-            addons_len = body.meal_details[i].addons.length;
+            addons_len = meals[i].addons.length;
 
-          case 27:
+          case 30:
             if (!(j < addons_len)) {
-              _context2.next = 41;
+              _context2.next = 44;
               break;
             }
 
-            _context2.next = 30;
+            _context2.next = 33;
             return _addons["default"].query().where({
-              id: body.meal_details[i].addons[j].addon_id
+              id: meals[i].addons[j].id
             })["catch"](function () {
               return false;
             });
 
-          case 30:
+          case 33:
             addonInDb = _context2.sent;
 
             if (!addonInDb) {
-              _context2.next = 37;
+              _context2.next = 40;
               break;
             }
 
-            addonInDb.qty = body.meal_details[i].addons[j].addon_qty;
-            addonInDb.total_amount = body.meal_details[i].addons[j].addon_qty * addonInDb.amount;
+            addonInDb.quantity = meals[i].addons[j].quantity;
+            addonInDb.total_amount = meals[i].addons[j].quantity * addonInDb.amount;
             addons.push(addonInDb);
-            _context2.next = 38;
+            _context2.next = 41;
             break;
 
-          case 37:
+          case 40:
             return _context2.abrupt("return", res.status(404).json({
               status: 'error',
               message: 'Not Found',
               errors: {
-                addon: ["addon not found meal-index:".concat(i, ", addon-index:").concat(j, " addon-id:").concat(body.meal_details[i].addons[j].addon_id)]
+                addon: ["addon not found meal-index:".concat(i, ", addon-index:").concat(j, " addon-id:").concat(meals[i].addons[j].id)]
               }
             }));
 
-          case 38:
+          case 41:
             j++;
-            _context2.next = 27;
+            _context2.next = 30;
             break;
 
-          case 41:
+          case 44:
             mealInDb.addons = addons;
-            mealInDb.qty = body.meal_details[i].meal_qty;
+            mealInDb.quantity = meals[i].quantity;
             brand_found = false; // find the meals brand and push to that array
 
             _x3 = 0;
 
-          case 45:
-            if (!(_x3 < meals.length)) {
+          case 48:
+            if (!(_x3 < selected_meals.length)) {
+              _context2.next = 57;
+              break;
+            }
+
+            if (!(selected_meals[_x3].brand.id == mealInDb.brand.id)) {
               _context2.next = 54;
               break;
             }
 
-            if (!(meals[_x3].brand.id == mealInDb.brand.id)) {
-              _context2.next = 51;
-              break;
-            }
+            selected_meals[_x3].meals.push(mealInDb);
 
-            meals[_x3].meals.push(mealInDb);
-
-            meals[_x3].amount += Number(mealInDb.amount) * Number(mealInDb.qty);
+            selected_meals[_x3].amount += Number(mealInDb.amount) * mealInDb.quantity + mealInDb.addons.sum('total_amount');
             brand_found = true;
-            return _context2.abrupt("break", 54);
-
-          case 51:
-            _x3++;
-            _context2.next = 45;
-            break;
+            return _context2.abrupt("break", 57);
 
           case 54:
-            if (!brand_found) {
-              meals.push({
-                brand: mealInDb.brand,
-                meals: [mealInDb],
-                amount: Number(mealInDb.amount) * Number(mealInDb.qty) + mealInDb.addons.sum('total_amount')
-              });
-            }
-
-            _context2.next = 58;
+            _x3++;
+            _context2.next = 48;
             break;
 
           case 57:
+            if (!brand_found) {
+              selected_meals.push({
+                brand: mealInDb.brand,
+                meals: [mealInDb],
+                amount: Number(mealInDb.amount) * mealInDb.quantity + mealInDb.addons.sum('total_amount')
+              });
+            }
+
+            _context2.next = 61;
+            break;
+
+          case 60:
             return _context2.abrupt("return", res.status(404).json({
               status: 'error',
               message: 'Not Found',
               errors: {
-                meal: ["meal not found meal-index:".concat(i, " meal-id:").concat(body.meal_details[i].meal_id)]
+                meal: ["meal not found meal-index:".concat(i, " meal-id:").concat(meals[i].id)]
               }
             }));
 
-          case 58:
+          case 61:
             i++;
-            _context2.next = 19;
+            _context2.next = 22;
             break;
 
-          case 61:
+          case 64:
             // if without deals meals amount is less than 2000, apply service charge
-            if (meals.sum('amount') < 2000) {
-              service_charge = 0.05;
+            if (selected_meals.sum('amount') < 2000) {
+              service_charge = 60;
             } // 4- if deal exists , apply deal to amount
 
 
-            if (!body.deaL) {
-              _context2.next = 79;
+            if (!discount_code) {
+              _context2.next = 82;
               break;
             }
 
             if (!(dealInDb.deal_type.name == 'BRAND')) {
-              _context2.next = 75;
+              _context2.next = 78;
               break;
             }
 
             _i = 0;
 
-          case 65:
-            if (!(_i < meals.length)) {
+          case 68:
+            if (!(_i < selected_meals.length)) {
+              _context2.next = 75;
+              break;
+            }
+
+            if (!(selected_meals[x].brand.id == dealInDb.brand.id && dealInDb.min < selected_meals[x].amount)) {
               _context2.next = 72;
               break;
             }
 
-            if (!(meals[x].brand.id == dealInDb.brand.id && dealInDb.min < meals[x].amount)) {
-              _context2.next = 69;
-              break;
-            }
-
             //apply deal
-            meals[x].amount -= meals[x].amount * dealInDb.rate;
-            return _context2.abrupt("break", 72);
-
-          case 69:
-            _i++;
-            _context2.next = 65;
-            break;
+            selected_meals[x].amount -= selected_meals[x].amount * dealInDb.rate;
+            return _context2.abrupt("break", 75);
 
           case 72:
-            total_meal_amount += meals.sum('amount');
-            _context2.next = 77;
+            _i++;
+            _context2.next = 68;
             break;
 
           case 75:
-            total_meal_amount += meals.sum('amount');
+            total_meal_amount += selected_meals.sum('amount');
+            _context2.next = 80;
+            break;
+
+          case 78:
+            total_meal_amount += selected_meals.sum('amount');
 
             if (dealInDb.min < total_meal_amount) {
               //apply deal
               total_meal_amount -= total_meal_amount * dealInDb.rate;
             }
 
-          case 77:
-            _context2.next = 80;
+          case 80:
+            _context2.next = 83;
             break;
 
-          case 79:
-            total_meal_amount += meals.sum('amount');
+          case 82:
+            total_meal_amount += selected_meals.sum('amount');
 
-          case 80:
+          case 83:
             //5- service fee is applicable to orders of price less than NGN2000
-            total_meal_amount += total_meal_amount * service_charge; //6 - add polygon delivery fee
+            total_meal_amount += total_meal_amount + service_charge; //6 - add polygon delivery fee
 
             total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee);
-            _context2.next = 84;
+            _context2.next = 87;
             return _calculated_order["default"].query().insert({
               total_amount: total_meal_amount,
               service_charge: service_charge,
-              delivery_fee: cokitchenPolygonInDb.delivery_fee
+              delivery_fee: cokitchenPolygonInDb.delivery_fee,
+              address: address,
+              meals: selected_meals,
+              cokitchen_polygon_id: cokitchen_polygon_id,
+              deal_id: dealInDb.id
             });
 
-          case 84:
+          case 87:
             calculated_order = _context2.sent;
             return _context2.abrupt("return", {
               status: 'success',
@@ -352,7 +363,7 @@ var calculateOrder = /*#__PURE__*/function () {
               calculated_order: calculated_order
             });
 
-          case 86:
+          case 89:
           case "end":
             return _context2.stop();
         }

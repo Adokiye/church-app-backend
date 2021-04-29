@@ -43,7 +43,7 @@ var Deal = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Deal, "tableName", 'deals');
-(0, _defineProperty2["default"])(Deal, "hidden", ['deal_type_id', 'brand_id']);
+(0, _defineProperty2["default"])(Deal, "hidden", ['deal_type_id', 'brand_id', 'deal_value_type_id', 'deal_requirement_type_id', 'deal_eligibility_type_id']);
 (0, _defineProperty2["default"])(Deal, "relationMappings", {
   deal_type: {
     relation: _objection.Model.BelongsToOneRelation,

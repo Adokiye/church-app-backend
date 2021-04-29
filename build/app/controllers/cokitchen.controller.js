@@ -299,11 +299,7 @@ var getAllCokitchens = /*#__PURE__*/function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return Promise.all([_cokitchen["default"].query() // .withGraphJoined(
-            //   '[brands.[meals.[meal_category]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]'
-            // )
-            // .where('brands:meals.is_addon', false)
-            ["catch"](function (e) {
+            return Promise.all([_cokitchen["default"].query().withGraphJoined('[brands.[meals.[meal_category]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]').where('brands:meals.is_addon', false)["catch"](function (e) {
               console.log(e);
               return [];
             }), _meal_category["default"].query().withGraphFetched('[meal_category_selection_type]')["catch"](function (e) {

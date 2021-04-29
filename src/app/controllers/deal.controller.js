@@ -1,5 +1,6 @@
 import Brand from '../models/brand'
 import Deal from '../models/deal'
+import Posts from '../models/posts'
 import DealType from '../models/deal_type'
 import DealEligibilityType from '../models/deal_eligibility_type'
 import DealRequirementType from '../models/deal_requirement_type'
@@ -11,8 +12,13 @@ import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
 export const createDeal = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user
+  let post = false
   if (body.images) {
     body.images = JSON.stringify(body.images)
+  }
+  if(body.post){
+    post = body.post
+    delete body.post
   }
   if (await checkIfMarketing(role)) {
     const [

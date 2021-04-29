@@ -29,6 +29,7 @@ import UserSettingsValidator from '../validators/user-settings-validator'
 import FaqValidator from '../validators/faq-validator'
 import AppFeedbackValidator from '../validators/app-feedback-validator'
 import CokitchenExploreKeywordValidator from '../validators/cokitchen-explore-keyword-validator'
+import OrderValidator from '../validators/order-validator'
 
 const router = new Router()
 
@@ -397,6 +398,13 @@ router.post(
   '/logistics/create-logistics-rider',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsRider
+)
+
+//orders
+router.post(
+  '/order/calculate',
+  OrderValidator.calculateOrder(),
+  Order.calculateOrder
 )
 
 export default router.routes()

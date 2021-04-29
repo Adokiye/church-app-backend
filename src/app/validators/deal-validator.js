@@ -40,7 +40,8 @@ const DealsValidator = {
         to_expire_date: Joi.date().required(),
         to_expire_time: Joi.string().required(),
         to_start_date: Joi.date().required(),
-        to_start_time: Joi.string().required()
+        to_start_time: Joi.string().required(),
+        post: Joi.bool()
       }
     }),
   updateDeal: () =>
