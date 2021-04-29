@@ -25,11 +25,7 @@ export const up = knex =>
       .inTable('deal_eligibility_types')
       .onDelete('CASCADE')
       .notNullable()
-    table
-      .uuid('brand_id')
-      .references('id')
-      .inTable('brands')
-      .onDelete('CASCADE')
+    table.jsonb('brands').notNullable().defaultTo(JSON.stringify([]))
     table
       .uuid('cokitchen_id')
       .references('id')

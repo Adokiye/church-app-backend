@@ -130,34 +130,23 @@ export const createDeal = async ctx => {
       var i = 0,
         len = brands.length
       while (i < len) {
-        const brand_data = await Brand.query()
+        let brand_data = await Brand.query()
           .where('id', brands[i].id)
-          .catch(() => false)
-        if (brand_data) {
-          body.brand_id = brand_data[0].id
-          body.cokitchen_id = brand_data[0].cokitchen_id
-          const deal_data = await Deal.query()
-            .insert(body)
-            .catch(e => {
-              console.log(e)
-              throw UnprocessableEntity('Invalid Body')
-            })
-          deals.push(deal_data)
-        } else {
-          return res.status(404).json({
-            status: 'error',
-            message: 'Not Found',
-            errors: {
-              brand: ['Brand not found for id ' + brands[i].id]
-            }
-          })
-        }
+          .catch((e) => {console.log(e);throw UnprocessableEntity('Brand not found for id:'brands[i].id)})
         i++
       }
+      body.cokitchen_id = brands[0].cokitchen_id
+      body.brands = JSON.stringify(body.brands)
+      const deal_data = await Deal.query()
+        .insert(body)
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid Body')
+        })
       return {
         status: 'success',
         message: 'Deal Creation Successful',
-        data: deals
+        data: deal_data
       }
     } else {
       if (!body.cokitchen_id) {
