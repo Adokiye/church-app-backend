@@ -9,6 +9,7 @@ export const up = knex =>
       .notNullable()
     table.boolean('active').notNullable().defaultTo(true)
     table.string('name').notNullable()
+    table.string('posist_customer_key').unique().notNullable()
     table.string('summary', 80)
     table.string('description', 1000)
     table.time('opening_time')
