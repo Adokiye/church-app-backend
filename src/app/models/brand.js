@@ -6,7 +6,7 @@ import Meal from './meal'
 
 class Brand extends modelUuid(baseModel) {
   static tableName = 'brands'
-  static hidden = ['posist_data']
+  static hidden = ['posist_data', 'posist_customer_key']
 
   static relationMappings = {
     cokitchen: {

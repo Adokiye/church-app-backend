@@ -47,6 +47,14 @@ class Cokitchen extends modelUuid(baseModel) {
         to: 'cokitchens.id'
       }
     },
+    cokitchen_home_page_posts: {
+      relation: Model.HasManyRelation,
+      modelClass: path.join(__dirname, 'cokitchen_home_page_post'),
+      join: {
+        from: 'cokitchen_home_page_posts.cokitchen_id',
+        to: 'cokitchens.id'
+      }
+    },
     cokitchen_explore_keywords: {
       relation: Model.HasManyRelation,
       modelClass: CokitchenExploreKeyword,

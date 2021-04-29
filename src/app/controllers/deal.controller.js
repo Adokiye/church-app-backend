@@ -6,6 +6,7 @@ import DealEligibilityType from '../models/deal_eligibility_type'
 import DealRequirementType from '../models/deal_requirement_type'
 import DealValueType from '../models/deal_value_type'
 import Cokitchen from '../models/cokitchen'
+import CokitchenHomePagePost from '../models/cokitchen_home_page_post'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
 import { newPost } from '../services/PostService'
@@ -251,5 +252,48 @@ export const getCokitchenDeals = async ctx => {
     status: 'success',
     message: 'Successful',
     data: cokitchen_with_deals
+  }
+}
+
+export const getCokitchenHomePagePosts = async ctx => {
+  const cokitchen_home_page_posts = await Cokitchen.query()
+    .withGraphFetched('[cokitchen_home_page_posts]')
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success',
+    message: 'Successful',
+    data: cokitchen_home_page_posts
+  }
+}
+
+export const updatePostsArrangement = async ctx => {
+  const { role } = ctx.state.user.user
+  const { body } = ctx.request
+  if (await checkIfMarketing(role)) {
+    const posts = body.posts
+    let cokitchen_home_page_post_data = await CokitchenHomePagePost.query()
+      .where(cokitchen_id, body.cokitchen_id)
+      .catch(() => {
+        throw NotFound('Cokitchen Post not found')
+      })
+    cokitchen_home_page_post_data[0].posts = posts
+    cokitchen_home_page_post_data[0].posts = JSON.stringify(
+      cokitchen_home_page_post_data[0].posts
+    )
+
+    cokitchen_home_page_post_data = await CokitchenHomePagePost.query().patchAndFetchById(
+      cokitchen_home_page_post_data[0].id,
+      cokitchen_home_page_post_data[0]
+    )
+    return {
+      status: 'success',
+      message: 'Cokitchen Home page posts arrangement updated Successfully',
+      data: cokitchen_home_page_post_data
+    }
+  } else {
+    throw Unauthorized('Unauthorized Update')
   }
 }
