@@ -8,7 +8,7 @@ import Deal from '../models/deal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import CalculatedOrder from '../models/calculated_order'
 import { checkIfAdmin } from '../services/RoleService'
-import { Unauthorized, encryptPassword } from '../helpers'
+import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
 
 export const getOrderTypes = async ctx => {
   const order_types = OrderType.query()
@@ -26,7 +26,7 @@ export const calculateOrder = async ctx => {
   let cokitchen_polygon_id = body.cokitchen_polygon_id
   let meals = body.meals
   let address = body.address
-  let dealInDb = {id:''}
+  let dealInDb = { id: '' }
 
   Array.prototype.sum = function (prop) {
     var total = 0
@@ -49,13 +49,9 @@ export const calculateOrder = async ctx => {
       )
       .catch(() => false)
     if (!dealInDb) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Not Found',
-        errors: {
-          discount_code: [`deal not found for discount code:${discount_code}`]
-        }
-      })
+      throw UnprocessableEntity(
+        `deal not found for discount code:${discount_code}`
+      )
     }
   }
 
@@ -66,15 +62,9 @@ export const calculateOrder = async ctx => {
     })
     .catch(() => false)
   if (!cokitchenPolygonInDb) {
-    return res.status(404).json({
-      status: 'error',
-      message: 'Not Found',
-      errors: {
-        cokitchen_polygon_id: [
-          `cokitchen_polygon not found for id:${cokitchen_polygon_id}`
-        ]
-      }
-    })
+    throw UnprocessableEntity(
+      `cokitchen_polygon not found for id:${cokitchen_polygon_id}`
+    )
   }
   //step 3- get all meals and addons from the db based on the request
   var i = 0,
@@ -104,15 +94,9 @@ export const calculateOrder = async ctx => {
               meals[i].addons[j].quantity * addonInDb.amount
             addons.push(addonInDb)
           } else {
-            return res.status(404).json({
-              status: 'error',
-              message: 'Not Found',
-              errors: {
-                addon: [
-                  `addon not found meal-index:${i}, addon-index:${j} addon-id:${meals[i].addons[j].id}`
-                ]
-              }
-            })
+            throw UnprocessableEntity(
+              `addon not found meal-index:${i}, addon-index:${j} addon-id:${meals[i].addons[j].id}`
+            )
           }
           j++
         }
@@ -125,8 +109,8 @@ export const calculateOrder = async ctx => {
         if (selected_meals[x].brand.id == mealInDb.brand.id) {
           selected_meals[x].meals.push(mealInDb)
           selected_meals[x].amount +=
-            (Number(mealInDb.amount) * mealInDb.quantity)
-            + mealInDb.addons.sum('total_amount')
+            Number(mealInDb.amount) * mealInDb.quantity +
+            mealInDb.addons.sum('total_amount')
           brand_found = true
           break
         }
@@ -136,18 +120,14 @@ export const calculateOrder = async ctx => {
           brand: mealInDb.brand,
           meals: [mealInDb],
           amount:
-            (Number(mealInDb.amount) * mealInDb.quantity) +
+            Number(mealInDb.amount) * mealInDb.quantity +
             mealInDb.addons.sum('total_amount')
         })
       }
     } else {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Not Found',
-        errors: {
-          meal: [`meal not found meal-index:${i} meal-id:${meals[i].id}`]
-        }
-      })
+      throw UnprocessableEntity(
+        `meal not found meal-index:${i} meal-id:${meals[i].id}`
+      )
     }
     i++
   }
@@ -187,15 +167,19 @@ export const calculateOrder = async ctx => {
   //6 - add polygon delivery fee
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
 
-  const calculated_order = await CalculatedOrder.query().insert({
-    total_amount: total_meal_amount,
-    service_charge,
-    delivery_fee: cokitchenPolygonInDb.delivery_fee,
-    address,
-    meals: selected_meals,
-    cokitchen_polygon_id,
-    deal_id: dealInDb.id
-  })
+  const calculated_order = await CalculatedOrder.query()
+    .insert({
+      total_amount: total_meal_amount,
+      service_charge,
+      delivery_fee: cokitchenPolygonInDb.delivery_fee,
+      address,
+      meals: selected_meals,
+      cokitchen_polygon_id,
+      deal_id: dealInDb.id
+    })
+    .catch(e => {
+      throw UnprocessableEntity('Invalid Body')
+    })
 
   return {
     status: 'success',
