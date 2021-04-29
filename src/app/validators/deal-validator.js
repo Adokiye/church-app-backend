@@ -94,7 +94,7 @@ const DealsValidator = {
         fixed_amount: Joi.string()
       }
     }),
-    updateCokitchenPostsArrangement: () =>
+  updateCokitchenPostsArrangement: () =>
     validationMiddleware({
       body: {
         posts: Joi.array()
@@ -108,12 +108,14 @@ const DealsValidator = {
               to_expire_date: Joi.date().required(),
               to_expire_time: Joi.string().required(),
               to_start_date: Joi.date().required(),
-              to_start_time: Joi.string().required()
+              to_start_time: Joi.string().required(),
+              deal_id: Joi.string()
             })
-          ).required(),
-          
+          )
+          .required(),
+        cokitchen_id: Joi.string().required()
       }
-    }),
+    })
 }
 
 export default DealsValidator

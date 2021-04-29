@@ -200,6 +200,8 @@ router.post('/marketing/deal', DealsValidator.createDeal(), Deals.createDeal)
 
 router.post('/marketing/post', DealsValidator.createPost(), Deals.createPost)
 
+router.put('/marketing/home-page-header', DealsValidator.updateCokitchenPostsArrangement(), Deals.updatePostsArrangement)
+
 router.put('/marketing/deal/:id', DealsValidator.updateDeal(), Deals.updateDeal)
 
 router.post(
