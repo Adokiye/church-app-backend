@@ -196,17 +196,11 @@ router.post(
   Auth.marketingCreateStaff
 )
 
-router.post(
-  '/marketing/deal',
-  DealsValidator.createDeal(),
-  Deals.createDeal
-)
+router.post('/marketing/deal', DealsValidator.createDeal(), Deals.createDeal)
 
-router.put(
-  '/marketing/deal/:id',
-  DealsValidator.updateDeal(),
-  Deals.updateDeal
-)
+router.post('/marketing/post', DealsValidator.createPost(), Deals.createPost)
+
+router.put('/marketing/deal/:id', DealsValidator.updateDeal(), Deals.updateDeal)
 
 router.post(
   '/marketing/create-brand-business-metadata',
@@ -347,21 +341,23 @@ router.get('/marketing/user', Auth.getAllUsers)
 
 router.put('/marketing/brand', BrandValidator.updateBrand(), Brand.updateBrand)
 
-router.put('/marketing/meal-category', MealCategoryValidator.updateMealCategory(), MealCategory.updateMealCategory)
+router.put(
+  '/marketing/meal-category',
+  MealCategoryValidator.updateMealCategory(),
+  MealCategory.updateMealCategory
+)
 
 router.put('/marketing/meal', MealValidator.updateMeal(), Meal.updateMeal)
 
-router.post('/internal/meal-addon', MealValidator.getMealAddons(), Meal.getMealAddons)
-
-router.get(
-  '/internal/meal',
-  Meal.getMeals
+router.post(
+  '/internal/meal-addon',
+  MealValidator.getMealAddons(),
+  Meal.getMealAddons
 )
 
-router.get(
-  '/internal/meal-category',
-  MealCategory.getMealCategories
-)
+router.get('/internal/meal', Meal.getMeals)
+
+router.get('/internal/meal-category', MealCategory.getMealCategories)
 
 router.get(
   '/internal/meal-category-selection-type',

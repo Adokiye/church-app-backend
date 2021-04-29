@@ -8,6 +8,9 @@ import DealValueType from '../models/deal_value_type'
 import Cokitchen from '../models/cokitchen'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
+import {
+  newPost
+} from '../services/PostService'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
@@ -143,6 +146,9 @@ export const createDeal = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid Body')
         })
+        if(post){
+          await newPost(deal_data)
+        }
       return {
         status: 'success',
         message: 'Deal Creation Successful',
@@ -158,11 +164,29 @@ export const createDeal = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid Body')
         })
+        if(post){
+          await newPost(deal_data)
+        }
       return {
         status: 'success',
         message: 'Deal Creation Successful',
         data: deal_data
       }
+    }
+  } else {
+    throw Unauthorized('Unauthorized')
+  }
+}
+
+export const createPost = async ctx => {
+  const { body } = ctx.request
+  const { role } = ctx.state.user.user
+  if (await checkIfMarketing(role)) {
+    const data = await newPost(body)
+    return {
+      status: 'success',
+      message: 'Post Creation Successful',
+      data
     }
   } else {
     throw Unauthorized('Unauthorized')
