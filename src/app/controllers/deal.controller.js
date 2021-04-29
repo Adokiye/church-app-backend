@@ -8,9 +8,7 @@ import DealValueType from '../models/deal_value_type'
 import Cokitchen from '../models/cokitchen'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
-import {
-  newPost
-} from '../services/PostService'
+import { newPost } from '../services/PostService'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
@@ -19,7 +17,7 @@ export const createDeal = async ctx => {
   if (body.images) {
     body.images = JSON.stringify(body.images)
   }
-  if(body.post){
+  if (body.post) {
     post = body.post
     delete body.post
   }
@@ -135,7 +133,10 @@ export const createDeal = async ctx => {
       while (i < len) {
         let brand_data = await Brand.query()
           .where('id', brands[i].id)
-          .catch((e) => {console.log(e);throw UnprocessableEntity('Brand not found for id:'brands[i].id)})
+          .catch(e => {
+            console.log(e)
+            throw UnprocessableEntity('Brand not found for id:' + brands[i].id)
+          })
         i++
       }
       body.cokitchen_id = brands[0].cokitchen_id
@@ -146,9 +147,9 @@ export const createDeal = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid Body')
         })
-        if(post){
-          await newPost(deal_data)
-        }
+      if (post) {
+        await newPost(deal_data)
+      }
       return {
         status: 'success',
         message: 'Deal Creation Successful',
@@ -164,9 +165,9 @@ export const createDeal = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid Body')
         })
-        if(post){
-          await newPost(deal_data)
-        }
+      if (post) {
+        await newPost(deal_data)
+      }
       return {
         status: 'success',
         message: 'Deal Creation Successful',
@@ -252,5 +253,3 @@ export const getCokitchenDeals = async ctx => {
     data: cokitchen_with_deals
   }
 }
-
-
