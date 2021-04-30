@@ -26,6 +26,8 @@ export const calculateOrder = async ctx => {
   let cokitchen_polygon_id = body.cokitchen_polygon_id
   let meals = body.meals
   let address = body.address
+  let lat = body.lat
+  let lng = body.lng
   let dealInDb = { id: '' }
 
   Array.prototype.sum = function (prop) {
@@ -175,7 +177,9 @@ export const calculateOrder = async ctx => {
       address,
       meals: selected_meals,
       cokitchen_polygon_id,
-      deal_id: dealInDb.id
+      deal_id: dealInDb.id,
+      lat,
+      lng
     })
     .catch(e => {
       throw UnprocessableEntity('Invalid Body')
