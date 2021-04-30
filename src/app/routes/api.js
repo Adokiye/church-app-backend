@@ -407,6 +407,12 @@ router.post(
   Order.calculateOrder
 )
 
+router.post(
+  '/order',
+  OrderValidator.createOrder(),
+  Order.createOrder
+)
+
 router.get(
   '/order/order-types',
   Order.getOrderTypes
