@@ -8,7 +8,7 @@ import Deal from '../models/deal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import CalculatedOrder from '../models/calculated_order'
 import { checkIfAdmin } from '../services/RoleService'
-import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
+import { Unauthorized, encryptPassword, UnprocessableEntity, setPendingOrder } from '../helpers'
 
 export const getOrderTypes = async ctx => {
   const order_types = OrderType.query()
@@ -233,6 +233,7 @@ export const createOrder = async ctx => {
         console.log(e)
         throw UnprocessableEntity('Invalid order body')
       })
+      await setPendingOrder(order)
       break
     default:
       throw NotFound('Not found')
