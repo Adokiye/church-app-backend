@@ -194,37 +194,25 @@ export const calculateOrder = async ctx => {
 
 export const createOrder = async ctx => {
   const { body } = ctx.request
+  const order_details = JSON.stringify(body.order_details)
+  let use_wallet = false
+  if(body.use_wallet){
+    use_wallet = true
+  }
   let [orderTypeInDb, calculatedOrderInDb] = await Promise.all([
     OrderType.query()
-      .where({
-        id: body.order_type_id
-      })
-      .catch(() => false),
+      .findById(body.order_type_id)
+      .catch((e) => {
+        console.log(e);
+        throw NotFound('Order type not found')
+      }),
     CalculatedOrder.query()
-      .where({
-        id: body.calculated_order_id
-      })
-      .catch(() => false),
-    Repository.Account.getAccountByAccountNumber(userTag)
+      .findById(body.calculated_order_id)
+      .catch((e) =>  {
+        console.log(e);
+        throw NotFound('Calculated order not found')
+      }),
   ])
-  if (!orderTypeInDb) {
-    return res.status(404).json({
-      status: 'error',
-      message: 'Not Found',
-      errors: {
-        order_type: ['order type not found']
-      }
-    })
-  }
-  if (!calculatedOrderInDb) {
-    return res.status(404).json({
-      status: 'error',
-      message: 'Not Found',
-      errors: {
-        calculated_order: ['calculated order not found']
-      }
-    })
-  }
 
   switch (orderTypeInDb.name) {
     case 'WALLET':
@@ -233,15 +221,9 @@ export const createOrder = async ctx => {
       // code block
       break
     case 'CASH':
-      // code block
+      
       break
     default:
-      return res.status(404).json({
-        status: 'error',
-        message: 'Not Found',
-        errors: {
-          order_type: ['order type not found']
-        }
-      })
+      throw NotFound('Not found')
   }
 }
