@@ -37,6 +37,18 @@ const OrderValidator = {
         lat: Joi.string(),
         lng: Joi.string()
       }
+    }),
+    createOrder: () =>
+    validationMiddleware({
+      body: {
+        calculated_order_id: Joi.string().required(),
+        order_type_id: Joi.string().required(),
+        use_wallet: Joi.bool(),
+        order_details:   Joi.object().keys({
+          rider_note: Joi.string().required(),
+          order_note: Joi.string().required(),
+        })
+      }
     })
 }
 

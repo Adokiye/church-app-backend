@@ -194,6 +194,7 @@ export const calculateOrder = async ctx => {
 
 export const createOrder = async ctx => {
   const { body } = ctx.request
+  
   const order_details = JSON.stringify(body.order_details)
   let use_wallet = false
   if(body.use_wallet){
