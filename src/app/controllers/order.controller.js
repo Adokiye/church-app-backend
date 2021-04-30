@@ -213,7 +213,7 @@ export const createOrder = async ctx => {
         throw NotFound('Calculated order not found')
       }),
   ])
-
+  let order
   switch (orderTypeInDb.name) {
     case 'WALLET':
       break
@@ -221,9 +221,22 @@ export const createOrder = async ctx => {
       // code block
       break
     case 'CASH':
-      
+      order = await Order.query().
+      insert({
+        order_details,
+        order_type_id:orderTypeInDb.id,
+        calculated_order_id:calculatedOrderInDb.id
+      }).catch((e)=>{
+        console.log(e)
+        throw UnprocessableEntity('Invalid order body')
+      })
       break
     default:
       throw NotFound('Not found')
+  }
+  return {
+    status: 'success',
+    message: 'order created successfully',
+    order
   }
 }

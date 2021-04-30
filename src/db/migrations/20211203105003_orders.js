@@ -13,7 +13,7 @@ export const up = knex =>
       .inTable('user_cards')
       .onDelete('CASCADE')
     table.jsonb('order_details').notNullable()
-    table.boolean('completed').notNullable().defaultTo(true)
+    table.boolean('completed').notNullable().defaultTo(false)
     table.boolean('cancelled').defaultTo(false)
     table.boolean('paid').defaultTo(false)
     table
