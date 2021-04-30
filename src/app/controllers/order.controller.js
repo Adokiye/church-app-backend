@@ -233,11 +233,12 @@ export const createOrder = async ctx => {
         console.log(e)
         throw UnprocessableEntity('Invalid order body')
       })
-      await setPendingOrder(order)
       break
     default:
       throw NotFound('Not found')
   }
+  await setPendingOrder(order)
+
   return {
     status: 'success',
     message: 'order created successfully',
