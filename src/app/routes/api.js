@@ -407,4 +407,10 @@ router.post(
   Order.calculateOrder
 )
 
+router.get(
+  '/order/order-types',
+  Order.getOrderTypes
+)
+
+
 export default router.routes()
