@@ -15,10 +15,10 @@ var _firebaseAdmin = _interopRequireDefault(require("firebase-admin"));
 
 var _path = _interopRequireDefault(require("path"));
 
-var serviceAccount = _path["default"].join(__dirname, 'cokitchen-312312-d3cc6d60550e.json');
+var _cokitchen312312D3cc6d60550e = _interopRequireDefault(require("./cokitchen-312312-d3cc6d60550e"));
 
 _firebaseAdmin["default"].initializeApp({
-  credential: _firebaseAdmin["default"].credential.cert(serviceAccount)
+  credential: _firebaseAdmin["default"].credential.cert(_cokitchen312312D3cc6d60550e["default"])
 });
 
 var db = _firebaseAdmin["default"].firestore();
