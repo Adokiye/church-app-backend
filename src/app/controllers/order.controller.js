@@ -114,7 +114,7 @@ export const calculateOrder = async ctx => {
             })
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
-            addonInDb.total_amount =
+            addonInDb.amount =
             addonInDb.quantity * Number(addonInDb.meal_data.amount)
               console.log(addonInDb)
             addons.push(addonInDb)
@@ -135,7 +135,7 @@ export const calculateOrder = async ctx => {
           selected_meals[x].meals.push(mealInDb)
           selected_meals[x].amount +=
             Number(mealInDb.amount) * mealInDb.quantity +
-            mealInDb.addons.sum('total_amount')
+            mealInDb.addons.sum('amount')
           brand_found = true
           break
         }
@@ -145,8 +145,8 @@ export const calculateOrder = async ctx => {
           brand: mealInDb.brand,
           meals: [mealInDb],
           amount:
-            Number(mealInDb.amount) * mealInDb.quantity +
-            mealInDb.addons.sum('total_amount')
+            (Number(mealInDb.amount) * mealInDb.quantity) +
+            mealInDb.addons.sum('amount')
         })
       }
     } else {
