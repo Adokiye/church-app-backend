@@ -3,6 +3,7 @@ import { Model } from 'objection'
 import MealCategory from './meal_category'
 import Addon from './addons'
 import Brand from './brand'
+import path from 'path'
 
 import { baseModel, modelUuid, modelUnique } from './index'
 
