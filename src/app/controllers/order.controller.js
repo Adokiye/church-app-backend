@@ -179,6 +179,14 @@ export const calculateOrder = async ctx => {
       lng
     })
     .catch(e => {
+      console.log(e)
+      console.log(total_meal_amount)
+      console.log(service_charge)
+      console.log(cokitchenPolygonInDb.delivery_fee)
+      console.log(address)
+      console.log(selected_meals)
+      console.log(cokitchen_polygon_id)
+      console.log(lat+lng)
       throw UnprocessableEntity('Invalid Body')
     })
 
