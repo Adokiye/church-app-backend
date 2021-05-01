@@ -4,11 +4,11 @@ import { validationMiddleware } from '../middlewares'
 
 let meal = Joi.object().keys({
   id: Joi.string().required(),
-  quantity: Joi.number().required(),
+  quantity: Joi.number().greater(0).required(),
   addons: Joi.array().items(
     Joi.object().keys({
       id: Joi.string().required(),
-      quantity: Joi.number().required()
+      quantity: Joi.number().greater(0).required()
     })
   )
 })

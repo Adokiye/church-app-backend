@@ -86,7 +86,7 @@ export const calculateOrder = async ctx => {
     throw UnprocessableEntity(`user not found for id:${id}`)
   }
   //step 3- get all meals and addons from the db based on the request
-  var i = 0,
+  var i = 0,j=0,
     len = meals.length
   let selected_meals = []
   let total_meal_amount = 0
