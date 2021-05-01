@@ -174,8 +174,9 @@ export const calculateOrder = async ctx => {
   }
   //5- service fee is applicable to orders of price less than NGN2000
   total_meal_amount += total_meal_amount + service_charge
-
+ 
   //6 - add polygon delivery fee
+  console.log(total_meal_amount)
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
   let calculatedData = {
     total_amount: total_meal_amount,
