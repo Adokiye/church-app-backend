@@ -132,7 +132,7 @@ export const calculateOrder = async ctx => {
       // find the meals brand and push to that array
       for (let x = 0; x < selected_meals.length; x++) {
         if (selected_meals[x].brand.id == mealInDb.brand.id) {
-          selected_meals[x].meals.push(mealInDb)
+          selected_meals[x].brand.meals.push(mealInDb)
           selected_meals[x].amount +=
             Number(mealInDb.amount) * mealInDb.quantity +
             mealInDb.addons.sum('amount')
@@ -141,13 +141,15 @@ export const calculateOrder = async ctx => {
         }
       }
       if (!brand_found) {
-        selected_meals.push({
+        let data_to_post = {
           brand: mealInDb.brand,
-          meals: [mealInDb],
+     //     meals: [mealInDb],
           amount:
             (Number(mealInDb.amount) * mealInDb.quantity) +
             mealInDb.addons.sum('amount')
-        })
+        }
+        data_to_post.brand.meals = [mealInDb]
+        selected_meals.push(data_to_post)
       }
     } else {
       throw UnprocessableEntity(
