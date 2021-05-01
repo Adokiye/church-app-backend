@@ -22,7 +22,7 @@ class Meal extends modelUuid(baseModel) {
     },
     brand: {
       relation: Model.BelongsToOneRelation,
-      modelClass: Brand,
+      modelClass: path.join(__dirname, 'brand'),
       join: {
         from: 'meals.brand_id',
         to: 'brands.id'
@@ -30,7 +30,7 @@ class Meal extends modelUuid(baseModel) {
     },
     addons: {
       relation: Model.HasManyRelation,
-      modelClass: Addon,
+      modelClass: path.join(__dirname, 'addons'),
       join: {
         from: 'addons.meal_id',
         to: 'meals.id'
