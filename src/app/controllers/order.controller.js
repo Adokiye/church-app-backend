@@ -55,14 +55,14 @@ export const calculateOrder = async ctx => {
       throw UnprocessableEntity(
         `deal not found for discount code:${discount_code}`
       )
+    }else{
+      dealInDb = dealInDb[0]
     }
   }
 
   //2- get the users cokitchen polygon
   let cokitchenPolygonInDb = await CokitchenPolygon.query()
-    .where({
-      id: cokitchen_polygon_id
-    })
+    .findById(cokitchen_polygon_id)
     .catch(() => false)
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
@@ -165,19 +165,21 @@ export const calculateOrder = async ctx => {
 
   //6 - add polygon delivery fee
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
-
+  let calculatedData = {
+    total_amount: total_meal_amount,
+    service_charge,
+    delivery_fee: cokitchenPolygonInDb.delivery_fee,
+    address,
+    meals: selected_meals,
+    cokitchen_polygon_id,
+    lat,
+    lng
+  }
+  if(dealInDb.id.length > 0){
+    calculatedData.deal_id = dealInDb.id
+  }
   const calculated_order = await CalculatedOrder.query()
-    .insert({
-      total_amount: total_meal_amount,
-      service_charge,
-      delivery_fee: cokitchenPolygonInDb.delivery_fee,
-      address,
-      meals: selected_meals,
-      cokitchen_polygon_id,
-      deal_id: dealInDb.id,
-      lat,
-      lng
-    })
+    .insert(calculatedData)
     .catch(e => {
       console.log(e)
       console.log(total_meal_amount)
