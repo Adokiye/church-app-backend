@@ -1,6 +1,6 @@
 import fadmin from 'firebase-admin';
 import path from 'path'
-const serviceAccount = path.join(__dirname, 'cokitchen-312312-d3cc6d60550e')
+import serviceAccount from './cokitchen-312312-d3cc6d60550e'
 
 fadmin.initializeApp({
     credential: fadmin.credential.cert(serviceAccount)
