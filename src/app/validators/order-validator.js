@@ -3,12 +3,10 @@ import Joi from '@hapi/joi'
 import { validationMiddleware } from '../middlewares'
 
 let meal = Joi.object().keys({
-  name: Joi.string().required(),
   id: Joi.string().required(),
   quantity: Joi.number().required(),
   addons: Joi.array().items(
     Joi.object().keys({
-      name: Joi.string().required(),
       id: Joi.string().required(),
       quantity: Joi.number().required()
     })
