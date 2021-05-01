@@ -190,6 +190,8 @@ export const calculateOrder = async ctx => {
   //6 - add polygon delivery fee
   console.log(total_meal_amount)
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
+  selected_meals.total_amount = selected_meals.amount
+  delete selected_meals.amount
   let calculatedData = {
     total_amount: total_meal_amount,
     service_charge,
@@ -217,7 +219,7 @@ export const calculateOrder = async ctx => {
       console.log(lat + lng)
       throw UnprocessableEntity('Invalid Body')
     })
-
+    calculated_order.meals = JSON.parse(calculated_order.meals)
   return {
     status: 'success',
     message: 'order calulated successfully',

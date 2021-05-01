@@ -2,6 +2,7 @@ import jwt from 'koa-jwt'
 
 import { JWT_SECRET } from '../config'
 import { Unauthorized } from '../helpers'
+import User from '../models/user'
 
 export const getToken = ({ headers }) => {
   if (!headers.authorization) {
