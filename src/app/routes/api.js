@@ -58,7 +58,7 @@ router.post(
 )
 
 router.post(
-  '/auth/guest/find-username',
+  '/internal/find-username',
   UserValidator.checkForUsername(),
   Auth.findUserName
 )
