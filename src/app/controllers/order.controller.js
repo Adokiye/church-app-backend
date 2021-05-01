@@ -75,7 +75,7 @@ export const calculateOrder = async ctx => {
       .catch(() => false),
     User.query()
       .findById(id)
-      .catch(() => false)
+      .catch((e) => {console.log(e);return false})
   ])
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
@@ -198,7 +198,8 @@ export const calculateOrder = async ctx => {
     meals: JSON.stringify(selected_meals),
     cokitchen_polygon_id,
     lat,
-    lng
+    lng,
+    user_id:userInDb.id
   }
   if (dealInDb.id.length > 0) {
     calculatedData.deal_id = dealInDb.id

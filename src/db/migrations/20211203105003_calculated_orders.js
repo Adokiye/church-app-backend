@@ -15,6 +15,12 @@ export const up = knex =>
       .inTable('cokitchen_polygons')
       .onDelete('CASCADE')
       .notNullable()
+    table
+      .uuid('user_id')
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE')
+      .notNullable()
     table.timestamps(true, true)
   })
 
