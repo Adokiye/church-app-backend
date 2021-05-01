@@ -93,6 +93,7 @@ export const calculateOrder = async ctx => {
   while (i < len) {
     let mealInDb = await Meal.query()
       .findById(meals[i].id)
+      .withGraphFetched('[brand]')
       .catch(e => {
         console.log(e)
         false
@@ -106,6 +107,7 @@ export const calculateOrder = async ctx => {
             .where('id',meals[i].addons[j].id)
             .where('meal_id',meals[i].id)
             .limit(1).first()
+            .withGraphFetched('[meal_data]')
             .catch(e => {
               console.log(e)
               false
@@ -113,7 +115,8 @@ export const calculateOrder = async ctx => {
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.total_amount =
-              meals[i].addons[j].quantity * addonInDb.amount
+              meals[i].addons[j].quantity * Number(addonInDb.amount)
+              console.log(addonInDb)
             addons.push(addonInDb)
           } else {
             throw UnprocessableEntity(
