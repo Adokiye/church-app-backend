@@ -76,21 +76,17 @@ export const calculateOrder = async ctx => {
   let total_meal_amount = 0
   while (i < len) {
     let mealInDb = await Meal.query()
-      .where({
-        id: meals[i].id
-      })
+      .findById(meals[i].id)
       .withGraphFetched('[brand]')
-      .catch(() => false)
+      .catch((e) => {console.log(e);false})
     if (mealInDb) {
       let addons = []
       if (meals[i].addons.length > 0) {
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
-            .where({
-              id: meals[i].addons[j].id
-            })
-            .catch(() => false)
+            .findById(meals[i].addons[j].id)
+            .catch((e) => {console.log(e);false})
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.total_amount =
