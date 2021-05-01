@@ -69,14 +69,14 @@ export const calculateOrder = async ctx => {
   }
 
   //2- get the users cokitchen polygon
-  let [cokitchenPolygonInDb, userInDb] = await Promise.all(
+  let [cokitchenPolygonInDb, userInDb] = await Promise.all([
     CokitchenPolygon.query()
       .findById(cokitchen_polygon_id)
       .catch(() => false),
     User.query()
       .findById(id)
       .catch(() => false)
-  )
+  ])
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
       `cokitchen_polygon not found for id:${cokitchen_polygon_id}`
