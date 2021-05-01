@@ -9,7 +9,12 @@ import Deal from '../models/deal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import CalculatedOrder from '../models/calculated_order'
 import { checkIfAdmin } from '../services/RoleService'
-import { Unauthorized, encryptPassword, UnprocessableEntity, setPendingOrder } from '../helpers'
+import {
+  Unauthorized,
+  encryptPassword,
+  UnprocessableEntity,
+  setPendingOrder
+} from '../helpers'
 
 export const getOrderTypes = async ctx => {
   const order_types = OrderType.query()
@@ -55,7 +60,7 @@ export const calculateOrder = async ctx => {
       throw UnprocessableEntity(
         `deal not found for discount code:${discount_code}`
       )
-    }else{
+    } else {
       dealInDb = dealInDb[0]
     }
   }
@@ -78,7 +83,10 @@ export const calculateOrder = async ctx => {
     let mealInDb = await Meal.query()
       .findById(meals[i].id)
       .withGraphFetched('[brand]')
-      .catch((e) => {console.log(e);false})
+      .catch(e => {
+        console.log(e)
+        false
+      })
     if (mealInDb) {
       let addons = []
       if (meals[i].addons.length > 0) {
@@ -86,7 +94,10 @@ export const calculateOrder = async ctx => {
         while (j < addons_len) {
           let addonInDb = await Addon.query()
             .findById(meals[i].addons[j].id)
-            .catch((e) => {console.log(e);false})
+            .catch(e => {
+              console.log(e)
+              false
+            })
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.total_amount =
@@ -133,6 +144,7 @@ export const calculateOrder = async ctx => {
 
   // if without deals meals amount is less than 2000, apply service charge
   if (selected_meals.sum('amount') < 2000) {
+    console.log(selected_meals.sum('amount'))
     service_charge = 60
   }
   // 4- if deal exists , apply deal to amount
@@ -175,7 +187,7 @@ export const calculateOrder = async ctx => {
     lat,
     lng
   }
-  if(dealInDb.id.length > 0){
+  if (dealInDb.id.length > 0) {
     calculatedData.deal_id = dealInDb.id
   }
   const calculated_order = await CalculatedOrder.query()
@@ -188,7 +200,7 @@ export const calculateOrder = async ctx => {
       console.log(address)
       console.log(selected_meals)
       console.log(cokitchen_polygon_id)
-      console.log(lat+lng)
+      console.log(lat + lng)
       throw UnprocessableEntity('Invalid Body')
     })
 
@@ -202,26 +214,26 @@ export const calculateOrder = async ctx => {
 export const createOrder = async ctx => {
   const { body } = ctx.request
   order_details = JSON.stringify([])
-  if(body.order_details){
-   order_details = JSON.stringify(body.order_details)
+  if (body.order_details) {
+    order_details = JSON.stringify(body.order_details)
   }
   let use_wallet = false
-  if(body.use_wallet){
+  if (body.use_wallet) {
     use_wallet = true
   }
   let [orderTypeInDb, calculatedOrderInDb] = await Promise.all([
     OrderType.query()
       .findById(body.order_type_id)
-      .catch((e) => {
-        console.log(e);
+      .catch(e => {
+        console.log(e)
         throw NotFound('Order type not found')
       }),
     CalculatedOrder.query()
       .findById(body.calculated_order_id)
-      .catch((e) =>  {
-        console.log(e);
+      .catch(e => {
+        console.log(e)
         throw NotFound('Calculated order not found')
-      }),
+      })
   ])
   let order
   switch (orderTypeInDb.name) {
@@ -231,15 +243,16 @@ export const createOrder = async ctx => {
       // code block
       break
     case 'CASH':
-      order = await Order.query().
-      insert({
-        order_details,
-        order_type_id:orderTypeInDb.id,
-        calculated_order_id:calculatedOrderInDb.id
-      }).catch((e)=>{
-        console.log(e)
-        throw UnprocessableEntity('Invalid order body')
-      })
+      order = await Order.query()
+        .insert({
+          order_details,
+          order_type_id: orderTypeInDb.id,
+          calculated_order_id: calculatedOrderInDb.id
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid order body')
+        })
       break
     default:
       throw NotFound('Not found')
