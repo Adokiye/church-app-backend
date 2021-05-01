@@ -171,6 +171,8 @@ export const calculateOrder = async ctx => {
     }
   } else {
     total_meal_amount += selected_meals.sum('amount')
+  console.log(total_meal_amount)
+
   }
   //5- service fee is applicable to orders of price less than NGN2000
   total_meal_amount += total_meal_amount + service_charge
