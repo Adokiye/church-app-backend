@@ -93,7 +93,6 @@ export const calculateOrder = async ctx => {
   while (i < len) {
     let mealInDb = await Meal.query()
       .findById(meals[i].id)
-      .withGraphFetched('[brand]')
       .catch(e => {
         console.log(e)
         false
@@ -190,8 +189,6 @@ export const calculateOrder = async ctx => {
   //6 - add polygon delivery fee
   console.log(total_meal_amount)
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
-  selected_meals.total_amount = selected_meals.amount
-  delete selected_meals.amount
   let calculatedData = {
     total_amount: total_meal_amount,
     service_charge,
@@ -201,7 +198,7 @@ export const calculateOrder = async ctx => {
     cokitchen_polygon_id,
     lat,
     lng,
-    user_id:userInDb.id
+    user_id: userInDb.id
   }
   if (dealInDb.id.length > 0) {
     calculatedData.deal_id = dealInDb.id
