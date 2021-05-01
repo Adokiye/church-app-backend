@@ -69,23 +69,21 @@ export const calculateOrder = async ctx => {
   }
 
   //2- get the users cokitchen polygon
-  let [cokitchenPolygonInDb, userInDb] = await 
-  Promise.all[ CokitchenPolygon.query()
-    .findById(cokitchen_polygon_id)
-    .catch(() => false),
+  let [cokitchenPolygonInDb, userInDb] = await Promise.all(
+    CokitchenPolygon.query()
+      .findById(cokitchen_polygon_id)
+      .catch(() => false),
     User.query()
-    .findById(id)
-    .catch(() => false),
-  ]
+      .findById(id)
+      .catch(() => false)
+  )
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
       `cokitchen_polygon not found for id:${cokitchen_polygon_id}`
     )
   }
   if (!userInDb) {
-    throw UnprocessableEntity(
-      `user not found for id:${id}`
-    )
+    throw UnprocessableEntity(`user not found for id:${id}`)
   }
   //step 3- get all meals and addons from the db based on the request
   var i = 0,
@@ -184,12 +182,11 @@ export const calculateOrder = async ctx => {
     }
   } else {
     total_meal_amount += selected_meals.sum('amount')
-  console.log(total_meal_amount)
-
+    console.log(total_meal_amount)
   }
   //5- service fee is applicable to orders of price less than NGN2000
   total_meal_amount += service_charge
- 
+
   //6 - add polygon delivery fee
   console.log(total_meal_amount)
   total_meal_amount += Number(cokitchenPolygonInDb.delivery_fee)
