@@ -115,7 +115,7 @@ export const calculateOrder = async ctx => {
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.total_amount =
-            addonInDb.quantity * Number(addonInDb.amount)
+            addonInDb.quantity * Number(addonInDb.meal_data.amount)
               console.log(addonInDb)
             addons.push(addonInDb)
           } else {
