@@ -27,6 +27,8 @@ export const getOrderTypes = async ctx => {
 
 export const calculateOrder = async ctx => {
   const { body } = ctx.request
+  const { id } = ctx.state.user.user
+
   // initialize the body variables
   let discount_code = body.discount_code
   let cokitchen_polygon_id = body.cokitchen_polygon_id
@@ -35,6 +37,7 @@ export const calculateOrder = async ctx => {
   let lat = body.lat
   let lng = body.lng
   let dealInDb = { id: '' }
+  let free_delivery = false
 
   Array.prototype.sum = function (prop) {
     var total = 0
@@ -66,12 +69,22 @@ export const calculateOrder = async ctx => {
   }
 
   //2- get the users cokitchen polygon
-  let cokitchenPolygonInDb = await CokitchenPolygon.query()
+  let [cokitchenPolygonInDb, userInDb] = await 
+  Promise.all[ CokitchenPolygon.query()
     .findById(cokitchen_polygon_id)
-    .catch(() => false)
+    .catch(() => false),
+    User.query()
+    .findById(id)
+    .catch(() => false),
+  ]
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
       `cokitchen_polygon not found for id:${cokitchen_polygon_id}`
+    )
+  }
+  if (!userInDb) {
+    throw UnprocessableEntity(
+      `user not found for id:${id}`
     )
   }
   //step 3- get all meals and addons from the db based on the request
@@ -175,7 +188,7 @@ export const calculateOrder = async ctx => {
 
   }
   //5- service fee is applicable to orders of price less than NGN2000
-  total_meal_amount += total_meal_amount + service_charge
+  total_meal_amount += service_charge
  
   //6 - add polygon delivery fee
   console.log(total_meal_amount)
@@ -185,7 +198,7 @@ export const calculateOrder = async ctx => {
     service_charge,
     delivery_fee: cokitchenPolygonInDb.delivery_fee,
     address,
-    meals: selected_meals,
+    meals: JSON.stringify(selected_meals),
     cokitchen_polygon_id,
     lat,
     lng
@@ -210,7 +223,9 @@ export const calculateOrder = async ctx => {
   return {
     status: 'success',
     message: 'order calulated successfully',
-    calculated_order
+    calculated_order,
+    free_delivery,
+    userInDb
   }
 }
 
