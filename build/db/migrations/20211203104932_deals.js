@@ -12,7 +12,7 @@ var up = function up(knex) {
     table.uuid('deal_value_type_id').references('id').inTable('deal_value_types').onDelete('CASCADE').notNullable();
     table.uuid('deal_requirement_type_id').references('id').inTable('deal_requirement_types').onDelete('CASCADE').notNullable();
     table.uuid('deal_eligibility_type_id').references('id').inTable('deal_eligibility_types').onDelete('CASCADE').notNullable();
-    table.uuid('brand_id').references('id').inTable('brands').onDelete('CASCADE');
+    table.jsonb('brands').notNullable().defaultTo(JSON.stringify([]));
     table.uuid('cokitchen_id').references('id').inTable('cokitchens').onDelete('CASCADE').notNullable();
     table["boolean"]('active').notNullable().defaultTo(true);
     table.string('title').notNullable();

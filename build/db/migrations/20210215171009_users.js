@@ -18,6 +18,7 @@ exports.up = function (knex) {
     }).defaultTo('Unspecified');
     table.date('dob');
     table.string('password');
+    table.string('balance').notNullable().defaultTo('0');
     table.string('password_reset_token').unique();
     table.string('lat');
     table.string('lng');

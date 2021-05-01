@@ -142,4 +142,18 @@ Object.keys(_posist).forEach(function (key) {
     }
   });
 });
+
+var _firebase = require("./firebase");
+
+Object.keys(_firebase).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _firebase[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _firebase[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

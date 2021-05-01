@@ -45,7 +45,7 @@ var Brand = /*#__PURE__*/function (_modelUuid) {
 }((0, _index.modelUuid)(_index.baseModel));
 
 (0, _defineProperty2["default"])(Brand, "tableName", 'brands');
-(0, _defineProperty2["default"])(Brand, "hidden", ['posist_data']);
+(0, _defineProperty2["default"])(Brand, "hidden", ['posist_data', 'posist_customer_key']);
 (0, _defineProperty2["default"])(Brand, "relationMappings", {
   cokitchen: {
     relation: _objection.Model.BelongsToOneRelation,

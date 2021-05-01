@@ -86,6 +86,14 @@ var Cokitchen = /*#__PURE__*/function (_modelUuid) {
       to: 'cokitchens.id'
     }
   },
+  cokitchen_home_page_posts: {
+    relation: _objection.Model.HasManyRelation,
+    modelClass: _path["default"].join(__dirname, 'cokitchen_home_page_post'),
+    join: {
+      from: 'cokitchen_home_page_posts.cokitchen_id',
+      to: 'cokitchens.id'
+    }
+  },
   cokitchen_explore_keywords: {
     relation: _objection.Model.HasManyRelation,
     modelClass: _cokitchen_explore_keyword["default"],

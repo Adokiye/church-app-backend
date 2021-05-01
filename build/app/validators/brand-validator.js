@@ -21,7 +21,8 @@ var BrandValidator = {
         posist_data: _joi["default"].object().keys({
           customer_key: _joi["default"].string().required()
         }).required(),
-        cokitchen_id: _joi["default"].string().required()
+        cokitchen_id: _joi["default"].string().required(),
+        posist_customer_key: _joi["default"].string().required()
       }
     });
   },

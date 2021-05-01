@@ -85,6 +85,8 @@ router.get('/internal/cokitchen', _controllers.Cokitchen.getAllCokitchens);
 router.get('/internal/brand', _controllers.Brand.getBrandsForMarketing);
 router.post('/marketing/admin/create-marketing-staff', _userValidator["default"].createMarketingStaff(), _controllers.Auth.marketingCreateStaff);
 router.post('/marketing/deal', _dealValidator["default"].createDeal(), _controllers.Deals.createDeal);
+router.post('/marketing/post', _dealValidator["default"].createPost(), _controllers.Deals.createPost);
+router.put('/marketing/home-page-header', _dealValidator["default"].updateCokitchenPostsArrangement(), _controllers.Deals.updatePostsArrangement);
 router.put('/marketing/deal/:id', _dealValidator["default"].updateDeal(), _controllers.Deals.updateDeal);
 router.post('/marketing/create-brand-business-metadata', _keywordValidator["default"].create(), _controllers.Keyword.createBrandBusinessMetadata);
 router.post('/marketing/delete-brand-business-metadata', _keywordValidator["default"]["delete"](), _controllers.Keyword.deleteBrandBusinessMetadata);
@@ -109,7 +111,8 @@ router.post('/marketing/delete-meal-allergy-metadata', _keywordValidator["defaul
 router.get('/marketing/keywords', _controllers.Keyword.getAllKeywords);
 router.put('/marketing/keyword', _keywordValidator["default"].update(), _controllers.Keyword.updateKeyword);
 router.get('/internal/deal-types', _controllers.Deals.getDealTypes);
-router.get('/internal/cokitchen/deal', _controllers.Deals.getCokitchenDeals); // brand details marketing
+router.get('/internal/cokitchen/deal', _controllers.Deals.getCokitchenDeals);
+router.get('/internal/cokitchen/home-page-header', _controllers.Deals.getCokitchenHomePagePosts); // brand details marketing
 
 router.post('/marketing/brand', _brandValidator["default"].createBrand(), _controllers.Brand.createBrand);
 router.get('/marketing/user', _controllers.Auth.getAllUsers);
@@ -129,6 +132,8 @@ router.post('/logistics/admin/create-logistics-admin', _logisticsValidator["defa
 router.post('/logistics/create-logistics-rider', _logisticsValidator["default"].createLogisticsStaff(), _controllers.Logistics.createLogisticsRider); //orders
 
 router.post('/order/calculate', _orderValidator["default"].calculateOrder(), _controllers.Order.calculateOrder);
+router.post('/order', _orderValidator["default"].createOrder(), _controllers.Order.createOrder);
+router.get('/order/order-types', _controllers.Order.getOrderTypes);
 
 var _default = router.routes();
 

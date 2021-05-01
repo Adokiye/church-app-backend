@@ -13,6 +13,8 @@ var up = function up(knex) {
     table.string('service_charge').notNullable().defaultTo('0');
     table.string('address').notNullable();
     table.jsonb('meals').notNullable();
+    table.string('lat').notNullable();
+    table.string('lng').notNullable();
     table.uuid('deal_id').references('id').inTable('deals').onDelete('CASCADE');
     table.uuid('cokitchen_polygon_id').references('id').inTable('cokitchen_polygons').onDelete('CASCADE').notNullable();
     table.timestamps(true, true);

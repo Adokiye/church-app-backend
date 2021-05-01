@@ -48,6 +48,21 @@ var DealsValidator = {
       }
     });
   },
+  createPost: function createPost() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        cokitchen_id: _joi["default"].string().required(),
+        title: _joi["default"].string().required(),
+        heading: _joi["default"].string().required(),
+        body: _joi["default"].string().required(),
+        images: _joi["default"].array().items(image).required(),
+        to_expire_date: _joi["default"].date().required(),
+        to_expire_time: _joi["default"].string().required(),
+        to_start_date: _joi["default"].date().required(),
+        to_start_time: _joi["default"].string().required()
+      }
+    });
+  },
   updateDeal: function updateDeal() {
     return (0, _middlewares.validationMiddleware)({
       body: {
@@ -75,6 +90,25 @@ var DealsValidator = {
         to_start_time: _joi["default"].string(),
         specific_customers: _joi["default"].array().items(image),
         fixed_amount: _joi["default"].string()
+      }
+    });
+  },
+  updateCokitchenPostsArrangement: function updateCokitchenPostsArrangement() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        posts: _joi["default"].array().items(_joi["default"].object().keys({
+          title: _joi["default"].string().required(),
+          heading: _joi["default"].string().required(),
+          id: _joi["default"].string().required(),
+          body: _joi["default"].string().required(),
+          images: _joi["default"].array().items(image).required(),
+          to_expire_date: _joi["default"].date().required(),
+          to_expire_time: _joi["default"].string().required(),
+          to_start_date: _joi["default"].date().required(),
+          to_start_time: _joi["default"].string().required(),
+          deal_id: _joi["default"].string()
+        })).required(),
+        cokitchen_id: _joi["default"].string().required()
       }
     });
   }

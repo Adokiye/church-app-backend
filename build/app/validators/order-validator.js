@@ -29,7 +29,9 @@ var OrderValidator = {
         meals: _joi["default"].array().items(meal).required(),
         cokitchen_polygon_id: _joi["default"].string().required(),
         address: _joi["default"].string().required(),
-        discount_code: _joi["default"].string()
+        discount_code: _joi["default"].string(),
+        lat: _joi["default"].string().required(),
+        lng: _joi["default"].string().required()
       }
     });
   },
@@ -39,7 +41,22 @@ var OrderValidator = {
         meals: _joi["default"].array().items(meal),
         cokitchen_polygon_id: _joi["default"].string(),
         address: _joi["default"].string(),
-        discount_code: _joi["default"].string()
+        discount_code: _joi["default"].string(),
+        lat: _joi["default"].string(),
+        lng: _joi["default"].string()
+      }
+    });
+  },
+  createOrder: function createOrder() {
+    return (0, _middlewares.validationMiddleware)({
+      body: {
+        calculated_order_id: _joi["default"].string().required(),
+        order_type_id: _joi["default"].string().required(),
+        use_wallet: _joi["default"].bool(),
+        order_details: _joi["default"].object().keys({
+          rider_note: _joi["default"].string().required(),
+          order_note: _joi["default"].string().required()
+        })
       }
     });
   }
