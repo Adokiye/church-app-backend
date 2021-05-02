@@ -200,7 +200,11 @@ router.post('/marketing/deal', DealsValidator.createDeal(), Deals.createDeal)
 
 router.post('/marketing/post', DealsValidator.createPost(), Deals.createPost)
 
-router.put('/marketing/home-page-header', DealsValidator.updateCokitchenPostsArrangement(), Deals.updatePostsArrangement)
+router.put(
+  '/marketing/home-page-header',
+  DealsValidator.updateCokitchenPostsArrangement(),
+  Deals.updatePostsArrangement
+)
 
 router.put('/marketing/deal/:id', DealsValidator.updateDeal(), Deals.updateDeal)
 
@@ -336,7 +340,10 @@ router.get('/internal/deal-types', Deals.getDealTypes)
 
 router.get('/internal/cokitchen/deal', Deals.getCokitchenDeals)
 
-router.get('/internal/cokitchen/home-page-header', Deals.getCokitchenHomePagePosts)
+router.get(
+  '/internal/cokitchen/home-page-header',
+  Deals.getCokitchenHomePagePosts
+)
 
 // brand details marketing
 router.post('/marketing/brand', BrandValidator.createBrand(), Brand.createBrand)
@@ -407,16 +414,8 @@ router.post(
   Order.calculateOrder
 )
 
-router.post(
-  '/order',
-  OrderValidator.createOrder(),
-  Order.createOrder
-)
+router.post('/order', OrderValidator.createOrder(), Order.createOrder)
 
-router.get(
-  '/order/order-types',
-  Order.getOrderTypes
-)
-
+router.get('/order/order-types', Order.getOrderTypes)
 
 export default router.routes()

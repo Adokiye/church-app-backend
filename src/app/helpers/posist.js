@@ -1,5 +1,10 @@
 import axios from 'axios'
-import { POSIST_API_URL, POSIST_TOKEN } from '../config.js'
+import {
+  POSIST_API_URL,
+  POSIST_TOKEN,
+  POSIST_CLIENT_ID,
+  POSIST_CLIENT_NAME
+} from '../config.js'
 
 export const getPosistBrandMenu = async customerKey => {
   const sub_url = 'online_order_cloud/menu'
@@ -14,5 +19,26 @@ export const getPosistBrandMenu = async customerKey => {
       }
     }
   )
+  return response
+}
+
+export const createPosistOrder = async data => {
+  const sub_url = 'online_order_cloud/push'
+  console.log(POSIST_API_URL + sub_url + '?customer_key=' + customerKey)
+  data.source.name = POSIST_CLIENT_NAME
+  data.source.id = POSIST_CLIENT_ID
+  console.log(data)
+  const response = await axios.post(
+    POSIST_API_URL + sub_url + '?customer_key=' + customerKey,
+    data,
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + POSIST_TOKEN
+      }
+    }
+  )
+  console.log(response)
   return response
 }

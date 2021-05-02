@@ -13,7 +13,8 @@ import {
   Unauthorized,
   encryptPassword,
   UnprocessableEntity,
-  setPendingOrder
+  setPendingOrder,
+  createPosistOrder
 } from '../helpers'
 
 export const getOrderTypes = async ctx => {
@@ -75,7 +76,10 @@ export const calculateOrder = async ctx => {
       .catch(() => false),
     User.query()
       .findById(id)
-      .catch((e) => {console.log(e);return false})
+      .catch(e => {
+        console.log(e)
+        return false
+      })
   ])
   if (!cokitchenPolygonInDb) {
     throw UnprocessableEntity(
@@ -86,7 +90,8 @@ export const calculateOrder = async ctx => {
     throw UnprocessableEntity(`user not found for id:${id}`)
   }
   //step 3- get all meals and addons from the db based on the request
-  var i = 0,j=0,
+  var i = 0,
+    j = 0,
     len = meals.length
   let selected_meals = []
   let total_meal_amount = 0
@@ -104,9 +109,10 @@ export const calculateOrder = async ctx => {
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
-            .where('meal_addon_id',meals[i].addons[j].id)
-            .where('meal_id',meals[i].id)
-            .limit(1).first()
+            .where('meal_addon_id', meals[i].addons[j].id)
+            .where('meal_id', meals[i].id)
+            .limit(1)
+            .first()
             .withGraphFetched('[meal_data]')
             .catch(e => {
               console.log(e)
@@ -115,8 +121,8 @@ export const calculateOrder = async ctx => {
           if (addonInDb) {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.amount =
-            addonInDb.quantity * Number(addonInDb.meal_data.amount)
-              console.log(addonInDb)
+              addonInDb.quantity * Number(addonInDb.meal_data.amount)
+            console.log(addonInDb)
             addons.push(addonInDb)
           } else {
             throw UnprocessableEntity(
@@ -221,7 +227,7 @@ export const calculateOrder = async ctx => {
       console.log(lat + lng)
       throw UnprocessableEntity('Invalid Body')
     })
-    calculated_order.meals = JSON.parse(calculated_order.meals)
+  calculated_order.meals = JSON.parse(calculated_order.meals)
   return {
     status: 'success',
     message: 'order calulated successfully',
@@ -255,7 +261,32 @@ export const createOrder = async ctx => {
         throw NotFound('Calculated order not found')
       })
   ])
-  let order
+  let order,
+    posist_order,
+    posist_meals_formatted = [],
+    meals
+  meals = JSON.parse(calculatedOrderInDb.meals)
+  for (let i = 0; i < meals.length; i++) {
+    for (let j = 0; j < meals.addons.length; j++) {
+      meals.posist_addons = []
+      meals.posist_addons.push({
+        id: meals.addons._id,
+        quantity: meals.addons.quantity
+      })
+    }
+    posist_meals_formatted.push({
+      id: meals[i].posist_data._id,
+      quantity: meals[i].quantity,
+      // "discounts": [
+      //   {
+      //     "value": 10,
+      //     "type": "percentage"
+      //   }
+      // ],
+      addOns: meals.posist_addons
+    })
+  }
+  console.log(posist_meals_formatted)
   switch (orderTypeInDb.name) {
     case 'WALLET':
       break
@@ -269,10 +300,43 @@ export const createOrder = async ctx => {
           order_type_id: orderTypeInDb.id,
           calculated_order_id: calculatedOrderInDb.id
         })
+        .withGraphFetched('[calculated_order.[user]]')
         .catch(e => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
         })
+      posist_order = await createPosistOrder({
+        source: {
+          order_id: order.id
+        },
+        payments: {
+          type: 'COD'
+        },
+        discount: {
+          type: 'fixed',
+          value: 10
+        },
+        charges: [
+          {
+            name: 'Delivery Charge',
+            value: order.calculated_order.delivery_fee
+          },
+          {
+            name: 'Service Charge',
+            value: order.calculated_order.service_charge
+          }
+        ],
+        customer: {
+          firstname: order.calculate_order.user.first_name,
+          mobile: order.calculate_order.user.phone_number,
+          addType: 'home',
+          address1: order.calculate_order.address,
+          address2: order.calculate_order.address,
+          city: order.calculate_order.address
+        },
+        tabType: 'delivery',
+        items: posist_meals_formatted
+      })
       break
     default:
       throw NotFound('Not found')
