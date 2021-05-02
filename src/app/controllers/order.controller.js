@@ -22,8 +22,6 @@ export const getOrders = async ctx => {
 
   const orders = await Order.query()
     .where('user_id', id)
-    .limit(1)
-    .first()
     .catch(() => [])
 
   return {
