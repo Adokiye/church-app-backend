@@ -28,7 +28,6 @@ const OrderValidator = {
       body: {
         meals: Joi.array().items(meal).required(),
         cokitchen_polygon_id: Joi.string().required(),
-        address: Joi.string().required(),
         address_details: address,
         discount_code: Joi.string(),
         lat: Joi.string().required(),
@@ -40,7 +39,8 @@ const OrderValidator = {
       body: {
         meals: Joi.array().items(meal),
         cokitchen_polygon_id: Joi.string(),
-        address: Joi.string(),
+        address_details: address,
+
         discount_code: Joi.string(),
         lat: Joi.string(),
         lng: Joi.string()
