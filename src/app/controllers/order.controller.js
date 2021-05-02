@@ -259,6 +259,8 @@ export const calculateOrder = async ctx => {
 
 export const createOrder = async ctx => {
   const { body } = ctx.request
+  const { id } = ctx.state.user.user
+
   let order_details = false
   if (body.order_details) {
     order_details = JSON.stringify(body.order_details)
@@ -333,7 +335,8 @@ export const createOrder = async ctx => {
         .insert({
           order_details,
           order_type_id: orderTypeInDb.id,
-          calculated_order_id: calculatedOrderInDb.id
+          calculated_order_id: calculatedOrderInDb.id,
+          user_id:id
         })
         .withGraphFetched('[calculated_order.[user]]')
         .catch(e => {
