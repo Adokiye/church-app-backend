@@ -228,7 +228,8 @@ export const calculateOrder = async ctx => {
     cokitchen_polygon_id,
     lat,
     lng,
-    user_id: userInDb.id
+    user_id: userInDb.id,
+    posist_meals:JSON.stringify(body.meals)
   }
   if (dealInDb.id.length > 0) {
     calculatedData.deal_id = dealInDb.id
