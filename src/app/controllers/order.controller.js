@@ -347,7 +347,7 @@ export const createOrder = async ctx => {
           mobile: calculatedOrderInDb.user.phone_number,
           addType: 'home',
           address1: calculatedOrderInDb.address,
-          address2: calculatedOrderInDb.calculate_order.address,
+          address2: calculatedOrderInDb.address,
           city: calculatedOrderInDb.address
         },
         tabType: 'delivery',
