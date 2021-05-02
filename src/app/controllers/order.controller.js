@@ -269,13 +269,13 @@ export const createOrder = async ctx => {
     meals,
     order_data
   console.log(calculatedOrderInDb.meals)
-  meals = calculatedOrderInDb.meals
+  meals = calculatedOrderInDb.meals.meals
   for (let i = 0; i < meals.length; i++) {
     for (let j = 0; j < meals.addons.length; j++) {
-      meals.posist_addons = []
-      meals.posist_addons.push({
-        id: meals.addons._id,
-        quantity: meals.addons.quantity
+      meals[i].posist_addons = []
+      meals[i].posist_addons.push({
+        id: meals.addons[j]._id,
+        quantity: meals.addons[j].quantity
       })
     }
     posist_meals_formatted.push({
@@ -287,7 +287,7 @@ export const createOrder = async ctx => {
       //     "type": "percentage"
       //   }
       // ],
-      addOns: meals.posist_addons
+      addOns: meals[i].posist_addons
     })
   }
   console.log(posist_meals_formatted)
