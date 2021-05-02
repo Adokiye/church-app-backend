@@ -104,7 +104,7 @@ export const calculateOrder = async ctx => {
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
-            .where('id',meals[i].addons[j].id)
+            .where('meal_addon_id',meals[i].addons[j].id)
             .where('meal_id',meals[i].id)
             .limit(1).first()
             .withGraphFetched('[meal_data]')
