@@ -23,7 +23,7 @@ export const newCustomerService = async phone_number => {
     })
   ])
 
-  await createUserSubTables()
+  await createUserSubTables(user)
 
   return {
     user
