@@ -335,7 +335,10 @@ export const createOrder = async ctx => {
           order_details,
           order_type_id: orderTypeInDb.id,
           calculated_order_id: calculatedOrderInDb.id,
-          user_id:id
+          user_id:id,
+          completed:false,
+          cancelled:false,
+          paid:false
         })
         .withGraphFetched('[calculated_order.[user]]')
         .catch(e => {
