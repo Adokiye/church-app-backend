@@ -269,7 +269,7 @@ export const createOrder = async ctx => {
     meals,
     order_data
   console.log(calculatedOrderInDb.meals)
-  meals = JSON.parse(calculatedOrderInDb.meals).meals
+  meals = calculatedOrderInDb.meals.meals
   for (let i = 0; i < meals.length; i++) {
     console.log(meals[i])
     for (let j = 0; j < meals[i].addons.length; j++) {
