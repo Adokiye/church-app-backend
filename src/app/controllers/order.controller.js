@@ -335,20 +335,20 @@ export const createOrder = async ctx => {
         charges: [
           {
             name: 'Delivery Charge',
-            value: order.calculated_order.delivery_fee
+            value: calculatedOrderInDb.delivery_fee
           },
           {
             name: 'Service Charge',
-            value: order.calculated_order.service_charge
+            value: calculatedOrderInDb.service_charge
           }
         ],
         customer: {
-          firstname: order.calculate_order.user.first_name,
-          mobile: order.calculate_order.user.phone_number,
+          firstname: calculatedOrderInDb.user.first_name,
+          mobile: calculatedOrderInDb.user.phone_number,
           addType: 'home',
-          address1: order.calculate_order.address,
-          address2: order.calculate_order.address,
-          city: order.calculate_order.address
+          address1: calculatedOrderInDb.address,
+          address2: calculatedOrderInDb.calculate_order.address,
+          city: calculatedOrderInDb.address
         },
         tabType: 'delivery',
         items: posist_meals_formatted
