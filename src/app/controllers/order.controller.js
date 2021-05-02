@@ -18,7 +18,9 @@ import {
 } from '../helpers'
 
 export const getOrderTypes = async ctx => {
-  const order_types = OrderType.query()
+  const order_types = await OrderType.query()
+  .catch(()=>[])
+
   return {
     status: 'success',
     message: 'Successful',
