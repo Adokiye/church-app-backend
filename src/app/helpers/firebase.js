@@ -12,6 +12,9 @@ const pendingOrdersDb = db.collection('pending_orders')
 
 export const setPendingOrder = async order => {
   const new_pending_order = pendingOrdersDb.doc(order.id)
+  const data = {}
+  data.order_details = order
+  console.log(order)
   await new_pending_order.set(order)
   return true
 }

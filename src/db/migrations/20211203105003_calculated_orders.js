@@ -6,6 +6,7 @@ export const up = knex =>
     table.string('service_charge').notNullable().defaultTo('0')
     table.string('address').notNullable()
     table.jsonb('meals').notNullable()
+    table.jsonb('posist_meals').notNullable()
     table.string('lat').notNullable()
     table.string('lng').notNullable()
     table.uuid('deal_id').references('id').inTable('deals').onDelete('CASCADE')
