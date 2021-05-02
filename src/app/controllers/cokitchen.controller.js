@@ -124,11 +124,11 @@ export const deleteCokitchenPolygon = async ctx => {
 export const getAllCokitchens = async ctx => {
   const [cokitchens, meal_categories] = await Promise.all([
     Cokitchen.query()
-      // .withGraphJoined(
-      //   '[brands.[meals.[meal_category]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]'
-      // )
+      .withGraphJoined(
+        '[brands.[meals.[meal_category]],cokitchen_explore_keywords.[meal_keyword], cokitchen_polygons]'
+      )
 
-      // .where('brands:meals.is_addon', false)
+      .where('brands:meals.is_addon', false)
 
       .catch(e => {
         console.log(e)
