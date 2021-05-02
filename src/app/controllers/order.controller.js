@@ -18,8 +18,7 @@ import {
 } from '../helpers'
 
 export const getOrderTypes = async ctx => {
-  const order_types = await OrderType.query()
-  .catch(()=>[])
+  const order_types = await OrderType.query().catch(() => [])
 
   return {
     status: 'success',
@@ -269,28 +268,31 @@ export const createOrder = async ctx => {
     meals,
     order_data
   console.log(calculatedOrderInDb.meals)
-  meals = calculatedOrderInDb.meals.meals
+  meals = calculatedOrderInDb.meals
   console.log(meals)
-  for (let i = 0; i < meals.length; i++) {
-    console.log(meals[i])
-    for (let j = 0; j < meals[i].addons.length; j++) {
-      meals[i].posist_addons = []
-      meals[i].posist_addons.push({
-        id: meals.addons[j]._id,
-        quantity: meals.addons[j].quantity
+  for (let k = 0; k < meals.length; k++) {
+    console.log(meals[k])
+    for (let i = 0; i < meals[k].meals.length; i++) {
+      console.log(meals[k].meals[i])
+      for (let j = 0; j < meals[k].meals[i].addons.length; j++) {
+        meals[k].meals[i].posist_addons = []
+        meals[k].meals[i].posist_addons.push({
+          id: meals[k].meals[i].addons[j]._id,
+          quantity: meals[k].meals[i].addons[j].quantity
+        })
+      }
+      posist_meals_formatted.push({
+        id: meals[k].meals[i].posist_data._id,
+        quantity: meals[k].meals[i].quantity,
+        // "discounts": [
+        //   {
+        //     "value": 10,
+        //     "type": "percentage"
+        //   }
+        // ],
+        addOns: meals[k].meals[i].posist_addons
       })
     }
-    posist_meals_formatted.push({
-      id: meals[i].posist_data._id,
-      quantity: meals[i].quantity,
-      // "discounts": [
-      //   {
-      //     "value": 10,
-      //     "type": "percentage"
-      //   }
-      // ],
-      addOns: meals[i].posist_addons
-    })
   }
   console.log(posist_meals_formatted)
   switch (orderTypeInDb.name) {
@@ -304,7 +306,7 @@ export const createOrder = async ctx => {
         order_type_id: orderTypeInDb.id,
         calculated_order_id: calculatedOrderInDb.id
       }
-      if(order_details){
+      if (order_details) {
         order_data.order_details = order_details
       }
       order = await Order.query()
