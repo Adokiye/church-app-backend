@@ -271,7 +271,7 @@ export const createOrder = async ctx => {
   console.log(calculatedOrderInDb.meals)
   meals = calculatedOrderInDb.meals.meals
   for (let i = 0; i < meals.length; i++) {
-    for (let j = 0; j < meals.addons.length; j++) {
+    for (let j = 0; j < meals[i].addons.length; j++) {
       meals[i].posist_addons = []
       meals[i].posist_addons.push({
         id: meals.addons[j]._id,
