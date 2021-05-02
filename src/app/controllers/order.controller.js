@@ -268,7 +268,7 @@ export const createOrder = async ctx => {
     posist_meals_formatted = [],
     meals,
     order_data
-  meals = JSON.parse(calculatedOrderInDb.meals)
+  meals = calculatedOrderInDb.meals
   for (let i = 0; i < meals.length; i++) {
     for (let j = 0; j < meals.addons.length; j++) {
       meals.posist_addons = []
