@@ -241,7 +241,7 @@ export const calculateOrder = async ctx => {
 
 export const createOrder = async ctx => {
   const { body } = ctx.request
-  order_details = JSON.stringify([])
+  let order_details = JSON.stringify([])
   if (body.order_details) {
     order_details = JSON.stringify(body.order_details)
   }
@@ -266,7 +266,8 @@ export const createOrder = async ctx => {
   let order,
     posist_order,
     posist_meals_formatted = [],
-    meals
+    meals,
+    order_data
   meals = JSON.parse(calculatedOrderInDb.meals)
   for (let i = 0; i < meals.length; i++) {
     for (let j = 0; j < meals.addons.length; j++) {
