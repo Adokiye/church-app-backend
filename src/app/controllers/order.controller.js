@@ -22,7 +22,7 @@ export const getOrders = async ctx => {
 
   const orders = await Order.query()
     .where('user_id', id)
-    .withGraphFetched('[calculated_order]')
+    .withGraphFetched('[calculated_order,order_type]')
     .catch(() => [])
 
   return {
@@ -340,7 +340,7 @@ export const createOrder = async ctx => {
           cancelled:false,
           paid:false
         })
-        .withGraphFetched('[calculated_order.[user]]')
+        .withGraphFetched('[calculated_order.[user],order_type]')
         .catch(e => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
