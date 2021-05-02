@@ -22,6 +22,7 @@ export const getOrders = async ctx => {
 
   const orders = await Order.query()
     .where('user_id', id)
+    .withGraphFetched('[calculated_order]')
     .catch(() => [])
 
   return {
