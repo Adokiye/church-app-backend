@@ -352,7 +352,7 @@ export const createOrder = async ctx => {
         },
         tabType: 'delivery',
         items: posist_meals_formatted
-      })
+      }, calculatedOrderInDb.meals[0].brand.posist_customer_key)
       break
     default:
       throw NotFound('Not found')

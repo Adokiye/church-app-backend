@@ -22,7 +22,7 @@ export const getPosistBrandMenu = async customerKey => {
   return response
 }
 
-export const createPosistOrder = async data => {
+export const createPosistOrder = async (data, customerKey) => {
   const sub_url = 'online_order_cloud/push'
   console.log(POSIST_API_URL + sub_url + '?customer_key=' + customerKey)
   data.source.name = POSIST_CLIENT_NAME
