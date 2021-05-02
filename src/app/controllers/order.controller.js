@@ -241,7 +241,7 @@ export const calculateOrder = async ctx => {
 
 export const createOrder = async ctx => {
   const { body } = ctx.request
-  let order_details = JSON.stringify([])
+  let order_details = false
   if (body.order_details) {
     order_details = JSON.stringify(body.order_details)
   }
@@ -297,6 +297,13 @@ export const createOrder = async ctx => {
       // code block
       break
     case 'CASH':
+      order_data = {
+        order_type_id: orderTypeInDb.id,
+        calculated_order_id: calculatedOrderInDb.id
+      }
+      if(order_details){
+        order_data.order_details = order_details
+      }
       order = await Order.query()
         .insert({
           order_details,
