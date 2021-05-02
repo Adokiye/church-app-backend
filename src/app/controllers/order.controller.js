@@ -278,7 +278,7 @@ export const createOrder = async ctx => {
       for (let j = 0; j < meals[k].meals[i].addons.length; j++) {
         meals[k].meals[i].posist_addons = []
         meals[k].meals[i].posist_addons.push({
-          id: meals[k].meals[i].addons[j]._id,
+          _id: meals[k].meals[i].addons[j]._id,
           quantity: meals[k].meals[i].addons[j].quantity
         })
       }
@@ -321,38 +321,41 @@ export const createOrder = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
         })
-      posist_order = await createPosistOrder({
-        source: {
-          order_id: order.id
-        },
-        payments: {
-          type: 'COD'
-        },
-        discount: {
-          type: 'fixed',
-          value: 10
-        },
-        charges: [
-          {
-            name: 'Delivery Charge',
-            value: calculatedOrderInDb.delivery_fee
+      posist_order = await createPosistOrder(
+        {
+          source: {
+            order_id: order.id
           },
-          {
-            name: 'Service Charge',
-            value: calculatedOrderInDb.service_charge
-          }
-        ],
-        customer: {
-          firstname: calculatedOrderInDb.user.first_name,
-          mobile: calculatedOrderInDb.user.phone_number,
-          addType: 'home',
-          address1: calculatedOrderInDb.address,
-          address2: calculatedOrderInDb.address,
-          city: calculatedOrderInDb.address
+          payments: {
+            type: 'COD'
+          },
+          discount: {
+            type: 'fixed',
+            value: 10
+          },
+          charges: [
+            {
+              name: 'Delivery Charge',
+              value: calculatedOrderInDb.delivery_fee
+            },
+            {
+              name: 'Service Charge',
+              value: calculatedOrderInDb.service_charge
+            }
+          ],
+          customer: {
+            firstname: calculatedOrderInDb.user.first_name,
+            mobile: calculatedOrderInDb.user.phone_number,
+            addType: 'home',
+            address1: calculatedOrderInDb.address,
+            address2: calculatedOrderInDb.address,
+            city: calculatedOrderInDb.address
+          },
+          tabType: 'delivery',
+          items: posist_meals_formatted
         },
-        tabType: 'delivery',
-        items: posist_meals_formatted
-      }, calculatedOrderInDb.meals[0].brand.posist_customer_key)
+        calculatedOrderInDb.meals[0].brand.posist_customer_key
+      )
       break
     default:
       throw NotFound('Not found')
