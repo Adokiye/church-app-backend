@@ -270,6 +270,7 @@ export const createOrder = async ctx => {
     order_data
   console.log(calculatedOrderInDb.meals)
   meals = calculatedOrderInDb.meals.meals
+  console.log(meals)
   for (let i = 0; i < meals.length; i++) {
     console.log(meals[i])
     for (let j = 0; j < meals[i].addons.length; j++) {
