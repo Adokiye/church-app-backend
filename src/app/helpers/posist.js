@@ -28,6 +28,7 @@ export const createPosistOrder = async (data, customerKey) => {
   data.source.name = POSIST_CLIENT_NAME
   data.source.id = POSIST_CLIENT_ID
   console.log(data)
+  console.log(data.items[0].addOns)
   const response = await axios.post(
     POSIST_API_URL + sub_url + '?customer_key=' + customerKey,
     data,

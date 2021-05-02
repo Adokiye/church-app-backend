@@ -344,7 +344,7 @@ export const createOrder = async ctx => {
             }
           ],
           customer: {
-            firstname: calculatedOrderInDb.user.first_name,
+            firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
             mobile: calculatedOrderInDb.user.phone_number,
             addType: 'home',
             address1: calculatedOrderInDb.address,
