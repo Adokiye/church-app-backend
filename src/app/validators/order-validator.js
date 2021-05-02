@@ -14,6 +14,14 @@ let meal = Joi.object().keys({
   )
 })
 
+let address = Joi.object()
+  .keys({
+    name: Joi.string().required(),
+    building_number: Joi.string(),
+    address_line: Joi.string().required()
+  })
+  .required()
+
 const OrderValidator = {
   calculateOrder: () =>
     validationMiddleware({
@@ -21,6 +29,7 @@ const OrderValidator = {
         meals: Joi.array().items(meal).required(),
         cokitchen_polygon_id: Joi.string().required(),
         address: Joi.string().required(),
+        address_details: address,
         discount_code: Joi.string(),
         lat: Joi.string().required(),
         lng: Joi.string().required()
@@ -37,14 +46,14 @@ const OrderValidator = {
         lng: Joi.string()
       }
     }),
-    createOrder: () =>
+  createOrder: () =>
     validationMiddleware({
       body: {
         calculated_order_id: Joi.string().required(),
         order_type_id: Joi.string().required(),
         use_wallet: Joi.bool(),
-        order_details:   Joi.object().keys({
-          rider_note: Joi.string(),
+        order_details: Joi.object().keys({
+          rider_note: Joi.string()
         })
       }
     })

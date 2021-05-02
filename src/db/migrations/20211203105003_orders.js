@@ -7,6 +7,12 @@ export const up = knex =>
       .inTable('order_types')
       .onDelete('CASCADE')
       .notNullable()
+      table
+      .uuid('user_id')
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE')
+      .notNullable()
     table
       .uuid('user_card_id')
       .references('id')

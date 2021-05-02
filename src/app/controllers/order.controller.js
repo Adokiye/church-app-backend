@@ -17,7 +17,25 @@ import {
   createPosistOrder
 } from '../helpers'
 
+export const getOrders = async ctx => {
+  const { id } = ctx.state.user.user
+
+  const orders = await Order.query()
+    .where('user_id', id)
+    .limit(1)
+    .first()
+    .catch(() => [])
+
+  return {
+    status: 'success',
+    message: 'Successful',
+    data: orders
+  }
+}
+
 export const getOrderTypes = async ctx => {
+  const { id } = ctx.state.user.user
+
   const order_types = await OrderType.query().catch(() => [])
 
   return {
@@ -35,7 +53,7 @@ export const calculateOrder = async ctx => {
   let discount_code = body.discount_code
   let cokitchen_polygon_id = body.cokitchen_polygon_id
   let meals = body.meals
-  let address = body.address
+  let address_details = body.address_details
   let lat = body.lat
   let lng = body.lng
   let dealInDb = { id: '' }
@@ -205,7 +223,7 @@ export const calculateOrder = async ctx => {
     total_amount: total_meal_amount,
     service_charge,
     delivery_fee: cokitchenPolygonInDb.delivery_fee,
-    address,
+    address_details,
     meals: JSON.stringify(selected_meals),
     cokitchen_polygon_id,
     lat,
@@ -222,7 +240,7 @@ export const calculateOrder = async ctx => {
       console.log(total_meal_amount)
       console.log(service_charge)
       console.log(cokitchenPolygonInDb.delivery_fee)
-      console.log(address)
+      console.log(address_details)
       console.log(selected_meals)
       console.log(cokitchen_polygon_id)
       console.log(lat + lng)

@@ -418,4 +418,6 @@ router.post('/order', OrderValidator.createOrder(), Order.createOrder)
 
 router.get('/order/order-types', Order.getOrderTypes)
 
+router.get('/order', Order.getOrders)
+
 export default router.routes()

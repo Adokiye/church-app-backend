@@ -4,7 +4,7 @@ export const up = knex =>
     table.string('total_amount').notNullable()
     table.string('delivery_fee').notNullable()
     table.string('service_charge').notNullable().defaultTo('0')
-    table.string('address').notNullable()
+    table.jsonb('address_details').notNullable()
     table.jsonb('meals').notNullable()
     table.jsonb('posist_meals').notNullable()
     table.string('lat').notNullable()
