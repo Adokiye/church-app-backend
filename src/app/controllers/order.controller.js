@@ -278,7 +278,7 @@ export const createOrder = async ctx => {
       for (let j = 0; j < meals[k].meals[i].addons.length; j++) {
         meals[k].meals[i].posist_addons = []
         meals[k].meals[i].posist_addons.push({
-          _id: meals[k].meals[i].addons[j]._id,
+          _id: meals[k].meals[i].addons[j].meal_data.posist_data._id,
           quantity: meals[k].meals[i].addons[j].quantity
         })
       }
