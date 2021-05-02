@@ -15,6 +15,6 @@ export const setPendingOrder = async order => {
   const data = {}
   data.order_details = order
   console.log(order)
-  await new_pending_order.set(order)
+  await new_pending_order.set(data)
   return true
 }
