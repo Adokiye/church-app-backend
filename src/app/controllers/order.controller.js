@@ -257,6 +257,7 @@ export const createOrder = async ctx => {
       }),
     CalculatedOrder.query()
       .findById(body.calculated_order_id)
+      .withGraphFetched('[user]')
       .catch(e => {
         console.log(e)
         throw NotFound('Calculated order not found')
