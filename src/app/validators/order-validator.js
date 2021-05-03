@@ -20,7 +20,6 @@ let address = Joi.object()
     building_number: Joi.string(),
     address_line: Joi.string().required(),
     city: Joi.string().required()
-
   })
   .required()
 
