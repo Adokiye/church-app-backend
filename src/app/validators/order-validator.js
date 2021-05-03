@@ -41,7 +41,6 @@ const OrderValidator = {
         meals: Joi.array().items(meal),
         cokitchen_polygon_id: Joi.string(),
         address_details: address,
-
         discount_code: Joi.string(),
         lat: Joi.string(),
         lng: Joi.string()
