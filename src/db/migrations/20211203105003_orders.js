@@ -22,7 +22,7 @@ export const up = knex =>
     table.boolean('completed').notNullable().defaultTo(false)
     table.boolean('cancelled').notNullable().defaultTo(false)
     table.boolean('kitchen_cancelled').notNullable().defaultTo(false)
-    table.boolean('kitchen_accepted').defaultTo(false)
+    table.boolean('kitchen_accepted').notNullable().defaultTo(false)
     table.boolean('kitchen_prepared').defaultTo(false)
     table.boolean('assigned').defaultTo(false)
     table.boolean('paid').defaultTo(false)
