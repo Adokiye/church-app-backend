@@ -20,12 +20,11 @@ export const up = knex =>
       .onDelete('CASCADE')
     table.jsonb('order_details').notNullable().defaultTo([])
     table.boolean('completed').notNullable().defaultTo(false)
-    table.boolean('cancelled').defaultTo(false)
-    table.boolean('kitchen_cancelled').defaultTo(false)
+    table.boolean('cancelled').notNullable().defaultTo(false)
+    table.boolean('kitchen_cancelled').notNullable().defaultTo(false)
     table.boolean('kitchen_accepted').defaultTo(false)
     table.boolean('kitchen_prepared').defaultTo(false)
     table.boolean('assigned').defaultTo(false)
-
     table.boolean('paid').defaultTo(false)
     table
       .uuid('calculated_order_id')
