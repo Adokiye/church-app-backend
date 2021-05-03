@@ -376,6 +376,12 @@ export const createOrder = async ctx => {
       //       city: calculatedOrderInDb.address
       //     },
       //     delivery_area:calculatedOrderInDb.address,
+    //   "triggers":{
+    //     "acceptUrl":"https://accepturl.com/orderId",
+    //     "rejectUrl",
+    //     "preparedUrl",
+    //     "dispatchedUrl"
+    // }
       //     tabType: 'delivery',
       //     items: posist_meals_formatted
       //   },
