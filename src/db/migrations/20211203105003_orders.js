@@ -23,6 +23,7 @@ export const up = knex =>
     table.boolean('cancelled').defaultTo(false)
     table.boolean('kitchen_cancelled').defaultTo(false)
     table.boolean('kitchen_accepted').defaultTo(false)
+    table.boolean('kitchen_accepted').defaultTo(false)
 
     table.boolean('paid').defaultTo(false)
     table
