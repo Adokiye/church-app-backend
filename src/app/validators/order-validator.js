@@ -54,7 +54,7 @@ const OrderValidator = {
         use_wallet: Joi.bool(),
         order_details: Joi.object().keys({
           rider_note: Joi.string(),
-          cutlery:Joi.bool().required()
+          cutlery: Joi.bool().required()
         })
       }
     })
