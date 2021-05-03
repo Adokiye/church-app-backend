@@ -7,7 +7,7 @@ export const up = knex =>
       .inTable('order_types')
       .onDelete('CASCADE')
       .notNullable()
-      table
+    table
       .uuid('user_id')
       .references('id')
       .inTable('users')
@@ -30,7 +30,8 @@ export const up = knex =>
       .uuid('calculated_order_id')
       .references('id')
       .inTable('calculated_orders')
-      .onDelete('CASCADE').unique()
+      .onDelete('CASCADE')
+      .unique()
       .notNullable()
     table.timestamps(true, true)
   })
