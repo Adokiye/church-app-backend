@@ -335,10 +335,10 @@ export const createOrder = async ctx => {
           order_details,
           order_type_id: orderTypeInDb.id,
           calculated_order_id: calculatedOrderInDb.id,
-          user_id:id,
-          completed:false,
-          cancelled:false,
-          paid:false
+          user_id: id,
+          completed: false,
+          cancelled: false,
+          paid: false
         })
         .withGraphFetched('[calculated_order.[user],order_type]')
         .catch(e => {
@@ -375,6 +375,7 @@ export const createOrder = async ctx => {
       //       address2: calculatedOrderInDb.address,
       //       city: calculatedOrderInDb.address
       //     },
+      //     delivery_area:calculatedOrderInDb.address,
       //     tabType: 'delivery',
       //     items: posist_meals_formatted
       //   },
