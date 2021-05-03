@@ -400,7 +400,7 @@ router.post(
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsAdmin
 )
-//
+
 router.post(
   '/logistics/create-logistics-rider',
   LogisticsValidator.createLogisticsStaff(),
