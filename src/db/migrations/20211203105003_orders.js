@@ -25,7 +25,7 @@ export const up = knex =>
     table.boolean('kitchen_accepted').notNullable().defaultTo(false)
     table.boolean('kitchen_prepared').notNullable().defaultTo(false)
     table.boolean('assigned').notNullable().defaultTo(false)
-    table.boolean('paid').defaultTo(false)
+    table.boolean('paid').notNullable().defaultTo(false)
     table
       .uuid('calculated_order_id')
       .references('id')
