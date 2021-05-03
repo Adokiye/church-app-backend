@@ -18,7 +18,9 @@ let address = Joi.object()
   .keys({
     name: Joi.string().required(),
     building_number: Joi.string(),
-    address_line: Joi.string().required()
+    address_line: Joi.string().required(),
+    city: Joi.string().required()
+
   })
   .required()
 
