@@ -34,6 +34,7 @@ export const authMiddleware = jwt({
     '/',
     '/v1/banks',
     '/v1/api/swagger-html',
-    /^\/v1\/internal\/.*/
+    /^\/v1\/internal\/.*/,
+    /^\/v1\/posist\/.*/
   ]
 })
