@@ -228,7 +228,7 @@ export const calculateOrder = async ctx => {
     lat,
     lng,
     user_id: userInDb.id,
-    posist_meals:JSON.stringify(body.meals)
+    posist_meals: JSON.stringify(body.meals)
   }
   if (dealInDb.id.length > 0) {
     calculatedData.deal_id = dealInDb.id
@@ -376,12 +376,12 @@ export const createOrder = async ctx => {
       //       city: calculatedOrderInDb.address
       //     },
       //     delivery_area:calculatedOrderInDb.address,
-    //   "triggers":{
-    //     "acceptUrl":"https://accepturl.com/orderId",
-    //     "rejectUrl",
-    //     "preparedUrl",
-    //     "dispatchedUrl"
-    // }
+      //   "triggers":{
+      //     "acceptUrl":"https://accepturl.com/orderId",
+      //     "rejectUrl",
+      //     "preparedUrl",
+      //     "dispatchedUrl"
+      // }
       //     tabType: 'delivery',
       //     items: posist_meals_formatted
       //   },
