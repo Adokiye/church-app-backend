@@ -16,6 +16,7 @@ import {
   UnprocessableEntity,
   setPendingOrder,
   setTrackingOrder,
+  deletePendingOrder,
   createPosistOrder,
   makeCode,
   NotFound,
@@ -566,7 +567,8 @@ export const kitchenRejectedOrder = async ctx => {
       kitchen_cancelled: true,
       cancelled: true,
       id: order.id
-    })
+    }),
+    deletePendingOrder(order)
   ])
   return {
     status: 'success'

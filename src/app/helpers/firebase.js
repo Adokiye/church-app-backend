@@ -19,10 +19,15 @@ export const setPendingOrder = async order => {
   return true
 }
 
+export const deletePendingOrder = async order => {
+  const new_pending_order = pendingOrdersDb.doc(order.id)
+  console.log(order)
+  await new_pending_order.delete()
+  return true
+}
+
 export const setTrackingOrder = async data => {
   const new_tracking_order = trackingOrdersDb.doc(data.id)
-  await new_tracking_order.set(JSON.parse(JSON.stringify(data)), {
-    merge: true
-  })
+  await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
   return true
 }
