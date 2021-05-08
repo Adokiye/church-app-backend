@@ -13,7 +13,15 @@ class CalculatedOrder extends modelUuid(baseModel) {
         from: 'calculated_orders.user_id',
         to: 'users.id'
       }
-    }
+    },
+    cokitchen_polygon: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: path.join(__dirname, 'cokitchen_polygon'),
+      join: {
+        from: 'calculated_orders.user_id',
+        to: 'users.id'
+      }
+    },
   }
 }
 
