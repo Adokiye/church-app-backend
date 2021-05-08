@@ -350,7 +350,9 @@ export const createOrder = async ctx => {
             .substring(0, 6)
             .toLowerCase()
         })
-        .withGraphFetched('[calculated_order.[user],order_type]')
+        .withGraphFetched(
+          '[calculated_order.[user, cokitchen_polygon],order_type]'
+        )
         .catch(e => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
