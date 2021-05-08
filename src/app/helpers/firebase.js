@@ -28,12 +28,12 @@ export const deletePendingOrder = async order => {
 
 export const setTrackingOrder = async data => {
   const new_tracking_order = trackingOrdersDb.doc(data.id)
-  if(new_tracking_order.exists){
+  console.log(new_tracking_order)
+  if (new_tracking_order.exists) {
     await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
-
-  }else{
+  } else {
+    console.log('not exists')
     await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
-
   }
   return true
 }
