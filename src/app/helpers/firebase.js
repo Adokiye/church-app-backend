@@ -35,5 +35,18 @@ export const setTrackingOrder = async data => {
     console.log('not exists')
     await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
   }
+  var docRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
+  var o = {};
+  new_tracking_order.get().then(async function(thisDoc) {
+      if (thisDoc.exists) {
+        await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
+
+      }
+      else {
+        console.log('not exists')
+        await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
+      }
+
+  });
   return true
 }
