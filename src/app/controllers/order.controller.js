@@ -357,7 +357,7 @@ export const createOrder = async ctx => {
             .toLowerCase()
         })
         .withGraphFetched(
-          '[calculated_order.[user, cokitchen_polygon],order_type]'
+          '[calculated_order.[user],order_type]'
         )
         .catch(e => {
           console.log(e)
@@ -373,6 +373,8 @@ export const createOrder = async ctx => {
     order,
     posist_meals_formatted
   })
+
+  console.log(order)
   await setTrackingOrder(order)
   return {
     status: 'success',
