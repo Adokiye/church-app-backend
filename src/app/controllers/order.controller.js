@@ -504,14 +504,13 @@ export const kitchenRejectedOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
-if(['WALLET', 'CARD'].includes(order.order_type.name)){
-
-}else{
-  order = await Order.query().patchAndFetchById(order.id, {
-    kitchen_cancelled: true,
-    cancelled: true
-  })
-}
+  if (['WALLET', 'CARD'].includes(order.order_type.name)) {
+  } else {
+    order = await Order.query().patchAndFetchById(order.id, {
+      kitchen_cancelled: true,
+      cancelled: true
+    })
+  }
 
   const [tracking_order] = await Promise.all([
     setTrackingOrder({
