@@ -508,16 +508,14 @@ export const kitchenRejectedOrder = async ctx => {
       throw NotFound('Order not found')
     })
   if (['WALLET', 'CARD'].includes(order.order_type.name)) {
-    const [transaction_data, user_data] = await Promise.all([
-      Transaction.query().insert({
-        amount,
-        user_id: user.id,
-        transaction_type,
-        transaction_action,
-        transaction_status: 'Success',
-        description,
-        reason
+    const [order, transaction_data] = await Promise.all([
+      Order.query().patchAndFetchById(order.id, {
+        kitchen_cancelled: true,
+        cancelled: true
       }),
+      createTransaction(
+        'Deposit'
+      )
     ])
   } else {
     order = await Order.query().patchAndFetchById(order.id, {
