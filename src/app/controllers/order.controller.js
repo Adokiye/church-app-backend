@@ -360,12 +360,10 @@ export const createOrder = async ctx => {
     default:
       throw NotFound('Not found')
   }
-  await sendPosistOrder(
-    {
-      calculatedOrderInDb,
-      order
-    }
-  )
+  await sendPosistOrder({
+    calculatedOrderInDb,
+    order
+  })
   await setTrackingOrder(order)
   return {
     status: 'success',
