@@ -19,6 +19,12 @@ export const createTransaction = async (
         Transaction,
         User,
       ) => {
+          if(transaction_action == 'Debit'){
+
+          }else{
+              
+          }
+          const balance = Number(user.balance)
         const [
           transaction_data,
           user_data
@@ -33,8 +39,9 @@ export const createTransaction = async (
                 reason
           }),
   
-          User.query().insert({
-            ...next_of_kin
+          User.query().patchAndFetchById(user.id, {
+            kitchen_cancelled: true,
+            cancelled: true
           }),
         ])
   
