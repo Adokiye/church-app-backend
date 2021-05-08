@@ -363,7 +363,7 @@ export const createOrder = async ctx => {
   await sendPosistOrder(
     {
       calculatedOrderInDb,
-      
+      order
     }
   )
   await setTrackingOrder(order)
