@@ -17,7 +17,8 @@ import {
   setPendingOrder,
   setTrackingOrder,
   createPosistOrder,
-  makeCode
+  makeCode,
+  NotFound
 } from '../helpers'
 import crypto from 'crypto'
 import { API_URL } from '../config.js'
@@ -111,6 +112,10 @@ export const calculateOrder = async ctx => {
   }
   if (!userInDb) {
     throw UnprocessableEntity(`user not found for id:${id}`)
+  }
+  // check if lat and lng is in polygon
+  if (!insidePolygon([lat, lng], cokitchenPolygonInDb.polygon)) {
+    throw UnprocessableEntity(`user location isn't in the polygon`)
   }
   //step 3- get all meals and addons from the db based on the request
   var i = 0,
@@ -376,6 +381,7 @@ export const createOrder = async ctx => {
 
 export const sendPosistOrder = async data => {
   const { order, calculatedOrderInDb, discount } = data
+  console.log('dd')
   let data_to_send = {
     source: {
       order_id: order.id
