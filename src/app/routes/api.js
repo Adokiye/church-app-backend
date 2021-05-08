@@ -412,7 +412,7 @@ router.post('/posist/order/accept/:order_code',
 Order.kitchenAcceptOrder)
 
 router.post('/posist/order/reject/:order_code',
-Order.kitchenAcceptOrder)
+Order.kitchenRejectedOrder)
 
 //orders
 router.post(
