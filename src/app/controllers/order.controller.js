@@ -481,7 +481,41 @@ export const kitchenPreparedOrder = async ctx => {
       kitchen_prepared: true
     })
     .withGraphFetched('[calculated_order.[user],order_type]')
+  const [tracking_order] = await Promise.all([
+    setTrackingOrder({
+      kitchen_prepared: true,
+      id: order.id
+    })
+  ])
+  return {
+    status: 'success'
+  }
+}
 
+export const kitchenRejectedOrder = async ctx => {
+  const { order_code } = ctx.params
+  let order = await Order.query()
+    .where({
+      order_code
+    })
+    .withGraphFetched('[calculated_order.[user],order_type]')
+
+    .catch(e => {
+      console.log(e)
+      throw NotFound('Order not found')
+    })
+if(['WALLET', 'CARD'])
+  order = await Order.query().patchAndFetchById(order.id, {
+    kitchen_cancelled: true,
+    cancelled: true
+  })
+  const [tracking_order] = await Promise.all([
+    setTrackingOrder({
+      kitchen_cancelled: true,
+      cancelled: true,
+      id: order.id
+    })
+  ])
   return {
     status: 'success'
   }
