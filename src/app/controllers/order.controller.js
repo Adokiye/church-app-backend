@@ -412,8 +412,11 @@ export const sendPosistOrder = async data => {
     tabType: 'delivery',
     items: posist_meals_formatted
   }
-  if(discount){
+  if (discount) {
     data_to_send.discount = discount
+  }
+  for(let i=0;i<calculatedOrderInDb.meals.length;i++){
+    
   }
   posist_order = await createPosistOrder(
     data_to_send,
