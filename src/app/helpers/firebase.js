@@ -27,10 +27,7 @@ export const deletePendingOrder = async order => {
 }
 
 export const setTrackingOrder = async data => {
-  const new_tracking_order = firebase
-    .firestore()
-    .collection('users')
-    .doc(firebase.auth().currentUser.uid)
+  const new_tracking_order = trackingOrdersDb.doc(data.id)
   new_tracking_order.get().then(async function (thisDoc) {
     if (thisDoc.exists) {
       await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
