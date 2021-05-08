@@ -37,7 +37,7 @@ export const createTransaction = async (
       }),
 
       User.query().patchAndFetchById(user.id, {
-        balance:balance.toString()
+        balance: balance.toString()
       })
     ])
 
