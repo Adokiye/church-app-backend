@@ -4,6 +4,7 @@ import { Model } from 'objection'
 import OrderType from './order_type'
 import UserCard from './user_card'
 import CalculatedOrder from './calculated_order'
+import path from 'path'
 
 class Order extends modelUuid(baseModel) {
   static tableName = 'orders'
