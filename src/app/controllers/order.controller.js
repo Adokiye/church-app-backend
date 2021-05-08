@@ -416,11 +416,11 @@ export const kitchenAcceptOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
-  order = await Order.query().patchAndFetchById(order.id, {
-    kitchen_accepted: true.withGraphFetched(
-      '[calculated_order.[user],order_type]'
-    )
-  })
+  order = await Order.query()
+    .patchAndFetchById(order.id, {
+      kitchen_accepted: true
+    })
+    .withGraphFetched('[calculated_order.[user],order_type]')
 
   // send order to rider
   await setPendingOrder(order)
@@ -429,5 +429,48 @@ export const kitchenAcceptOrder = async ctx => {
     status: 'success',
     message: 'order created successfully',
     order
+  }
+}
+
+export const kitchenDispatchOrder = async ctx => {
+  const { order_code } = ctx.params
+  let order = await Order.query()
+    .where({
+      order_code
+    })
+    .catch(e => {
+      console.log(e)
+      throw NotFound('Order not found')
+    })
+  order = await Order.query()
+    .patchAndFetchById(order.id, {
+      kitchen_dispatched: true
+    })
+    .withGraphFetched('[calculated_order.[user],order_type]')
+
+
+  return {
+    status: 'success'
+  }
+}
+
+export const kitchenPreparedOrder = async ctx => {
+  const { order_code } = ctx.params
+  let order = await Order.query()
+    .where({
+      order_code
+    })
+    .catch(e => {
+      console.log(e)
+      throw NotFound('Order not found')
+    })
+  order = await Order.query()
+    .patchAndFetchById(order.id, {
+      kitchen_prepared: true
+    })
+    .withGraphFetched('[calculated_order.[user],order_type]')
+
+  return {
+    status: 'success',
   }
 }

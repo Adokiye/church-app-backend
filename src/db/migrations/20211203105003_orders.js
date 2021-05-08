@@ -24,9 +24,9 @@ export const up = knex =>
     table.boolean('kitchen_cancelled').notNullable().defaultTo(false)
     table.boolean('kitchen_accepted').notNullable().defaultTo(false)
     table.boolean('kitchen_dispatched').notNullable().defaultTo(false)
-
+    table.uuid('rider_id').references('id').inTable('users').onDelete('CASCADE')
     table.boolean('kitchen_prepared').notNullable().defaultTo(false)
-    table.boolean('assigned').notNullable().defaultTo(false)
+    table.boolean('rider_assigned').notNullable().defaultTo(false)
     table.boolean('paid').notNullable().defaultTo(false)
     table.string('order_code').unique().notNullable()
 

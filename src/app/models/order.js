@@ -27,6 +27,22 @@ class Order extends modelUuid(baseModel) {
         to: 'user_cards.id'
       }
     },
+    user: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: path.join(__dirname, 'user'),
+      join: {
+        from: 'orders.user_id',
+        to: 'user_s.id'
+      }
+    },
+    rider: {
+      relation: Model.HasOneRelation,
+      modelClass: path.join(__dirname, 'rider'),
+      join: {
+        from: 'orders.rider_id',
+        to: 'users.id'
+      }
+    },
     calculated_order: {
       relation: Model.BelongsToOneRelation,
       modelClass: CalculatedOrder,
