@@ -431,12 +431,12 @@ export const sendPosistOrder = async data => {
   }
   console.log('data_to_Send to posist:')
   console.log(data_to_send)
-  for (let i = 0; i < calculatedOrderInDb.meals.length; i++) {
+  //for (let i = 0; i < calculatedOrderInDb.meals.length; i++) {
     posist_order = await createPosistOrder(
       data_to_send,
-      calculatedOrderInDb.meals[i].brand.posist_customer_key
+      calculatedOrderInDb.meals[0].brand.posist_customer_key
     )
-  }
+ // }
   return true
 }
 
