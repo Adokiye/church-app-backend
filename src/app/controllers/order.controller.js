@@ -14,6 +14,7 @@ import {
   encryptPassword,
   UnprocessableEntity,
   setPendingOrder,
+  setTrackingOrder,
   createPosistOrder,
   makeCode
 } from '../helpers'
@@ -398,7 +399,7 @@ export const createOrder = async ctx => {
     default:
       throw NotFound('Not found')
   }
-
+  await setTrackingOrder(order)
   return {
     status: 'success',
     message: 'order created successfully',
@@ -423,7 +424,13 @@ export const kitchenAcceptOrder = async ctx => {
     .withGraphFetched('[calculated_order.[user],order_type]')
 
   // send order to rider
-  await setPendingOrder(order)
+  const [pending_order, tracking_order] = await Promise.all([
+    setPendingOrder(order),
+    setTrackingOrder({
+      kitchen_accepted: true,
+      id: order.id
+    })
+  ])
 
   return {
     status: 'success',
@@ -446,9 +453,14 @@ export const kitchenDispatchOrder = async ctx => {
     .patchAndFetchById(order.id, {
       kitchen_dispatched: true
     })
-    .withGraphFetched('[calculated_order.[user],order_type]')
-
-
+    .withGraphFetched('[calculated_order.[user],order_type, rider]')
+  const [tracking_order] = await Promise.all([
+    setTrackingOrder({
+      kitchen_dispatched: true,
+      id: order.id,
+      rider: order.rider
+    })
+  ])
   return {
     status: 'success'
   }
@@ -471,6 +483,6 @@ export const kitchenPreparedOrder = async ctx => {
     .withGraphFetched('[calculated_order.[user],order_type]')
 
   return {
-    status: 'success',
+    status: 'success'
   }
 }
