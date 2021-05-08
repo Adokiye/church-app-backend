@@ -370,49 +370,53 @@ export const createOrder = async ctx => {
 
 export const sendPosistOrder = async data => {
   const { order, calculatedOrderInDb,  } = data
-  posist_order = await createPosistOrder(
-    {
-      source: {
-        order_id: order.id
-      },
-      payments: {
-        type: order.order_type.name
-      },
-      discount: {
-        type: 'fixed',
-        value: 10
-      },
-      charges: [
-        {
-          name: 'Delivery Charge',
-          value: calculatedOrderInDb.delivery_fee
-        },
-        {
-          name: 'Service Charge',
-          value: calculatedOrderInDb.service_charge
-        }
-      ],
-      customer: {
-        firstname:
-          calculatedOrderInDb.user.first_name != null
-            ? calculatedOrderInDb.user.first_name
-            : calculatedOrderInDb.user.phone_number,
-        mobile: calculatedOrderInDb.user.phone_number,
-        addType: calculatedOrderInDb.address_details.name,
-        address1: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
-        address2: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
-        city: calculatedOrderInDb.address_details.city
-      },
-      delivery_area: calculatedOrderInDb.cokitchen_polygon.name,
-      triggers: {
-        acceptUrl: `${API_URL}/posist/order/accept/${order.order_code}`,
-        rejectUrl: `${API_URL}/posist/order/reject/${order.order_code}`,
-        preparedUrl: `${API_URL}/posist/order/prepared/${order.order_code}`,
-        dispatchedUrl: `${API_URL}/posist/order/dispatched/${order.order_code}`
-      },
-      tabType: 'delivery',
-      items: posist_meals_formatted
+  let data_to_send = {
+    source: {
+      order_id: order.id
     },
+    payments: {
+      type: order.order_type.name
+    },
+    discount: {
+      type: 'fixed',
+      value: 10
+    },
+    charges: [
+      {
+        name: 'Delivery Charge',
+        value: calculatedOrderInDb.delivery_fee
+      },
+      {
+        name: 'Service Charge',
+        value: calculatedOrderInDb.service_charge
+      }
+    ],
+    customer: {
+      firstname:
+        calculatedOrderInDb.user.first_name != null
+          ? calculatedOrderInDb.user.first_name
+          : calculatedOrderInDb.user.phone_number,
+      mobile: calculatedOrderInDb.user.phone_number,
+      addType: calculatedOrderInDb.address_details.name,
+      address1: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
+      address2: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
+      city: calculatedOrderInDb.address_details.city
+    },
+    delivery_area: calculatedOrderInDb.cokitchen_polygon.name,
+    triggers: {
+      acceptUrl: `${API_URL}/posist/order/accept/${order.order_code}`,
+      rejectUrl: `${API_URL}/posist/order/reject/${order.order_code}`,
+      preparedUrl: `${API_URL}/posist/order/prepared/${order.order_code}`,
+      dispatchedUrl: `${API_URL}/posist/order/dispatched/${order.order_code}`
+    },
+    tabType: 'delivery',
+    items: posist_meals_formatted
+  }
+  if(discount){
+    data_to_send.discount = discount
+  }
+  posist_order = await createPosistOrder(
+    data_to_send,
     calculatedOrderInDb.meals[0].brand.posist_customer_key
   )
 }
