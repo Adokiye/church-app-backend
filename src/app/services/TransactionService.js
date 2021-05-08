@@ -1,4 +1,5 @@
 import Transaction from '../models/transaction'
+import { transaction } from 'objection'
 import User from '../models/user'
 import { UnprocessableEntity } from '../helpers'
 
