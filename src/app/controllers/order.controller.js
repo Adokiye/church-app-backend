@@ -10,6 +10,9 @@ import CokitchenPolygon from '../models/cokitchen_polygon'
 import CalculatedOrder from '../models/calculated_order'
 import { checkIfAdmin } from '../services/RoleService'
 import {
+  createTransaction
+} from '../services/TransactionService'
+import {
   Unauthorized,
   encryptPassword,
   UnprocessableEntity,
@@ -505,6 +508,17 @@ export const kitchenRejectedOrder = async ctx => {
       throw NotFound('Order not found')
     })
   if (['WALLET', 'CARD'].includes(order.order_type.name)) {
+    const [transaction_data, user_data] = await Promise.all([
+      Transaction.query().insert({
+        amount,
+        user_id: user.id,
+        transaction_type,
+        transaction_action,
+        transaction_status: 'Success',
+        description,
+        reason
+      }),
+    ])
   } else {
     order = await Order.query().patchAndFetchById(order.id, {
       kitchen_cancelled: true,
