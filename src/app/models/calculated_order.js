@@ -18,7 +18,7 @@ class CalculatedOrder extends modelUuid(baseModel) {
       relation: Model.BelongsToOneRelation,
       modelClass: path.join(__dirname, 'cokitchen_polygon'),
       join: {
-        from: 'calculated_orders.user_id',
+        from: 'calculated_orders.cokitchen_polygon_id',
         to: 'users.id'
       }
     },
