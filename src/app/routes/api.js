@@ -406,6 +406,10 @@ router.post(
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsRider
 )
+//posist web hooks
+
+router.post('/posist/order/accept/:order_code',
+Order.kitchenAcceptOrder)
 
 //orders
 router.post(

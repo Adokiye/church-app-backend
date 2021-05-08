@@ -354,48 +354,48 @@ export const createOrder = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
         })
-      // posist_order = await createPosistOrder(
-      //   {
-      //     source: {
-      //       order_id: order.id
-      //     },
-      //     payments: {
-      //       type: 'COD'
-      //     },
-      //     discount: {
-      //       type: 'fixed',
-      //       value: 10
-      //     },
-      //     charges: [
-      //       {
-      //         name: 'Delivery Charge',
-      //         value: calculatedOrderInDb.delivery_fee
-      //       },
-      //       {
-      //         name: 'Service Charge',
-      //         value: calculatedOrderInDb.service_charge
-      //       }
-      //     ],
-      //     customer: {
-      //       firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
-      //       mobile: calculatedOrderInDb.user.phone_number,
-      //       addType: 'home',
-      //       address1: calculatedOrderInDb.address,
-      //       address2: calculatedOrderInDb.address,
-      //       city: calculatedOrderInDb.address
-      //     },
-      //     delivery_area:calculatedOrderInDb.address,
-      //   "triggers":{
-      //     "acceptUrl":"https://accepturl.com/orderId",
-      //     "rejectUrl",
-      //     "preparedUrl",
-      //     "dispatchedUrl"
-      // }
-      //     tabType: 'delivery',
-      //     items: posist_meals_formatted
-      //   },
-      //   calculatedOrderInDb.meals[0].brand.posist_customer_key
-      // )
+      posist_order = await createPosistOrder(
+        {
+          source: {
+            order_id: order.id
+          },
+          payments: {
+            type: 'COD'
+          },
+          discount: {
+            type: 'fixed',
+            value: 10
+          },
+          charges: [
+            {
+              name: 'Delivery Charge',
+              value: calculatedOrderInDb.delivery_fee
+            },
+            {
+              name: 'Service Charge',
+              value: calculatedOrderInDb.service_charge
+            }
+          ],
+          customer: {
+            firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
+            mobile: calculatedOrderInDb.user.phone_number,
+            addType: 'home',
+            address1: calculatedOrderInDb.address,
+            address2: calculatedOrderInDb.address,
+            city: calculatedOrderInDb.address
+          },
+          delivery_area:calculatedOrderInDb.address,
+        "triggers":{
+          "acceptUrl":"https://accepturl.com/orderId",
+          "rejectUrl",
+          "preparedUrl",
+          "dispatchedUrl"
+      }
+          tabType: 'delivery',
+          items: posist_meals_formatted
+        },
+        calculatedOrderInDb.meals[0].brand.posist_customer_key
+      )
       break
     default:
       throw NotFound('Not found')
@@ -411,7 +411,7 @@ export const createOrder = async ctx => {
 export const kitchenAcceptOrder = async ctx => {
   const { order_code } = ctx.params
   let order = await Order.query()
-    .where({
+    .findOne({
       order_code
     })
     .catch(e => {
@@ -443,7 +443,7 @@ export const kitchenAcceptOrder = async ctx => {
 export const kitchenDispatchOrder = async ctx => {
   const { order_code } = ctx.params
   let order = await Order.query()
-    .where({
+    .findOne({
       order_code
     })
     .catch(e => {
@@ -470,7 +470,7 @@ export const kitchenDispatchOrder = async ctx => {
 export const kitchenPreparedOrder = async ctx => {
   const { order_code } = ctx.params
   let order = await Order.query()
-    .where({
+    .findOne({
       order_code
     })
     .catch(e => {
@@ -496,7 +496,7 @@ export const kitchenPreparedOrder = async ctx => {
 export const kitchenRejectedOrder = async ctx => {
   const { order_code } = ctx.params
   let order = await Order.query()
-    .where({
+    .findOne({
       order_code
     })
     .withGraphFetched('[calculated_order.[user],order_type]')
