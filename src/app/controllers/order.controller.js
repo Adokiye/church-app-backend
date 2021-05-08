@@ -19,7 +19,7 @@ import {
   createPosistOrder,
   makeCode,
   NotFound,
-  insidePolygon,
+  insidePolygon
 } from '../helpers'
 import crypto from 'crypto'
 import { API_URL } from '../config.js'
@@ -382,7 +382,7 @@ export const createOrder = async ctx => {
 }
 
 export const sendPosistOrder = async data => {
-  const { order, calculatedOrderInDb, discount,posist_meals_formatted } = data
+  const { order, calculatedOrderInDb, discount, posist_meals_formatted } = data
   console.log(data)
   let data_to_send = {
     source: {
@@ -432,11 +432,11 @@ export const sendPosistOrder = async data => {
   console.log('data_to_Send to posist:')
   console.log(data_to_send)
   //for (let i = 0; i < calculatedOrderInDb.meals.length; i++) {
-   let posist_order = await createPosistOrder(
-      data_to_send,
-      calculatedOrderInDb.meals[0].brand.posist_customer_key
-    )
- // }
+  let posist_order = await createPosistOrder(
+    data_to_send,
+    calculatedOrderInDb.meals[0].brand.posist_customer_key
+  )
+  // }
   return true
 }
 

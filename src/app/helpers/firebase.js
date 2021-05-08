@@ -21,6 +21,8 @@ export const setPendingOrder = async order => {
 
 export const setTrackingOrder = async data => {
   const new_tracking_order = trackingOrdersDb.doc(data.id)
-  await new_tracking_order.set(data, { merge: true })
+  await new_tracking_order.set(JSON.parse(JSON.stringify(data)), {
+    merge: true
+  })
   return true
 }
