@@ -507,8 +507,13 @@ export const kitchenRejectedOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
+    const user = await User.query().findById(order.user_id)
+    .catch((e)=>{
+      console.log(e);
+      throw UnprocessableEntity('Invalid Body')
+    })
   if (['WALLET', 'CARD'].includes(order.order_type.name)) {
-    const [order, transaction_data] = await Promise.all([
+    let [orderToUpdate, transaction_data] = await Promise.all([
       Order.query().patchAndFetchById(order.id, {
         kitchen_cancelled: true,
         cancelled: true
@@ -516,11 +521,11 @@ export const kitchenRejectedOrder = async ctx => {
       createTransaction(
         'Deposit',
         'Credit',
-        order
+        order.calculated_order.total_amount
       )
     ])
   } else {
-    order = await Order.query().patchAndFetchById(order.id, {
+    let orderToUpdate = await Order.query().patchAndFetchById(order.id, {
       kitchen_cancelled: true,
       cancelled: true
     })
