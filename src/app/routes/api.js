@@ -411,6 +411,9 @@ router.post(
 router.post('/posist/order/accept/:order_code',
 Order.kitchenAcceptOrder)
 
+router.post('/posist/order/accept/:order_code',
+Order.kitchenAcceptOrder)
+
 //orders
 router.post(
   '/order/calculate',
