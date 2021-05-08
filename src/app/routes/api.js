@@ -414,6 +414,9 @@ Order.kitchenAcceptOrder)
 router.post('/posist/order/reject/:order_code',
 Order.kitchenRejectedOrder)
 
+router.post('/posist/order/prepared/:order_code',
+Order.kitchenRejectedOrder)
+
 //orders
 router.post(
   '/order/calculate',
