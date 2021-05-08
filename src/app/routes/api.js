@@ -408,17 +408,13 @@ router.post(
 )
 //posist web hooks
 
-router.post('/posist/order/accept/:order_code',
-Order.kitchenAcceptOrder)
+router.post('/posist/order/accept/:order_code', Order.kitchenAcceptOrder)
 
-router.post('/posist/order/reject/:order_code',
-Order.kitchenRejectedOrder)
+router.post('/posist/order/reject/:order_code', Order.kitchenRejectedOrder)
 
-router.post('/posist/order/prepared/:order_code',
-Order.kitchenPreparedOrder)
+router.post('/posist/order/prepared/:order_code', Order.kitchenPreparedOrder)
 
-outer.post('/posist/order/dispatched/:order_code',
-Order.kitchenDispatchOrder)
+outer.post('/posist/order/dispatched/:order_code', Order.kitchenDispatchOrder)
 
 //orders
 router.post(
