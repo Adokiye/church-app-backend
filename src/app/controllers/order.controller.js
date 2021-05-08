@@ -20,9 +20,7 @@ import {
   makeCode
 } from '../helpers'
 import crypto from 'crypto'
-import {
-  API_URL,
-} from '../config.js'
+import { API_URL } from '../config.js'
 
 export const getOrders = async ctx => {
   const { id } = ctx.state.user.user
@@ -371,7 +369,7 @@ export const createOrder = async ctx => {
 }
 
 export const sendPosistOrder = async data => {
-  const {order,calculatedOrderInDb} = data
+  const { order, calculatedOrderInDb } = data
   posist_order = await createPosistOrder(
     {
       source: {
@@ -395,20 +393,23 @@ export const sendPosistOrder = async data => {
         }
       ],
       customer: {
-        firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
+        firstname:
+          calculatedOrderInDb.user.first_name != null
+            ? calculatedOrderInDb.user.first_name
+            : calculatedOrderInDb.user.phone_number,
         mobile: calculatedOrderInDb.user.phone_number,
         addType: calculatedOrderInDb.address_details.name,
         address1: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
         address2: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
         city: calculatedOrderInDb.address_details.city
       },
-      delivery_area:calculatedOrderInDb.address,
-    "triggers":{
-      "acceptUrl":`${API_URL}/posist/order/accept/${order.order_code}`,
-      "rejectUrl",
-      "preparedUrl",
-      "dispatchedUrl"
-  }
+      delivery_area: calculatedOrderInDb.cokitchen_polygon.name,
+      triggers: {
+        acceptUrl: `${API_URL}/posist/order/accept/${order.order_code}`,
+        rejectUrl: `${API_URL}/posist/order/reject/${order.order_code}`,
+        preparedUrl: `${API_URL}/posist/order/prepared/${order.order_code}`,
+        dispatchedUrl: `${API_URL}/posist/order/dispatched/${order.order_code}`
+      },
       tabType: 'delivery',
       items: posist_meals_formatted
     },

@@ -9,7 +9,7 @@ export const up = knex =>
       .inTable('cokitchens')
       .onDelete('CASCADE')
       .notNullable()
-    table.string('name')
+    table.string('name').notNullable()
     table.string('delivery_fee').notNullable()
     table.timestamps(true, true)
   })

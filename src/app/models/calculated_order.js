@@ -21,7 +21,7 @@ class CalculatedOrder extends modelUuid(baseModel) {
         from: 'calculated_orders.cokitchen_polygon_id',
         to: 'cokitchen_polygons.id'
       }
-    },
+    }
   }
 }
 
