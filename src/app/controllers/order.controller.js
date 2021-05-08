@@ -505,12 +505,6 @@ export const kitchenRejectedOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
-  const user = await User.query()
-    .findById(order.user_id)
-    .catch(e => {
-      console.log(e)
-      throw UnprocessableEntity('Invalid Body')
-    })
   if (['WALLET', 'CARD'].includes(order.order_type.name)) {
     let [orderToUpdate, transaction_data] = await Promise.all([
       Order.query().patchAndFetchById(order.id, {
@@ -521,7 +515,9 @@ export const kitchenRejectedOrder = async ctx => {
         'Deposit',
         'Credit',
         order.calculated_order.total_amount,
-        user
+        order.user_id,
+        '',
+        'Order cancelled by Kitchen'
       )
     ])
   } else {
