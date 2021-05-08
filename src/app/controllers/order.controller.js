@@ -514,7 +514,8 @@ export const kitchenRejectedOrder = async ctx => {
         cancelled: true
       }),
       createTransaction(
-        'Deposit'
+        'Deposit',
+        'Credit'
       )
     ])
   } else {
