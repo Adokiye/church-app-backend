@@ -370,7 +370,8 @@ export const createOrder = async ctx => {
   }
   await sendPosistOrder({
     calculatedOrderInDb,
-    order
+    order,
+    posist_meals_formatted
   })
   await setTrackingOrder(order)
   return {
@@ -381,7 +382,7 @@ export const createOrder = async ctx => {
 }
 
 export const sendPosistOrder = async data => {
-  const { order, calculatedOrderInDb, discount } = data
+  const { order, calculatedOrderInDb, discount,posist_meals_formatted } = data
   console.log(data)
   let data_to_send = {
     source: {
