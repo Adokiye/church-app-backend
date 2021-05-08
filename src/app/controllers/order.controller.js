@@ -9,9 +9,7 @@ import Deal from '../models/deal'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import CalculatedOrder from '../models/calculated_order'
 import { checkIfAdmin } from '../services/RoleService'
-import {
-  createTransaction
-} from '../services/TransactionService'
+import { createTransaction } from '../services/TransactionService'
 import {
   Unauthorized,
   encryptPassword,
@@ -507,9 +505,10 @@ export const kitchenRejectedOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
-    const user = await User.query().findById(order.user_id)
-    .catch((e)=>{
-      console.log(e);
+  const user = await User.query()
+    .findById(order.user_id)
+    .catch(e => {
+      console.log(e)
       throw UnprocessableEntity('Invalid Body')
     })
   if (['WALLET', 'CARD'].includes(order.order_type.name)) {
