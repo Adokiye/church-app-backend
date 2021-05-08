@@ -382,7 +382,7 @@ export const createOrder = async ctx => {
 
 export const sendPosistOrder = async data => {
   const { order, calculatedOrderInDb, discount } = data
-  console.log('dd')
+  console.log(data)
   let data_to_send = {
     source: {
       order_id: order.id
