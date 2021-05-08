@@ -417,6 +417,9 @@ Order.kitchenRejectedOrder)
 router.post('/posist/order/prepared/:order_code',
 Order.kitchenPreparedOrder)
 
+outer.post('/posist/order/prepared/:order_code',
+Order.kitchenPreparedOrder)
+
 //orders
 router.post(
   '/order/calculate',
