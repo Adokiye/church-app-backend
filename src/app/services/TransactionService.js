@@ -9,11 +9,17 @@ export const createTransaction = async (
   transaction_type,
   transaction_action,
   amount,
-  user,
+  user_id,
   description,
   reason
 ) => {
   return await transaction(Transaction, User, async (Transaction, User) => {
+    const user = await User.query()
+    .findById(user_id)
+    .catch(e => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid Body')
+    })
     let balance = Number(user.balance)
     switch (transaction_action) {
       case 'Debit':

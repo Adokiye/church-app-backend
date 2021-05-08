@@ -520,7 +520,8 @@ export const kitchenRejectedOrder = async ctx => {
       createTransaction(
         'Deposit',
         'Credit',
-        order.calculated_order.total_amount
+        order.calculated_order.total_amount,
+        user
       )
     ])
   } else {
