@@ -369,14 +369,14 @@ export const createOrder = async ctx => {
 }
 
 export const sendPosistOrder = async data => {
-  const { order, calculatedOrderInDb } = data
+  const { order, calculatedOrderInDb,  } = data
   posist_order = await createPosistOrder(
     {
       source: {
         order_id: order.id
       },
       payments: {
-        type: 'COD'
+        type: order.order_type.name
       },
       discount: {
         type: 'fixed',
