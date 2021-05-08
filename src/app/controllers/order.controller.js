@@ -20,6 +20,9 @@ import {
   makeCode
 } from '../helpers'
 import crypto from 'crypto'
+import {
+  API_URL,
+} from '../config.js'
 
 export const getOrders = async ctx => {
   const { id } = ctx.state.user.user
@@ -354,48 +357,7 @@ export const createOrder = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
         })
-      posist_order = await createPosistOrder(
-        {
-          source: {
-            order_id: order.id
-          },
-          payments: {
-            type: 'COD'
-          },
-          discount: {
-            type: 'fixed',
-            value: 10
-          },
-          charges: [
-            {
-              name: 'Delivery Charge',
-              value: calculatedOrderInDb.delivery_fee
-            },
-            {
-              name: 'Service Charge',
-              value: calculatedOrderInDb.service_charge
-            }
-          ],
-          customer: {
-            firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
-            mobile: calculatedOrderInDb.user.phone_number,
-            addType: 'home',
-            address1: calculatedOrderInDb.address,
-            address2: calculatedOrderInDb.address,
-            city: calculatedOrderInDb.address
-          },
-          delivery_area:calculatedOrderInDb.address,
-        "triggers":{
-          "acceptUrl":"https://accepturl.com/orderId",
-          "rejectUrl",
-          "preparedUrl",
-          "dispatchedUrl"
-      }
-          tabType: 'delivery',
-          items: posist_meals_formatted
-        },
-        calculatedOrderInDb.meals[0].brand.posist_customer_key
-      )
+
       break
     default:
       throw NotFound('Not found')
@@ -406,6 +368,52 @@ export const createOrder = async ctx => {
     message: 'order created successfully',
     order
   }
+}
+
+export const sendPosistOrder = async data => {
+  const {order,calculatedOrderInDb} = data
+  posist_order = await createPosistOrder(
+    {
+      source: {
+        order_id: order.id
+      },
+      payments: {
+        type: 'COD'
+      },
+      discount: {
+        type: 'fixed',
+        value: 10
+      },
+      charges: [
+        {
+          name: 'Delivery Charge',
+          value: calculatedOrderInDb.delivery_fee
+        },
+        {
+          name: 'Service Charge',
+          value: calculatedOrderInDb.service_charge
+        }
+      ],
+      customer: {
+        firstname: calculatedOrderInDb.user.first_name != null?calculatedOrderInDb.user.first_name:calculatedOrderInDb.user.phone_number,
+        mobile: calculatedOrderInDb.user.phone_number,
+        addType: calculatedOrderInDb.address_details.name,
+        address1: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
+        address2: `${calculatedOrderInDb.address_details.building_number}, ${calculatedOrderInDb.address_details.adress_line}`,
+        city: calculatedOrderInDb.address_details.city
+      },
+      delivery_area:calculatedOrderInDb.address,
+    "triggers":{
+      "acceptUrl":`${API_URL}/posist/order/accept/${order.order_code}`,
+      "rejectUrl",
+      "preparedUrl",
+      "dispatchedUrl"
+  }
+      tabType: 'delivery',
+      items: posist_meals_formatted
+    },
+    calculatedOrderInDb.meals[0].brand.posist_customer_key
+  )
 }
 
 export const kitchenAcceptOrder = async ctx => {

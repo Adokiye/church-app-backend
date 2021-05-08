@@ -29,4 +29,4 @@ export const POSIST_API_URL = 'http://posistapi.com/api/v1/'
 export const POSIST_TOKEN = process.env.POSIST_TOKEN
 export const POSIST_CLIENT_ID = process.env.POSIST_CLIENT_ID
 export const POSIST_CLIENT_NAME = process.env.POSIST_CLIENT_NAME
-export const API_URL = 'https://beta-api.getfoodcourt.com/v1/'
+export const API_URL = 'https://beta-api.getfoodcourt.com/v1'
