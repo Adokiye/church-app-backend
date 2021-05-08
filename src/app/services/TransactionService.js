@@ -22,12 +22,17 @@ export const createTransaction = async (
         Transaction,
         User,
       ) => {
-          if(transaction_action == 'Debit'){
-
-          }else{
-
+        let balance = Number(user.balance)
+          switch (transaction_action){
+            case 'Debit':
+            balance-=Number(amount)
+            break;
+            case 'Credit':
+                balance+=Number(amount)
+                break;
+            default:
+                throw UnprocessableEntity('Invalid Transaction Action')
           }
-          const balance = Number(user.balance)
         const [
           transaction_data,
           user_data
@@ -43,17 +48,13 @@ export const createTransaction = async (
           }),
   
           User.query().patchAndFetchById(user.id, {
-            kitchen_cancelled: true,
-            cancelled: true
+            balance
           }),
         ])
   
         return {
-          personal_data,
-          employment_data,
-          next_of_kin_data,
-          account_data,
-          documents
+            transaction_data,
+            user_data
         }
       }
     )
