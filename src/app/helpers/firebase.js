@@ -27,26 +27,17 @@ export const deletePendingOrder = async order => {
 }
 
 export const setTrackingOrder = async data => {
-  const new_tracking_order = trackingOrdersDb.doc(data.id)
-  console.log(new_tracking_order)
-  if (new_tracking_order.exists) {
-    await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
-  } else {
-    console.log('not exists')
-    await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
-  }
-  var docRef = firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid);
-  var o = {};
-  new_tracking_order.get().then(async function(thisDoc) {
-      if (thisDoc.exists) {
-        await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
-
-      }
-      else {
-        console.log('not exists')
-        await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
-      }
-
-  });
+  const new_tracking_order = firebase
+    .firestore()
+    .collection('users')
+    .doc(firebase.auth().currentUser.uid)
+  new_tracking_order.get().then(async function (thisDoc) {
+    if (thisDoc.exists) {
+      await new_tracking_order.update(JSON.parse(JSON.stringify(data)))
+    } else {
+      console.log('not exists')
+      await new_tracking_order.set(JSON.parse(JSON.stringify(data)))
+    }
+  })
   return true
 }
