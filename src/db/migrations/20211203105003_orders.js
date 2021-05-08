@@ -23,9 +23,13 @@ export const up = knex =>
     table.boolean('cancelled').notNullable().defaultTo(false)
     table.boolean('kitchen_cancelled').notNullable().defaultTo(false)
     table.boolean('kitchen_accepted').notNullable().defaultTo(false)
+    table.boolean('kitchen_dispatched').notNullable().defaultTo(false)
+
     table.boolean('kitchen_prepared').notNullable().defaultTo(false)
     table.boolean('assigned').notNullable().defaultTo(false)
     table.boolean('paid').notNullable().defaultTo(false)
+    table.string('order_code').unique().notNullable()
+
     table
       .uuid('calculated_order_id')
       .references('id')

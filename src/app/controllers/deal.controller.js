@@ -10,6 +10,7 @@ import CokitchenHomePagePost from '../models/cokitchen_home_page_post'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { NotFound, Unauthorized, UnprocessableEntity } from '../helpers'
 import { newPost } from '../services/PostService'
+import crypto from 'crypto'
 
 export const createDeal = async ctx => {
   const { body } = ctx.request
@@ -142,6 +143,7 @@ export const createDeal = async ctx => {
       }
       body.cokitchen_id = brands[0].cokitchen_id
       body.brands = JSON.stringify(body.brands)
+      body.discount_code = crypto.randomBytes(20).toString('hex').substring(0,6)
       const deal_data = await Deal.query()
         .insert(body)
         .catch(e => {

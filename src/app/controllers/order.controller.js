@@ -14,8 +14,10 @@ import {
   encryptPassword,
   UnprocessableEntity,
   setPendingOrder,
-  createPosistOrder
+  createPosistOrder,
+  makeCode
 } from '../helpers'
+import crypto from 'crypto'
 
 export const getOrders = async ctx => {
   const { id } = ctx.state.user.user
@@ -338,7 +340,12 @@ export const createOrder = async ctx => {
           user_id: id,
           completed: false,
           cancelled: false,
-          paid: false
+          paid: false,
+          order_code: crypto
+            .randomBytes(20)
+            .toString('hex')
+            .substring(0, 6)
+            .toLowerCase()
         })
         .withGraphFetched('[calculated_order.[user],order_type]')
         .catch(e => {
@@ -391,6 +398,31 @@ export const createOrder = async ctx => {
     default:
       throw NotFound('Not found')
   }
+
+  return {
+    status: 'success',
+    message: 'order created successfully',
+    order
+  }
+}
+
+export const kitchenAcceptOrder = async ctx => {
+  const { order_code } = ctx.params
+  let order = await Order.query()
+    .where({
+      order_code
+    })
+    .catch(e => {
+      console.log(e)
+      throw NotFound('Order not found')
+    })
+  order = await Order.query().patchAndFetchById(order.id, {
+    kitchen_accepted: true.withGraphFetched(
+      '[calculated_order.[user],order_type]'
+    )
+  })
+
+  // send order to rider
   await setPendingOrder(order)
 
   return {

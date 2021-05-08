@@ -1,3 +1,5 @@
+
+
 export const makeCode = length => {
   var result = ''
   var characters =
