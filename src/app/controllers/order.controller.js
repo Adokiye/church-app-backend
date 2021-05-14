@@ -136,7 +136,8 @@ export const calculateOrder = async ctx => {
     if (mealInDb) {
       let addons = []
       if (meals[i].addons.length > 0) {
-        console.log(i)
+        console.log(meals[i])
+
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
