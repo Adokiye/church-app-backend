@@ -161,6 +161,9 @@ export const calculateOrder = async ctx => {
           }
           j++
         }
+      }else{
+        console.log('check data')
+        console.log(meals[i])
       }
       mealInDb.addons = addons
       mealInDb.quantity = meals[i].quantity
