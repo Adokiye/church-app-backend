@@ -121,7 +121,6 @@ export const calculateOrder = async ctx => {
   }
   //step 3- get all meals and addons from the db based on the request
   var i = 0,
-    j = 0,
     len = meals.length
   let selected_meals = []
   let total_meal_amount = 0
@@ -137,7 +136,7 @@ export const calculateOrder = async ctx => {
       let addons = []
       if (meals[i].addons.length > 0) {
         console.log(meals[i])
-
+        var j=0
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
