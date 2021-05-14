@@ -109,7 +109,7 @@ export const getBrandsForCustomer = async ctx => {
         data: cokitchens[0].brands,
         cokitchen_explore_keywords: cokitchens[0].cokitchen_explore_keywords,
         meal_categories: meal_categories,
-        cokitchen_polygon: cokitchens[0].cokitchen_polygons[0]
+        cokitchen_polygon: cokitchens[0].cokitchen_polygons[i]
       }
     }
     i++
