@@ -136,6 +136,7 @@ export const calculateOrder = async ctx => {
     if (mealInDb) {
       let addons = []
       if (meals[i].addons.length > 0) {
+        console.log(i)
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
@@ -152,7 +153,6 @@ export const calculateOrder = async ctx => {
             addonInDb.quantity = meals[i].addons[j].quantity
             addonInDb.amount =
               addonInDb.quantity * Number(addonInDb.meal_data.amount)
-            console.log(addonInDb)
             addons.push(addonInDb)
           } else {
             throw UnprocessableEntity(
