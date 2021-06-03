@@ -8,7 +8,7 @@ import {
   checkIfLogisticsAdmin
 } from '../services/RoleService'
 import { createUserSubTables } from '../services/UserService'
-import { Unauthorized, encryptPassword } from '../helpers'
+import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
 
 export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
@@ -59,7 +59,8 @@ export const createLogisticsSuperAdmin = async ctx => {
   body.password = await encryptPassword(body.password)
   const logistics_admin_data = await User.query().insert(body).
   catch((e)=>{
-    console.log(e)
+    console.log(e);
+    throw UnprocessableEntity('Invalid Body')
   })
   await createUserSubTables(logistics_admin_data)
 
