@@ -65,7 +65,11 @@ router.post(
 
 router.post('/auth/login', UserValidator.login(), Auth.login)
 
-router.post('/internal/auth/login-marketing', UserValidator.login(), Auth.loginMarketing)
+router.post(
+  '/internal/auth/login-marketing',
+  UserValidator.login(),
+  Auth.loginMarketing
+)
 
 router.post(
   '/internal/auth/login-logistics-admin',
@@ -413,11 +417,7 @@ router.post(
   Logistics.createLogisticsRider
 )
 
-router.post(
-  '/internal/auth/login-rider',
-UserValidator.login,
-Auth.loginRider
-)
+router.post('/internal/auth/login-rider', UserValidator.login, Auth.loginRider)
 
 //posist web hooks
 
