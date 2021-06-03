@@ -396,13 +396,13 @@ router.post(
 )
 
 router.post(
-  '/logistics/logistics-admin',
+  '/internal/auth/register-logistics-admin',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsAdmin
 )
 
 router.post(
-  '/logistics/rider',
+  '/internal/auth/register-rider',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsRider
 )
