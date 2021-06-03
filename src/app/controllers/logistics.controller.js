@@ -57,7 +57,10 @@ export const createLogisticsSuperAdmin = async ctx => {
   body.active = false
   body.role_id = logisticsAdminRole.id
   body.password = await encryptPassword(body.password)
-  const logistics_admin_data = await User.query().insert(body)
+  const logistics_admin_data = await User.query().insert(body).
+  catch((e)=>{
+    console.log(e)
+  })
   await createUserSubTables(logistics_admin_data)
 
   return {
