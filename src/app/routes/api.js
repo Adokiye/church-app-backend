@@ -79,11 +79,11 @@ router.post(
   Auth.registerAsMarketing
 )
 
-router.post(
-  '/internal/auth/register-logistics-admin',
-  UserValidator.registerStaff(),
-  Auth.registerAsLogisticsAdmin
-)
+// router.post(
+//   '/internal/auth/register-logistics-admin',
+//   UserValidator.registerStaff(),
+//   Auth.registerAsLogisticsAdmin
+// )
 
 router.post(
   '/auth/verify',
@@ -389,6 +389,12 @@ router.post(
 )
 
 //logistics routes
+router.post(
+  '/internal/auth/register-logistics-super-admin',
+  LogisticsValidator.createLogisticsSuperAdmin(),
+  Logistics.createLogisticsSuperAdmin
+)
+
 router.post(
   '/logistics/super-admin/logistics-company',
   LogisticsValidator.createLogisticsCompany(),
