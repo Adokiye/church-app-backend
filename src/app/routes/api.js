@@ -402,13 +402,13 @@ router.post(
 )
 
 router.post(
-  '/internal/auth/register-logistics-admin',
+  '/auth/register-logistics-admin',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsAdmin
 )
 
 router.post(
-  '/internal/auth/register-rider',
+  '/auth/register-rider',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsRider
 )

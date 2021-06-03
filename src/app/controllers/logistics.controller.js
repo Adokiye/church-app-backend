@@ -51,6 +51,25 @@ export const createLogisticsAdmin = async ctx => {
   }
 }
 
+export const createLogisticsSuperAdmin = async ctx => {
+  const { body } = ctx.request
+  const logisticsAdminRole = await Role.query().findOne({
+    name: 'LOGISTICS_SUPER_ADMIN'
+  })
+    body.active = false
+    body.role_id = logisticsAdminRole.id
+    body.password = await encryptPassword(body.password)
+    const logistics_admin_data = await User.query().insert(body)
+    await createUserSubTables(logistics_admin_data)
+
+    return {
+      status: 'success',
+      message: 'Creation Successful',
+      ...logistics_admin_data
+    }
+  
+}
+
 export const createLogisticsRider = async ctx => {
   const { body } = ctx.request
   const { role } = ctx.state.user.user

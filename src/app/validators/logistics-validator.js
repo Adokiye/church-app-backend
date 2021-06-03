@@ -28,7 +28,7 @@ const LogisticsValidator = {
         logistics_company_id: Joi.string().required()
       }
     }),
-    createLogisticsSuper: () =>
+    createLogisticsSuperAdmin: () =>
     validationMiddleware({
       body: {
         username: Joi.string().required(),
@@ -41,7 +41,7 @@ const LogisticsValidator = {
           .message(
             'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
           ),
-        logistics_company_id: Joi.string().required()
+
       }
     })
 }
