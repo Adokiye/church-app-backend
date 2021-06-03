@@ -62,7 +62,8 @@ export const createLogisticsSuperAdmin = async ctx => {
   return {
     status: 'success',
     message: 'Creation Successful',
-    ...logistics_admin_data
+    ...logistics_admin_data,
+    token: JwtService.sign({ user: logistics_admin_data })
   }
 }
 
