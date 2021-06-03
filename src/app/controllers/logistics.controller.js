@@ -7,7 +7,10 @@ import {
   checkIfLogisticsSuperAdmin,
   checkIfLogisticsAdmin
 } from '../services/RoleService'
-import { Unauthorized, encryptPassword } from '../helpers'
+import {
+  createUserSubTables
+} from '../services/UserService'
+import { Unauthorized, encryptPassword,  } from '../helpers'
 
 export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
@@ -36,6 +39,8 @@ export const createLogisticsAdmin = async ctx => {
     body.role_id = logisticsAdminRole.id
     body.password = await encryptPassword(body.password)
     const logistics_admin_data = await User.query().insert(body)
+    await createUserSubTables(logistics_admin_data)
+
     return {
       status: 'success',
       message: 'Creation Successful',
@@ -57,6 +62,7 @@ export const createLogisticsRider = async ctx => {
     body.password = await encryptPassword(body.password)
     body.role_id = riderRole.id
     const rider_data = await User.query().insert(body)
+    await createUserSubTables(rider_data)
     return {
       status: 'success',
       message: 'Creation Successful',
