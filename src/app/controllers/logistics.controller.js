@@ -31,7 +31,7 @@ export const createLogisticsAdmin = async ctx => {
   const { role } = ctx.state.user.user
   if (await checkIfLogisticsSuperAdmin(role)) {
     body.active = false
-    body.role_id = logisticsAdminRole.id
+    body.role = 'LOGISTICS_ADMIN'
     body.password = await encryptPassword(body.password)
     const logistics_admin_data = await User.query().insert(body)
     await createUserSubTables(logistics_admin_data)
