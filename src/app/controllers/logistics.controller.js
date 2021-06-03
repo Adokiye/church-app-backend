@@ -7,10 +7,8 @@ import {
   checkIfLogisticsSuperAdmin,
   checkIfLogisticsAdmin
 } from '../services/RoleService'
-import {
-  createUserSubTables
-} from '../services/UserService'
-import { Unauthorized, encryptPassword,  } from '../helpers'
+import { createUserSubTables } from '../services/UserService'
+import { Unauthorized, encryptPassword } from '../helpers'
 
 export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
@@ -56,18 +54,17 @@ export const createLogisticsSuperAdmin = async ctx => {
   const logisticsAdminRole = await Role.query().findOne({
     name: 'LOGISTICS_SUPER_ADMIN'
   })
-    body.active = false
-    body.role_id = logisticsAdminRole.id
-    body.password = await encryptPassword(body.password)
-    const logistics_admin_data = await User.query().insert(body)
-    await createUserSubTables(logistics_admin_data)
+  body.active = false
+  body.role_id = logisticsAdminRole.id
+  body.password = await encryptPassword(body.password)
+  const logistics_admin_data = await User.query().insert(body)
+  await createUserSubTables(logistics_admin_data)
 
-    return {
-      status: 'success',
-      message: 'Creation Successful',
-      ...logistics_admin_data
-    }
-  
+  return {
+    status: 'success',
+    message: 'Creation Successful',
+    ...logistics_admin_data
+  }
 }
 
 export const createLogisticsRider = async ctx => {
