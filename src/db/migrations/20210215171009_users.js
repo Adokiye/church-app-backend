@@ -8,9 +8,7 @@ exports.up = function (knex) {
       table.specificType('email', 'CITEXT')
       table.boolean('email_confirmed').notNullable().defaultTo(false)
       table.string('email_confirm_token').unique()
-      table
-        .string('role')
-        .notNullable()
+      table.string('role').notNullable()
 
       table.string('first_name')
       table.string('last_name')
@@ -30,6 +28,12 @@ exports.up = function (knex) {
       table.string('password_reset_token').unique()
       table.string('lat')
       table.string('lng')
+      table
+        .uuid('logistics_company_id')
+        .references('id')
+        .inTable('logistics_companies')
+        .onDelete('CASCADE')
+
       table.timestamps(true, true)
     })
 }

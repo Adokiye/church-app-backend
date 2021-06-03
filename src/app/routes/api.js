@@ -390,22 +390,23 @@ router.post(
 
 //logistics routes
 router.post(
-  '/logistics/admin/create-logistics-company',
+  '/logistics/super-admin/logistics-company',
   LogisticsValidator.createLogisticsCompany(),
   Logistics.createLogisticsCompany
 )
 
 router.post(
-  '/logistics/admin/create-logistics-admin',
+  '/logistics/logistics-admin',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsAdmin
 )
 
 router.post(
-  '/logistics/create-logistics-rider',
+  '/logistics/rider',
   LogisticsValidator.createLogisticsStaff(),
   Logistics.createLogisticsRider
 )
+
 //posist web hooks
 
 router.post('/posist/order/accept/:order_code', Order.kitchenAcceptOrder)

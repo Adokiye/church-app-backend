@@ -17,7 +17,8 @@ import {
   checkIfAdmin,
   checkIfMarketingAdmin,
   checkIfMarketing,
-  checkIfLogisticsAdmin
+  checkIfLogisticsAdmin,
+  checkIfRider
 } from '../services/RoleService'
 import {
   Unauthorized,
@@ -356,6 +357,45 @@ export const loginLogisticsAdmin = async ctx => {
     }
   } else {
     if (await checkIfLogisticsAdmin(user.role)) {
+      return {
+        status,
+        message,
+        ...user,
+        token: JwtService.sign({ user })
+      }
+    } else {
+      throw Unauthorized('Unauthorized')
+    }
+  }
+}
+
+export const loginRider = async ctx => {
+  const { body } = ctx.request
+
+  const user = await User.query()
+    .findOne({
+      email: body.email
+    })
+
+    .catch(() => {
+      throw Unauthorized('User not found. Please sign up')
+    })
+
+  const isValid = await bcrypt.compare(body.password, user.password)
+
+  if (!isValid) {
+    throw Unauthorized('Unauthorized, invalid password')
+  }
+
+  if (!user.active) {
+    return {
+      status,
+      message:
+        'User account inactive, please verify your phone number to continue',
+      ...user
+    }
+  } else {
+    if (await checkIfRider(user.role)) {
       return {
         status,
         message,
