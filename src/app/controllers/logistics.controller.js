@@ -51,11 +51,8 @@ export const createLogisticsAdmin = async ctx => {
 
 export const createLogisticsSuperAdmin = async ctx => {
   const { body } = ctx.request
-  const logisticsAdminRole = await Role.query().findOne({
-    name: 'LOGISTICS_SUPER_ADMIN'
-  })
   body.active = false
-  body.role_id = logisticsAdminRole.id
+  body.role = 'LOGISTICS_SUPER_ADMIN'
   body.password = await encryptPassword(body.password)
   const logistics_admin_data = await User.query()
     .insert(body)
@@ -81,7 +78,7 @@ export const createLogisticsRider = async ctx => {
   if (await checkIfLogisticsAdmin(role)) {
     body.active = false
     body.password = await encryptPassword(body.password)
-    body.role_id = riderRole.id
+    body.role = riderRole.id
     const rider_data = await User.query().insert(body)
     await createUserSubTables(rider_data)
     return {
