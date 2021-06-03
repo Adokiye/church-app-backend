@@ -57,11 +57,12 @@ export const createLogisticsSuperAdmin = async ctx => {
   body.active = false
   body.role_id = logisticsAdminRole.id
   body.password = await encryptPassword(body.password)
-  const logistics_admin_data = await User.query().insert(body).
-  catch((e)=>{
-    console.log(e);
-    throw UnprocessableEntity('Invalid Body')
-  })
+  const logistics_admin_data = await User.query()
+    .insert(body)
+    .catch(e => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid Body')
+    })
   await createUserSubTables(logistics_admin_data)
 
   return {

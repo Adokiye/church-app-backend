@@ -18,7 +18,6 @@ class User extends modelUuid(baseModel) {
     'password',
     'password_reset_token',
     'email_confirm_token',
-    'logistics_company_id'
   ]
 
   static relationMappings = {
