@@ -136,7 +136,7 @@ export const calculateOrder = async ctx => {
       let addons = []
       if (meals[i].addons.length > 0) {
         console.log(meals[i])
-        var j=0
+        var j = 0
         let addons_len = meals[i].addons.length
         while (j < addons_len) {
           let addonInDb = await Addon.query()
@@ -161,7 +161,7 @@ export const calculateOrder = async ctx => {
           }
           j++
         }
-      }else{
+      } else {
         console.log('check data')
         console.log(meals[i])
       }
@@ -360,9 +360,7 @@ export const createOrder = async ctx => {
             .substring(0, 6)
             .toLowerCase()
         })
-        .withGraphFetched(
-          '[calculated_order.[user],order_type]'
-        )
+        .withGraphFetched('[calculated_order.[user],order_type]')
         .catch(e => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
@@ -497,7 +495,7 @@ export const kitchenDispatchOrder = async ctx => {
     setTrackingOrder({
       kitchen_dispatched: true,
       id: order.id,
-      rider: order.rider
+
     })
   ])
   return {
@@ -523,7 +521,8 @@ export const kitchenPreparedOrder = async ctx => {
   const [tracking_order] = await Promise.all([
     setTrackingOrder({
       kitchen_prepared: true,
-      id: order.id
+      id: order.id,
+      
     })
   ])
   return {
@@ -569,6 +568,33 @@ export const kitchenRejectedOrder = async ctx => {
     setTrackingOrder({
       kitchen_cancelled: true,
       cancelled: true,
+      id: order.id
+    }),
+    deletePendingOrder(order)
+  ])
+  return {
+    status: 'success'
+  }
+}
+
+export const riderAcceptOrder = async ctx => {
+  const { body } = ctx.request
+  let order = await Order.query()
+    .findById(body.order_id)
+    .catch(e => {
+      console.log(e)
+      throw NotFound('Order not found')
+    })
+  order = await Order.query()
+    .patchAndFetchById(order.id, {
+      rider_assigned: true,
+      rider_id: body.rider_id
+    })
+    .withGraphFetched('[calculated_order.[user],order_type, rider]')
+  const [tracking_order, pending_order] = await Promise.all([
+    setTrackingOrder({
+      rider: order.rider,
+      rider_assigned: true,
       id: order.id
     }),
     deletePendingOrder(order)

@@ -425,6 +425,12 @@ router.post(
 
 router.post('/order', OrderValidator.createOrder(), Order.createOrder)
 
+router.post(
+  '/order/rider/accept',
+  OrderValidator.riderAcceptOrder(),
+  Order.riderAcceptOrder
+)
+
 router.get('/order/order-types', Order.getOrderTypes)
 
 router.get('/order', Order.getOrders)
