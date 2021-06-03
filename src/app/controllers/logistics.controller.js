@@ -9,6 +9,7 @@ import {
 } from '../services/RoleService'
 import { createUserSubTables } from '../services/UserService'
 import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
+import JwtService from '../services/JwtService'
 
 export const createLogisticsCompany = async ctx => {
   const { body } = ctx.request
