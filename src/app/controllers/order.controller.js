@@ -613,7 +613,7 @@ export const riderAcceptOrder = async ctx => {
       throw NotFound('Order not found')
     })
   //get first rider active order
-  let rider_active = await Order.query()
+  let rider_active_order = await Order.query()
   .where('rider_id',id)
   .where('completed',false)
   .where('cancelled',false)
@@ -624,6 +624,9 @@ export const riderAcceptOrder = async ctx => {
     console.log(e)
     return false
   })
+  if(rider_active_order){
+    
+  }
   order = await Order.query()
     .patchAndFetchById(order.id, {
       rider_assigned: true,
