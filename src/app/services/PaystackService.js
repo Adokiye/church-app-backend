@@ -42,13 +42,13 @@ export default class HandleChargeSuccess {
       )
     } else {
       await createTransactionForWallet(
-        'Transfer',
-        'Debit',
+        'Deposit',
+        'Credit',
         'Success',
         data.amount,
         user.id,
-        'Order Payment by Card',
-        'Order Payment by Card'
+        `Deposit of ₦${data.amount}`,
+        `Deposit of ₦${data.amount}`
       )
     }
 

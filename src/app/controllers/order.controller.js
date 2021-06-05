@@ -617,7 +617,7 @@ export const riderAcceptOrder = async ctx => {
       rider_id: body.rider_id
     })
     .withGraphFetched('[calculated_order.[user],order_type, rider]')
-    
+
   const [tracking_order, pending_order] = await Promise.all([
     setTrackingOrder({
       rider: order.rider,
