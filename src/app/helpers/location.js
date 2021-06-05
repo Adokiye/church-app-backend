@@ -1,5 +1,5 @@
 export const getLatLonDiffInMeters = (lat1, lon1, lat2, lon2) => {
-  deg2rad = deg => {
+  const deg2rad = deg => {
     return deg * (Math.PI / 180)
   }
   var R = 6371 // radius of the earth in km
