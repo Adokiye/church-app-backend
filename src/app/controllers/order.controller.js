@@ -608,7 +608,7 @@ export const riderAcceptOrder = async ctx => {
 
   let order = await Order.query()
     .findById(body.order_id)
-  .withGraphFetched('[calculated_order]')
+    .withGraphFetched('[calculated_order]')
 
     .catch(e => {
       console.log(e)
@@ -616,25 +616,29 @@ export const riderAcceptOrder = async ctx => {
     })
   //get first rider active order
   let rider_active_order = await Order.query()
-  .where('rider_id',id)
-  .where('completed',false)
-  .where('cancelled',false)
-  .where('rider_assigned',true)
-  .withGraphFetched('[calculated_order]')
+    .where('rider_id', id)
+    .where('completed', false)
+    .where('cancelled', false)
+    .where('rider_assigned', true)
+    .withGraphFetched('[calculated_order]')
 
-  .limit(1)
-  .first()
-  .catch(e => {
-    console.log(e)
-    return false
-  })
-  if(rider_active_order){
-   const distance = await getLatLonDiffInMeters(rider_active_order.calculated_order.lat,
+    .limit(1)
+    .first()
+    .catch(e => {
+      console.log(e)
+      return false
+    })
+  if (rider_active_order) {
+    console.log(rider_active_order)
+    const distance = await getLatLonDiffInMeters(
+      rider_active_order.calculated_order.lat,
       rider_active_order.calculated_order.lng,
-      order.calculated_order.lat,order.calculated_order.lng)
-  if(distance > 3000){
-    throw UnprocessableEntity('Active Order already exists')
-  
+      order.calculated_order.lat,
+      order.calculated_order.lng
+    )
+    if (distance > 3000) {
+      throw UnprocessableEntity('Active Order already exists')
+    }
   }
   order = await Order.query()
     .patchAndFetchById(order.id, {
