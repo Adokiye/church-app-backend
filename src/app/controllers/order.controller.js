@@ -23,6 +23,10 @@ import {
   insidePolygon,
   getLatLonDiffInMeters
 } from '../helpers'
+import {
+  createTransactionForWallet,
+  createTransactionForOrder
+} from '../services/TransactionService'
 import crypto from 'crypto'
 import { API_URL } from '../config.js'
 
@@ -334,6 +338,41 @@ export const createOrder = async ctx => {
   console.log(posist_meals_formatted)
   switch (orderTypeInDb.name) {
     case 'WALLET':
+      order_data = {
+        order_type_id: orderTypeInDb.id,
+        calculated_order_id: calculatedOrderInDb.id
+      }
+      if (order_details) {
+        order_data.order_details = order_details
+      }
+      order = await Order.query()
+        .insert({
+          order_details,
+          order_type_id: orderTypeInDb.id,
+          calculated_order_id: calculatedOrderInDb.id,
+          user_id: id,
+          completed: false,
+          cancelled: false,
+          paid: true,
+          order_code: crypto
+            .randomBytes(20)
+            .toString('hex')
+            .substring(0, 6)
+            .toLowerCase()
+        })
+        .withGraphFetched('[calculated_order.[user],order_type]')
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid order body')
+        })
+        await createTransactionForWallet(
+          'Transfer',
+          'Debit',
+          calculatedOrderInDb.total_amount,
+          id,
+          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`,
+          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`
+        )
       break
     case 'CARD':
       order_data = {
@@ -573,12 +612,12 @@ export const kitchenRejectedOrder = async ctx => {
         kitchen_cancelled: true,
         cancelled: true
       }),
-      createTransaction(
+      createTransactionForWallet(
         'Deposit',
         'Credit',
         order.calculated_order.total_amount,
         order.user_id,
-        '',
+        'Refund by Kitchen',
         'Order cancelled by Kitchen'
       )
     ])
