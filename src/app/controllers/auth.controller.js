@@ -279,7 +279,9 @@ export const login = async ctx => {
       status,
       message:
         'User account inactive, please verify your phone number to continue',
-      ...user
+      ...user,
+      token: JwtService.sign({ user })
+
     }
   } else {
     return {
@@ -314,7 +316,9 @@ export const loginMarketing = async ctx => {
       status,
       message:
         'User account inactive, please verify your phone number to continue',
-      ...user
+      ...user,
+      token: JwtService.sign({ user })
+
     }
   } else {
     if (await checkIfMarketing(user.role)) {
@@ -353,7 +357,9 @@ export const loginLogisticsAdmin = async ctx => {
       status,
       message:
         'User account inactive, please verify your phone number to continue',
-      ...user
+      ...user,
+      token: JwtService.sign({ user })
+
     }
   } else {
     if (await checkIfLogisticsAdmin(user.role)) {
@@ -392,7 +398,9 @@ export const loginRider = async ctx => {
       status,
       message:
         'User account inactive, please verify your phone number to continue',
-      ...user
+      ...user,
+      token: JwtService.sign({ user })
+
     }
   } else {
     if (await checkIfRider(user.role)) {
