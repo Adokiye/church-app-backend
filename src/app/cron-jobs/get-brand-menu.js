@@ -140,7 +140,7 @@ const job = schedule.scheduleJob(jobEnvironment[NODE_ENV], async () => {
             .catch(e => console.log(e))
         }
         // create addon if meal has addons and isaddon is false
-        if (!menu_data[j].isAddOn && menu_data[j].mapItems.length > 0) {
+        if (!menu_data[j].isAddOn && && menu_data[j].mapItems &&menu_data[j].mapItems.length > 0) {
           for (let k = 0; k < menu_data[j].mapItems.length; k++) {
             let mealsAddonToCreate = await Meal.query()
               // .findOne({
