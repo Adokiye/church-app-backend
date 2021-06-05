@@ -520,8 +520,7 @@ export const kitchenDispatchOrder = async ctx => {
   const [tracking_order] = await Promise.all([
     setTrackingOrder({
       kitchen_dispatched: true,
-      id: order.id,
-
+      id: order.id
     })
   ])
   return {
@@ -547,8 +546,7 @@ export const kitchenPreparedOrder = async ctx => {
   const [tracking_order] = await Promise.all([
     setTrackingOrder({
       kitchen_prepared: true,
-      id: order.id,
-      
+      id: order.id
     })
   ])
   return {
