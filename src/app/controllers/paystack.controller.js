@@ -1,9 +1,4 @@
-import Brand from '../models/brand'
-import Cokitchen from '../models/cokitchen'
-import CokitchenPolygon from '../models/cokitchen_polygon'
-import MealCategory from '../models/meal_category'
-import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
-import { Unauthorized, insidePolygon, UnprocessableEntity } from '../helpers'
+import PaystackService from '../services/PaystackService'
 
 export const handleCharge = async ctx => {
   const { body } = ctx.request
@@ -11,7 +6,7 @@ export const handleCharge = async ctx => {
 
   switch (event) {
     case PaystackEvents.CHARGE_SUCCESS:
-      await Services.PaystackService.HandleChargeSuccess.handle(data)
+      await PaystackService.HandleChargeSuccess.handle(data)
       break
 
     /* istanbul ignore next */

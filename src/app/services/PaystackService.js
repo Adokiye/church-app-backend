@@ -1,8 +1,6 @@
 import User from '../models/user'
 import UserCard from '../models/user_card'
-import {
-    createOrder
-} from '../controllers/order.controller'
+import { createOrder } from '../controllers/order.controller'
 import { NotFound, UnprocessableEntity } from '../helpers'
 import { transaction } from 'objection'
 import {
@@ -76,7 +74,16 @@ export default class HandleChargeSuccess {
 
     // create order if true
     if (order) {
-      await PaystackController
+      let ctx = {
+        request: {
+          body
+        },
+        state: {
+          user: user
+        }
+      }
+      console.log(ctx)
+      await createOrder(ctx)
     }
   }
 }
