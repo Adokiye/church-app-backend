@@ -1,6 +1,6 @@
 import UserCard from '../models/user_card'
 import User from '../models/user'
-import { checkIfMarketing } from '../services/PaystackService'
+import { chargeCard } from '../services/PaystackService'
 import { Unauthorized, NotFound, UnprocessableEntity } from '../helpers'
 
 export const getUserCards = async ctx => {
@@ -19,4 +19,19 @@ export const getUserCards = async ctx => {
     message: 'User Cards returned Successfully',
     data: user_card_data
   }
+}
+
+export const chargeCardForWallet = async ctx => {
+  const { body } = ctx.request
+  const { id } = ctx.state.user.user
+  const { card_id, amount } = body
+
+  const [card, user] = Promise.all([
+    UserCard.query()
+      .findById(card_id)
+      .catch(() => false),
+      User.query()
+      .findById(card_id)
+      .catch(() => false),  
+  ])
 }
