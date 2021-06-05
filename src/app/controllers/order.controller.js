@@ -335,7 +335,33 @@ export const createOrder = async ctx => {
     case 'WALLET':
       break
     case 'CARD':
-      // code block
+      order_data = {
+        order_type_id: orderTypeInDb.id,
+        calculated_order_id: calculatedOrderInDb.id
+      }
+      if (order_details) {
+        order_data.order_details = order_details
+      }
+      order = await Order.query()
+        .insert({
+          order_details,
+          order_type_id: orderTypeInDb.id,
+          calculated_order_id: calculatedOrderInDb.id,
+          user_id: id,
+          completed: false,
+          cancelled: false,
+          paid: true,
+          order_code: crypto
+            .randomBytes(20)
+            .toString('hex')
+            .substring(0, 6)
+            .toLowerCase()
+        })
+        .withGraphFetched('[calculated_order.[user],order_type]')
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid order body')
+        })
       break
     case 'CASH':
       order_data = {
