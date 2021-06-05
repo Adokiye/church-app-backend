@@ -41,10 +41,16 @@ export const createTransactionForWallet = async (
         transaction_status: 'Success',
         description,
         reason
+      }).catch((e)=>{
+        console.log(e)
+        throw UnprocessableEntity('Invalid Transaction body')
       }),
 
       User.query().patchAndFetchById(user.id, {
         balance: balance.toString()
+      }).catch((e)=>{
+        console.log(e)
+        throw UnprocessableEntity('Invalid User body')
       })
     ])
 

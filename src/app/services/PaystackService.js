@@ -31,6 +31,9 @@ export default class HandleChargeSuccess {
 
     // create transaction if order true, else add amount to wallet if order false
     if (order) {
+      console.log(order)
+      console.log(data)
+      console.log(user)
       await createTransactionForOrder(
         'Transfer',
         'Debit',
@@ -51,7 +54,7 @@ export default class HandleChargeSuccess {
         `Deposit of ₦${data.amount}`
       )
     }
-
+    console.log('before card')
     // save card
     await UserCard.query()
       .insert({
