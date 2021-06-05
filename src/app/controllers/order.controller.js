@@ -664,7 +664,7 @@ export const getRiderActiveOrders = async ctx => {
   const { body } = ctx.request
   const { id } = ctx.state.user.user
 
-  let rider_active_order = await Order.query()
+  let rider_active_orders = await Order.query()
     .where('rider_id', id)
     .where('completed', false)
     .where('cancelled', false)
@@ -675,6 +675,8 @@ export const getRiderActiveOrders = async ctx => {
       return []
     })
   return {
-    status: 'success'
+    status: 'success',
+    message: 'Successful',
+    data: rider_active_orders
   }
 }
