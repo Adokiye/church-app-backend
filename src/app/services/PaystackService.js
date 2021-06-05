@@ -34,8 +34,8 @@ export const handle = async data => {
       'Debit',
       data.amount,
       user.id,
-      'Order Payment by Card',
-      'Order Payment by Card'
+      `Order Payment of ₦${data.amount} by Card`,
+      `Order Payment of ₦${data.amount} by Card`
     )
   } else {
     await createTransactionForWallet(
@@ -43,8 +43,8 @@ export const handle = async data => {
       'Credit',
       data.amount,
       user.id,
-      `Deposit of ₦${data.amount}`,
-      `Deposit of ₦${data.amount}`
+      `Deposit of ₦${data.amount} By Card`,
+      `Deposit of ₦${data.amount} By Card`
     )
   }
   console.log('before card')
@@ -96,7 +96,7 @@ export const chargeCard = async data => {
         'Content-Type': 'application/json'
       }
     })
-    
+
     return {
       status: response.data.data.status,
       amount: response.data.data.amount,
