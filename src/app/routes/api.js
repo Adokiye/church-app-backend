@@ -417,7 +417,11 @@ router.post(
   Logistics.createLogisticsRider
 )
 
-router.post('/internal/auth/login-rider', UserValidator.login(), Auth.loginRider)
+router.post(
+  '/internal/auth/login-rider',
+  UserValidator.login(),
+  Auth.loginRider
+)
 
 //posist web hooks
 

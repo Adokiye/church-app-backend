@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('super_meal_categories', table => {
       table.uuid('id').primary().notNullable()
-      table.string('name').unique()
+      table.string('name')
       table.timestamps(true, true)
       table.jsonb('images').notNullable().defaultTo(JSON.stringify([]))
       table.jsonb('posist_data').notNullable().defaultTo(JSON.stringify({}))

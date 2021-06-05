@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('meal_categories', table => {
       table.uuid('id').primary().notNullable()
-      table.string('name').unique()
+      table.string('name')
       table.string('summary', 80)
       table.string('description', 1000)
       table.timestamps(true, true)
