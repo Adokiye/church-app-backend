@@ -7,7 +7,7 @@ export const up = knex =>
       .inTable('users')
       .onDelete('CASCADE')
       .notNullable()
-    table.string('auth')
+    table.string('auth').unique()
     table.string('bank')
     table.string('card_name')
     table.boolean('status')
