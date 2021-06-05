@@ -18,7 +18,7 @@ export const URL_FRONT = process.env.URL_FRONT || 'https://getfoodcourt.com'
 export const EXPIRE_TIME = process.env.JWT_EXPIRE_TIME || '14d'
 export const PAYSTACK_SECRET =
   process.env.PAYSTACK_SECRET ||
-  'sk_test_115e129503be252474b3f1e17009dba14246a4cc'
+  'sk_test_a806f964099574d276f03048492ad8759d5e860a'
 export const APP_KEY = process.env.APP_KEY
 export const OTP_TOKEN_EXPIRE = process.env.OTP_TOKEN_EXPIRE
 export const CONFIRM_EMAIL_EXPIRE = process.env.CONFIRM_EMAIL_EXPIRE

@@ -8,6 +8,7 @@ import {
   createTransactionForWallet
 } from './TransactionService'
 import axios from 'axios'
+import { PAYSTACK_SECRET } from '../config'
 
 /**
  * Handle Charge Success
@@ -92,7 +93,7 @@ export const chargeCard = async data => {
       url: 'https://api.paystack.co/transaction/charge_authorization',
       data,
       headers: {
-        // 'Authorization': `Bearer ${paystackToken}`,
+        'Authorization': `Bearer ${PAYSTACK_SECRET}`,
         'Content-Type': 'application/json'
       }
     })
@@ -109,44 +110,3 @@ export const chargeCard = async data => {
     }
   }
 }
-
-/* istanbul ignore file */
-
-// import axios from 'axios';
-// import Env from '@ioc:Adonis/Core/Env';
-// import { NotFound } from '../helpers';
-
-// const paystackToken = Env.get('PAYSTACK_SECRET_KEY');
-
-// /**
-//  * Charge Authorization
-//  */
-// export default class ChargeAuthorization {
-//   /**
-//    * charge
-//    */
-//   static async charge(data) {
-//     try {
-//       const response = await axios({
-//         method: 'post',
-//         url: 'https://api.paystack.co/transaction/charge_authorization',
-//         data,
-//         headers: {
-//           'Authorization': `Bearer ${paystackToken}`,
-//           'Content-Type': 'application/json',
-//         },
-//       });
-//       return {
-//         status: response.data.data.status,
-//         amount: response.data.data.amount,
-//         reference: response.data.data.reference,
-//         authorization: response.data.data.authorization,
-//       };
-//     } catch (error) {
-//       return {
-//         status: error.response.data.status,
-//         message: error.response.data.message,
-//       };
-//     }
-//   }
-// }
