@@ -92,7 +92,7 @@ export const chargeCard = async data => {
       url: 'https://api.paystack.co/transaction/charge_authorization',
       data,
       headers: {
-        'Authorization': `Bearer ${PAYSTACK_SECRET}`,
+        Authorization: `Bearer ${PAYSTACK_SECRET}`,
         'Content-Type': 'application/json'
       }
     })
@@ -103,9 +103,6 @@ export const chargeCard = async data => {
       authorization: response.data.data.authorization
     }
   } catch (error) {
-    return {
-      status: error.response.data.status,
-      message: error.response.data.message
-    }
+    throw UnprocessableEntity(error.response.data.message)
   }
 }
