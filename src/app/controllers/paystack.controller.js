@@ -1,11 +1,12 @@
 import PaystackService from '../services/PaystackService'
 
+
 export const handleCharge = async ctx => {
   const { body } = ctx.request
   const { event, data } = body
 
   switch (event) {
-    case PaystackEvents.CHARGE_SUCCESS:
+    case 'charge.success':
       await PaystackService.HandleChargeSuccess.handle(data)
       break
 
