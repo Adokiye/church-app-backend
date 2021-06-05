@@ -14,8 +14,4 @@ export const handleCharge = async ctx => {
     default:
       break
   }
-  return {
-    status: 'success',
-    message: 'Paystack successful!'
-  }
 }
