@@ -20,7 +20,8 @@ import {
   createPosistOrder,
   makeCode,
   NotFound,
-  insidePolygon
+  insidePolygon,
+  getLatLonDiffInMeters
 } from '../helpers'
 import crypto from 'crypto'
 import { API_URL } from '../config.js'
@@ -603,6 +604,7 @@ export const kitchenRejectedOrder = async ctx => {
 
 export const riderAcceptOrder = async ctx => {
   const { body } = ctx.request
+  const { id } = ctx.state.user.user
 
   let order = await Order.query()
     .findById(body.order_id)
@@ -610,11 +612,19 @@ export const riderAcceptOrder = async ctx => {
       console.log(e)
       throw NotFound('Order not found')
     })
-
+  //get first rider active order
+  let rider_active = await Order.query()
+  .where('rider_id',id)
+  .limit(1)
+  .first()
+  .catch(e => {
+    console.log(e)
+    return false
+  })
   order = await Order.query()
     .patchAndFetchById(order.id, {
       rider_assigned: true,
-      rider_id: body.rider_id
+      rider_id: id
     })
     .withGraphFetched('[calculated_order.[user],order_type, rider]')
 
