@@ -31,7 +31,6 @@ export const handle = async data => {
     await createTransactionForOrder(
       'Transfer',
       'Debit',
-      'Success',
       data.amount,
       user.id,
       'Order Payment by Card',
@@ -41,7 +40,6 @@ export const handle = async data => {
     await createTransactionForWallet(
       'Deposit',
       'Credit',
-      'Success',
       data.amount,
       user.id,
       `Deposit of ₦${data.amount}`,
