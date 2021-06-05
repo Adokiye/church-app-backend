@@ -632,6 +632,11 @@ export const riderAcceptOrder = async ctx => {
    const distance = await getLatLonDiffInMeters(rider_active_order.calculated_order.lat,
       rider_active_order.calculated_order.lng,
       order.calculated_order.lat,order.calculated_order.lng)
+  if(distance <= 3000){
+  
+  }else{
+    throw UnprocessableEntity('Active Order already exists')
+  }
   }
   order = await Order.query()
     .patchAndFetchById(order.id, {
