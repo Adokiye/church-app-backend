@@ -7,7 +7,7 @@ import {
   createTransactionForOrder,
   createTransactionForWallet
 } from './TransactionService'
-import axios from 'axios';
+import axios from 'axios'
 
 /**
  * Handle Charge Success
@@ -60,7 +60,7 @@ export const handle = async data => {
       signature: data.authorization.signature,
       bank: data.authorization.bank,
       reusable: data.authorization.reusable,
-      cardName: data.authorization.account_name
+      cardName: data.authorization.card_type
     })
     .catch(e => {
       console.log(e)
@@ -82,7 +82,9 @@ export const handle = async data => {
   }
 }
 
-export const chargeCard = card => {}
+export const chargeCard = data => {
+  const { card, amount } = data
+}
 
 /* istanbul ignore file */
 
