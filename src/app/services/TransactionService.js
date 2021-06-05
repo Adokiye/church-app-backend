@@ -6,7 +6,7 @@ import { UnprocessableEntity } from '../helpers'
 const transaction_types = ['Deposit', 'Transfer', 'Withdraw']
 const transaction_actions = ['Credit', 'Debit']
 
-export const createTransaction = async (
+export const createTransactionForWallet = async (
   transaction_type,
   transaction_action,
   amount,
@@ -51,6 +51,50 @@ export const createTransaction = async (
     return {
       transaction_data,
       user_data
+    }
+  })
+}
+
+export const createTransactionForOrder = async (
+  transaction_type,
+  transaction_action,
+  amount,
+  user_id,
+  description,
+  reason
+) => {
+  return await transaction(Transaction, User, async (Transaction, User) => {
+    const user = await User.query()
+      .findById(user_id)
+      .catch(e => {
+        console.log(e)
+        throw UnprocessableEntity('Invalid Body')
+      })
+    let balance = Number(user.balance)
+    switch (transaction_action) {
+      case 'Debit':
+        balance -= Number(amount)
+        break
+      case 'Credit':
+        balance += Number(amount)
+        break
+      default:
+        throw UnprocessableEntity('Invalid Transaction Action')
+    }
+    const [transaction_data] = await Promise.all([
+      Transaction.query().insert({
+        amount,
+        user_id: user.id,
+        transaction_type,
+        transaction_action,
+        transaction_status: 'Success',
+        description,
+        reason
+      })
+    ])
+
+    return {
+      transaction_data,
     }
   })
 }

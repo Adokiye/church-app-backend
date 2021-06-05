@@ -46,7 +46,7 @@ const OrderValidator = {
         lng: Joi.string()
       }
     }),
-    riderAcceptOrder: () =>
+  riderAcceptOrder: () =>
     validationMiddleware({
       body: {
         order_id: Joi.string(),

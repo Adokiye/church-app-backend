@@ -1,79 +1,91 @@
-// import Repository from 'App/Models/Repository';
-// import Constants from 'App/Constants';
-// import RabbitMqTransactionService from 'App/RabbitMq/TransactionService';
-// import Helpers from 'App/Helpers';
+import User from '../models/user'
+import UserCard from '../models/user_card'
+import {
+    createOrder
+} from '../controllers/order.controller'
+import { NotFound, UnprocessableEntity } from '../helpers'
+import { transaction } from 'objection'
+import {
+  createTransactionForOrder,
+  createTransactionForWallet
+} from './TransactionService'
 
-// /**
-//  * Handle Charge Success
-//  */
-// export default class HandleChargeSuccess {
-//   /**
-//    * handle
-//    * @param data - data
-//    */
-//   public static async handle(data) {
-//     // eslint-disable-next-line @typescript-eslint/naming-convention
-//     const { email } = data.customer;
+/**
+ * Handle Charge Success
+ */
+export default class HandleChargeSuccess {
+  /**
+   * handle
+   * @param data - data
+   */
+  static async handle(data) {
+    const { email, phone_number, order, body } = data.customer
 
-//     // get user details
-//     const user = await Repository.User.getUser({ email });
+    // get user details
+    const user = await User.query()
+      .where('phone_number', phone_number)
+      .limit(1)
+      .first()
+      .catch(e => {
+        console.log(e)
+        throw NotFound('User not found')
+      })
 
-//     // get admin details
-//     const admin = await Repository.User.getUser({ is_admin: true });
+    // create transaction if order true, else add amount to wallet if order false
+    if (order) {
+      await createTransactionForOrder(
+        'Transfer',
+        'Debit',
+        'Success',
+        data.amount,
+        user.id,
+        'Order Payment by Card',
+        'Order Payment by Card'
+      )
+    } else {
+      await createTransactionForWallet(
+        'Transfer',
+        'Debit',
+        'Success',
+        data.amount,
+        user.id,
+        'Order Payment by Card',
+        'Order Payment by Card'
+      )
+    }
 
-//     // get current account for user
-//     const currentAccount = user.accounts.find(
-//       (item) => item.account_type.name === Constants.AccountType.CURRENT
-//     );
+    // save card
+    await UserCard.query()
+      .insert({
+        userId: user.id,
+        auth: data.authorization.authorization_code,
+        lastFourDigit: data.authorization.last4,
+        status: true,
+        countryCode: data.authorization.country_code,
+        expiryMonth: data.authorization.exp_month,
+        expiryYear: data.authorization.exp_year,
+        signature: data.authorization.signature,
+        bank: data.authorization.bank,
+        reusable: data.authorization.reusable,
+        cardName: data.authorization.account_name
+      })
+      .catch(e => {
+        console.log(e)
+        throw UnprocessableEntity('Invalid Body')
+      })
 
-//     // create pending transaction
-//     const transaction = await Repository.Transaction.createTransaction({
-//       senderAccountId: admin.accounts[0].id,
-//       receiverAccountId: currentAccount?.id || user.accounts[0].id,
-//       transactionType: 'Deposit',
-//       status: 'Pending',
-//       amount: data.amount,
-//       description: `Fund|${data.amount}|Paystack|${data.reference}`,
-//       reference: data.reference,
-//     });
+    // create order if true
+    if (order) {
+      await PaystackController
+    }
+  }
+}
 
-//     // save card
-//     await Repository.Card.createCard({
-//       userId: user.id,
-//       accountId: currentAccount?.id || user.accounts[0].id,
-//       auth: data.authorization.authorization_code,
-//       lastFourDigit: data.authorization.last4,
-//       status: true,
-//       countryCode: data.authorization.country_code,
-//       expiryMonth: data.authorization.exp_month,
-//       expiryYear: data.authorization.exp_year,
-//       signature: data.authorization.signature,
-//       bank: data.authorization.bank,
-//       reusable: data.authorization.reusable,
-//       cardName: data.authorization.account_name,
-//     });
-
-//     // send transaction to transaction service
-//     RabbitMqTransactionService.queueTransaction({ transaction, action: 'fund_account' });
-
-//     // validate tier
-//     const meetsTierRequirements = await Helpers.TierValidation.validate({
-//       tierId: currentAccount?.tier_id,
-//       amount: data.amount,
-//       action: 'fund_with_card',
-//     });
-
-//     // lock account if account does not meet user requirement
-//     if (!meetsTierRequirements) {
-//       await Repository.Account.lockAccount(currentAccount?.id);
-//     }
-//   }
-// }
-
-// /* istanbul ignore file */
+/* istanbul ignore file */
 
 // import axios from 'axios';
 // import Env from '@ioc:Adonis/Core/Env';
+// import { NotFound } from '../helpers';
 
 // const paystackToken = Env.get('PAYSTACK_SECRET_KEY');
 
@@ -84,7 +96,7 @@
 //   /**
 //    * charge
 //    */
-//   public static async charge(data) {
+//   static async charge(data) {
 //     try {
 //       const response = await axios({
 //         method: 'post',
