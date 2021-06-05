@@ -35,5 +35,8 @@ export const chargeCardForWallet = async ctx => {
       .catch(() => false)
   ])
 
-  //const chargeData = 
+  const chargeData = { 
+    "authorization_code" : card.auth, 
+    email: user.email, 
+    amount }
 }
