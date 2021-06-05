@@ -55,15 +55,17 @@ export const chargeCardForWallet = async ctx => {
     'Credit',
     amount,
     user.id,
-    `Deposit of ₦${data.amount}`,
-    `Deposit of ₦${data.amount}`
+    `Deposit of ₦${data.amount} By Card`,
+    `Deposit of ₦${data.amount} By Card`
   )
-  let card_to_update = await UserCard.query().patchAndFetchById(card_id, {
-    auth: data.authorization.authorization_code,
-    signature: data.authorization.signature,
-    reusable: data.authorization.reusable
-  }).catch((e)=>{
-    console.log(e)
-    throw UnprocessableEntity('User card not updated successfully')
-  })
+  let card_to_update = await UserCard.query()
+    .patchAndFetchById(card_id, {
+      auth: data.authorization.authorization_code,
+      signature: data.authorization.signature,
+      reusable: data.authorization.reusable
+    })
+    .catch(e => {
+      console.log(e)
+      throw UnprocessableEntity('User card not updated successfully')
+    })
 }
