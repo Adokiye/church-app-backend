@@ -365,14 +365,14 @@ export const createOrder = async ctx => {
           console.log(e)
           throw UnprocessableEntity('Invalid order body')
         })
-        await createTransactionForWallet(
-          'Transfer',
-          'Debit',
-          calculatedOrderInDb.total_amount,
-          id,
-          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`,
-          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`
-        )
+      await createTransactionForWallet(
+        'Transfer',
+        'Debit',
+        calculatedOrderInDb.total_amount,
+        id,
+        `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`,
+        `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`
+      )
       break
     case 'CARD':
       order_data = {
