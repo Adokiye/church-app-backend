@@ -7,24 +7,13 @@ import {
   createTransactionForOrder,
   createTransactionForWallet
 } from './TransactionService'
+import axios from 'axios';
 
 /**
  * Handle Charge Success
  */
 // paystack/webhook
 export const handle = async data => {
-  console.log(data)
-  /*
-  data:{
-    customer:{
-      email,
-      phone_number,
-      order,
-      body,
-    },
-    authorization
-  }
-  */
   const { email, phone_number, order, body } = data.customer
 
   // get user details
@@ -39,9 +28,6 @@ export const handle = async data => {
 
   // create transaction if order true, else add amount to wallet if order false
   if (order) {
-    console.log(order)
-    console.log(data)
-    console.log(user)
     await createTransactionForOrder(
       'Transfer',
       'Debit',
@@ -98,9 +84,7 @@ export const handle = async data => {
   }
 }
 
-export const chargeCard = (card) =>{
-
-}
+export const chargeCard = card => {}
 
 /* istanbul ignore file */
 
