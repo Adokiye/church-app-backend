@@ -33,25 +33,29 @@ export const createTransactionForWallet = async (
         throw UnprocessableEntity('Invalid Transaction Action')
     }
     const [transaction_data, user_data] = await Promise.all([
-      Transaction.query().insert({
-        amount,
-        user_id: user.id,
-        transaction_type,
-        transaction_action,
-        transaction_status: 'Success',
-        description,
-        reason
-      }).catch((e)=>{
-        console.log(e)
-        throw UnprocessableEntity('Invalid Transaction body')
-      }),
+      Transaction.query()
+        .insert({
+          amount,
+          user_id: user.id,
+          transaction_type,
+          transaction_action,
+          transaction_status: 'Success',
+          description,
+          reason
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid Transaction body')
+        }),
 
-      User.query().patchAndFetchById(user.id, {
-        balance: balance.toString()
-      }).catch((e)=>{
-        console.log(e)
-        throw UnprocessableEntity('Invalid User body')
-      })
+      User.query()
+        .patchAndFetchById(user.id, {
+          balance: balance.toString()
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid User body')
+        })
     ])
 
     return {
@@ -88,19 +92,24 @@ export const createTransactionForOrder = async (
         throw UnprocessableEntity('Invalid Transaction Action')
     }
     const [transaction_data] = await Promise.all([
-      Transaction.query().insert({
-        amount,
-        user_id: user.id,
-        transaction_type,
-        transaction_action,
-        transaction_status: 'Success',
-        description,
-        reason
-      })
+      Transaction.query()
+        .insert({
+          amount,
+          user_id: user.id,
+          transaction_type,
+          transaction_action,
+          transaction_status: 'Success',
+          description,
+          reason
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid Transaction body')
+        })
     ])
 
     return {
-      transaction_data,
+      transaction_data
     }
   })
 }
