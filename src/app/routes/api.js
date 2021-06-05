@@ -463,6 +463,17 @@ router.post('/paystack/webhook', Paystack.handleCharge)
 //user cards
 router.get('/card', UserCard.getUserCards)
 
-router.get('/card/charge', UserCardValidator.chargeCardWallet(), UserCard.chargeCardForWallet)
+router.get(
+  '/card/charge',
+  UserCardValidator.chargeCardWallet(),
+  UserCard.chargeCardForWallet
+)
+
+router.post(
+  '/card/order',
+  UserCardValidator.chargeCardOrder(),
+  UserCard.chargeCardForOrder,
+  Order.createOrder
+)
 
 export default router.routes()
