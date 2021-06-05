@@ -98,6 +98,10 @@ export const handle = async data => {
   }
 }
 
+export const chargeCard = (card) ={
+  
+}
+
 /* istanbul ignore file */
 
 // import axios from 'axios';
