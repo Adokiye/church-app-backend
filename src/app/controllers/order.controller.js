@@ -615,6 +615,9 @@ export const riderAcceptOrder = async ctx => {
   //get first rider active order
   let rider_active = await Order.query()
   .where('rider_id',id)
+  .where('completed',false)
+  .where('cancelled',false)
+  .where('rider_assigned',true)
   .limit(1)
   .first()
   .catch(e => {
