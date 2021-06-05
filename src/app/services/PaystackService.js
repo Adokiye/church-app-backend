@@ -74,7 +74,9 @@ export const handle = async data => {
         body: JSON.parse(body)
       },
       state: {
-        user: user
+        user: {
+          user: user
+        }
       }
     }
     console.log(ctx)
@@ -84,7 +86,7 @@ export const handle = async data => {
 
 export const chargeCard = data => {
   const { card, amount } = data
-  
+
 }
 
 /* istanbul ignore file */
