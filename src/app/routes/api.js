@@ -18,6 +18,7 @@ import {
   UserCard
 } from '../controllers/'
 
+import UserCardValidator from '../validators/user-card-validator'
 import UserValidator from '../validators/user-validator'
 import CokitchenValidator from '../validators/cokitchen-validator'
 import CokitchenPolygonValidator from '../validators/cokitchen-polygon-validator'
@@ -461,5 +462,7 @@ router.post('/paystack/webhook', Paystack.handleCharge)
 
 //user cards
 router.get('/card', UserCard.getUserCards)
+
+router.get('/card/charge', UserCardValidator.chargeCardWallet(), UserCard.getUserCards)
 
 export default router.routes()

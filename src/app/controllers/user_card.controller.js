@@ -1,6 +1,6 @@
 import UserCard from '../models/user_card'
 import User from '../models/user'
-import { checkIfMarketing } from '../services/RoleService'
+import { checkIfMarketing } from '../services/PaystackService'
 import { Unauthorized, NotFound, UnprocessableEntity } from '../helpers'
 
 export const getUserCards = async ctx => {

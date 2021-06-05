@@ -2,15 +2,8 @@ import Joi from '@hapi/joi'
 
 import { validationMiddleware } from '../middlewares'
 
-const MealValidator = {
+const UserCardValidator = {
   chargeCardOrder: () =>
-    validationMiddleware({
-      body: {
-        card_id: Joi.string().required(),
-        amount: Joi.string().required()
-      }
-    }),
-  chargeCardWallet: () =>
     validationMiddleware({
       body: {
         card_id: Joi.string().required(),
@@ -23,7 +16,14 @@ const MealValidator = {
           cutlery: Joi.bool().required()
         })
       }
+    }),
+  chargeCardWallet: () =>
+    validationMiddleware({
+      body: {
+        card_id: Joi.string().required(),
+        amount: Joi.string().required()
+      }
     })
 }
 
-export default MealValidator
+export default UserCardValidator
