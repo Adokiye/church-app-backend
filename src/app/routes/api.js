@@ -14,7 +14,8 @@ import {
   Meal,
   MealCategory,
   CokitchenExploreKeyword,
-  Paystack
+  Paystack,
+  UserCard
 } from '../controllers/'
 
 import UserValidator from '../validators/user-validator'
@@ -457,5 +458,8 @@ router.get('/order', Order.getOrders)
 
 //paystack routes
 router.post('/paystack/webhook', Paystack.handleCharge)
+
+//user cards
+router.get('/card', UserCard.getUserCards)
 
 export default router.routes()

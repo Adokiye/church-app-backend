@@ -11,8 +11,20 @@ import {
 /**
  * Handle Charge Success
  */
+// paystack/webhook
 export const handle = async data => {
   console.log(data)
+  /*
+  data:{
+    customer:{
+      email,
+      phone_number,
+      order,
+      body,
+    },
+    authorization
+  }
+  */
   const { email, phone_number, order, body } = data.customer
 
   // get user details
