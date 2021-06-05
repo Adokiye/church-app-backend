@@ -629,9 +629,9 @@ export const riderAcceptOrder = async ctx => {
     return false
   })
   if(rider_active_order){
-    getLatLonDiffInMeters(rider_active_order.calculated_order.lat,
+   const distance = await getLatLonDiffInMeters(rider_active_order.calculated_order.lat,
       rider_active_order.calculated_order.lng,
-      order.calculated_order.lat,)
+      order.calculated_order.lat,order.calculated_order.lng)
   }
   order = await Order.query()
     .patchAndFetchById(order.id, {
