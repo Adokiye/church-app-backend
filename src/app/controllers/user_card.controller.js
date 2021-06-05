@@ -68,4 +68,8 @@ export const chargeCardForWallet = async ctx => {
       console.log(e)
       throw UnprocessableEntity('User card not updated successfully')
     })
+    return {
+      status: 'success',
+      message: 'Card Charged Successfully',
+    }
 }
