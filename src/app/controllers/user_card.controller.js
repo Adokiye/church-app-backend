@@ -30,8 +30,10 @@ export const chargeCardForWallet = async ctx => {
     UserCard.query()
       .findById(card_id)
       .catch(() => false),
-      User.query()
+    User.query()
       .findById(card_id)
-      .catch(() => false),  
+      .catch(() => false)
   ])
+
+  //const chargeData = 
 }
