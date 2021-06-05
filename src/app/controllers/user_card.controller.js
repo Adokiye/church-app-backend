@@ -29,14 +29,29 @@ export const chargeCardForWallet = async ctx => {
   const [card, user] = Promise.all([
     UserCard.query()
       .findById(card_id)
-      .catch(() => false),
+      .catch(e => {
+        console.log(e)
+        throw NotFound('Card Not Found')
+      }),
     User.query()
       .findById(card_id)
-      .catch(() => false)
+      .catch(e => {
+        console.log(e)
+        throw NotFound('User Not Found')
+      })
   ])
 
-  const chargeData = { 
-    "authorization_code" : card.auth, 
-    email: user.email, 
-    amount }
+  const chargeData = {
+    authorization_code: card.auth,
+    email: user.email,
+    amount
+  }
+
+  const data = await chargeCard(chargeData)
+
+  let card_to_update = await UserCard.query().patchAndFetchById(card_id, {
+    auth: data.authorization.authorization_code,
+    signature: data.authorization.signature,
+    reusable: data.authorization.reusable,
+  })
 }
