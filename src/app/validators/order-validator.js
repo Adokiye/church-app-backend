@@ -49,8 +49,7 @@ const OrderValidator = {
   riderAcceptOrder: () =>
     validationMiddleware({
       body: {
-        order_id: Joi.string(),
-        rider_id: Joi.string()
+        order_id: Joi.string()
       }
     }),
   createOrder: () =>

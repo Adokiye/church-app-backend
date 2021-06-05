@@ -661,7 +661,6 @@ export const riderAcceptOrder = async ctx => {
 }
 
 export const getRiderActiveOrders = async ctx => {
-  const { body } = ctx.request
   const { id } = ctx.state.user.user
 
   let rider_active_orders = await Order.query()

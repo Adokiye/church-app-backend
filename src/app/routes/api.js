@@ -449,6 +449,8 @@ router.post(
   Order.riderAcceptOrder
 )
 
+router.get('/order/rider/active', Order.getRiderActiveOrders)
+
 router.get('/order/order-types', Order.getOrderTypes)
 
 router.get('/order', Order.getOrders)
