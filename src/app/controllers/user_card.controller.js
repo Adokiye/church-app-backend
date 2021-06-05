@@ -1,8 +1,10 @@
 import UserCard from '../models/user_card'
 import User from '../models/user'
 import { chargeCard } from '../services/PaystackService'
-import { createTransactionForWallet,
-createTransactionForOrder } from '../services/TransactionService'
+import {
+  createTransactionForWallet,
+  createTransactionForOrder
+} from '../services/TransactionService'
 import { Unauthorized, NotFound, UnprocessableEntity } from '../helpers'
 
 export const getUserCards = async ctx => {
@@ -104,12 +106,12 @@ export const chargeCardForOrder = async ctx => {
   const data = await chargeCard(chargeData)
 
   await createTransactionForOrder(
-    'Deposit',
-    'Credit',
-    amount,
+    'Transfer',
+    'Debit',
+    data.amount,
     user.id,
-    `Deposit of ₦${data.amount} By Card`,
-    `Deposit of ₦${data.amount} By Card`
+    `Order Payment of ₦${data.amount} by Card`,
+    `Order Payment of ₦${data.amount} by Card`
   )
 
   let card_to_update = await UserCard.query()
