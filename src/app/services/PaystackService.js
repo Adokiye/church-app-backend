@@ -86,7 +86,6 @@ export const handle = async data => {
 }
 
 export const chargeCard = async data => {
-  const { card, amount } = data
   try {
     const response = await axios({
       method: 'post',
