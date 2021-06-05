@@ -84,9 +84,30 @@ export const handle = async data => {
   }
 }
 
-export const chargeCard = data => {
+export const chargeCard = async data => {
   const { card, amount } = data
-
+  try {
+    const response = await axios({
+      method: 'post',
+      url: 'https://api.paystack.co/transaction/charge_authorization',
+      data,
+      headers: {
+        // 'Authorization': `Bearer ${paystackToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    return {
+      status: response.data.data.status,
+      amount: response.data.data.amount,
+      reference: response.data.data.reference,
+      authorization: response.data.data.authorization
+    }
+  } catch (error) {
+    return {
+      status: error.response.data.status,
+      message: error.response.data.message
+    }
+  }
 }
 
 /* istanbul ignore file */
