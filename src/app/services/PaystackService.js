@@ -11,84 +11,78 @@ import {
 /**
  * Handle Charge Success
  */
-export default class HandleChargeSuccess {
-  /**
-   * handle
-   * @param data - data
-   */
-  static async handle(data) {
+export const handle = async data => {
+  console.log(data)
+  const { email, phone_number, order, body } = data.customer
+
+  // get user details
+  const user = await User.query()
+    .where('phone_number', phone_number)
+    .limit(1)
+    .first()
+    .catch(e => {
+      console.log(e)
+      throw NotFound('User not found')
+    })
+
+  // create transaction if order true, else add amount to wallet if order false
+  if (order) {
+    console.log(order)
     console.log(data)
-    const { email, phone_number, order, body } = data.customer
+    console.log(user)
+    await createTransactionForOrder(
+      'Transfer',
+      'Debit',
+      'Success',
+      data.amount,
+      user.id,
+      'Order Payment by Card',
+      'Order Payment by Card'
+    )
+  } else {
+    await createTransactionForWallet(
+      'Deposit',
+      'Credit',
+      'Success',
+      data.amount,
+      user.id,
+      `Deposit of ₦${data.amount}`,
+      `Deposit of ₦${data.amount}`
+    )
+  }
+  console.log('before card')
+  // save card
+  await UserCard.query()
+    .insert({
+      userId: user.id,
+      auth: data.authorization.authorization_code,
+      lastFourDigit: data.authorization.last4,
+      status: true,
+      countryCode: data.authorization.country_code,
+      expiryMonth: data.authorization.exp_month,
+      expiryYear: data.authorization.exp_year,
+      signature: data.authorization.signature,
+      bank: data.authorization.bank,
+      reusable: data.authorization.reusable,
+      cardName: data.authorization.account_name
+    })
+    .catch(e => {
+      console.log(e)
+      throw UnprocessableEntity('Invalid Body')
+    })
 
-    // get user details
-    const user = await User.query()
-      .where('phone_number', phone_number)
-      .limit(1)
-      .first()
-      .catch(e => {
-        console.log(e)
-        throw NotFound('User not found')
-      })
-
-    // create transaction if order true, else add amount to wallet if order false
-    if (order) {
-      console.log(order)
-      console.log(data)
-      console.log(user)
-      await createTransactionForOrder(
-        'Transfer',
-        'Debit',
-        'Success',
-        data.amount,
-        user.id,
-        'Order Payment by Card',
-        'Order Payment by Card'
-      )
-    } else {
-      await createTransactionForWallet(
-        'Deposit',
-        'Credit',
-        'Success',
-        data.amount,
-        user.id,
-        `Deposit of ₦${data.amount}`,
-        `Deposit of ₦${data.amount}`
-      )
-    }
-    console.log('before card')
-    // save card
-    await UserCard.query()
-      .insert({
-        userId: user.id,
-        auth: data.authorization.authorization_code,
-        lastFourDigit: data.authorization.last4,
-        status: true,
-        countryCode: data.authorization.country_code,
-        expiryMonth: data.authorization.exp_month,
-        expiryYear: data.authorization.exp_year,
-        signature: data.authorization.signature,
-        bank: data.authorization.bank,
-        reusable: data.authorization.reusable,
-        cardName: data.authorization.account_name
-      })
-      .catch(e => {
-        console.log(e)
-        throw UnprocessableEntity('Invalid Body')
-      })
-
-    // create order if true
-    if (order) {
-      let ctx = {
-        request: {
-          body: JSON.parse(body)
-        },
-        state: {
-          user: user
-        }
+  // create order if true
+  if (order) {
+    let ctx = {
+      request: {
+        body: JSON.parse(body)
+      },
+      state: {
+        user: user
       }
-      console.log(ctx)
-      await createOrder(ctx)
     }
+    console.log(ctx)
+    await createOrder(ctx)
   }
 }
 
