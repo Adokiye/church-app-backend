@@ -17,6 +17,7 @@ export default class HandleChargeSuccess {
    * @param data - data
    */
   static async handle(data) {
+    console.log(data)
     const { email, phone_number, order, body } = data.customer
 
     // get user details
