@@ -603,18 +603,21 @@ export const kitchenRejectedOrder = async ctx => {
 
 export const riderAcceptOrder = async ctx => {
   const { body } = ctx.request
+
   let order = await Order.query()
     .findById(body.order_id)
     .catch(e => {
       console.log(e)
       throw NotFound('Order not found')
     })
+
   order = await Order.query()
     .patchAndFetchById(order.id, {
       rider_assigned: true,
       rider_id: body.rider_id
     })
     .withGraphFetched('[calculated_order.[user],order_type, rider]')
+    
   const [tracking_order, pending_order] = await Promise.all([
     setTrackingOrder({
       rider: order.rider,

@@ -38,7 +38,7 @@ class Order extends modelUuid(baseModel) {
     },
     rider: {
       relation: Model.HasOneRelation,
-      modelClass: path.join(__dirname, 'rider'),
+      modelClass: path.join(__dirname, 'user'),
       join: {
         from: 'orders.rider_id',
         to: 'users.id'
