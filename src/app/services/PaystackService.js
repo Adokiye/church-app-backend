@@ -76,7 +76,7 @@ export default class HandleChargeSuccess {
     if (order) {
       let ctx = {
         request: {
-          body
+          body: JSON.parse(body)
         },
         state: {
           user: user
