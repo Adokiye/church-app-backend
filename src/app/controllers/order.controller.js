@@ -659,3 +659,22 @@ export const riderAcceptOrder = async ctx => {
     status: 'success'
   }
 }
+
+export const getRiderActiveOrders = async ctx => {
+  const { body } = ctx.request
+  const { id } = ctx.state.user.user
+
+  let rider_active_order = await Order.query()
+    .where('rider_id', id)
+    .where('completed', false)
+    .where('cancelled', false)
+    .where('rider_assigned', true)
+    .withGraphFetched('[calculated_order.[user],order_type, rider]')
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success'
+  }
+}
