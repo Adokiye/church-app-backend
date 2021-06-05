@@ -50,17 +50,17 @@ export const handle = async data => {
   // save card
   await UserCard.query()
     .insert({
-      userId: user.id,
+      user_id: user.id,
       auth: data.authorization.authorization_code,
-      lastFourDigit: data.authorization.last4,
+      last_four_digit: data.authorization.last4,
       status: true,
-      countryCode: data.authorization.country_code,
-      expiryMonth: data.authorization.exp_month,
-      expiryYear: data.authorization.exp_year,
+      country_code: data.authorization.country_code,
+      expiry_month: data.authorization.exp_month,
+      expiry_year: data.authorization.exp_year,
       signature: data.authorization.signature,
       bank: data.authorization.bank,
       reusable: data.authorization.reusable,
-      cardName: data.authorization.card_type
+      card_name: data.authorization.card_type
     })
     .catch(e => {
       console.log(e)
