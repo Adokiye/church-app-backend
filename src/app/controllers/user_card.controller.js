@@ -1,6 +1,7 @@
 import UserCard from '../models/user_card'
 import User from '../models/user'
 import { chargeCard } from '../services/PaystackService'
+import { createTransactionForWallet } from '../services/TransactionService'
 import { Unauthorized, NotFound, UnprocessableEntity } from '../helpers'
 
 export const getUserCards = async ctx => {
@@ -49,9 +50,20 @@ export const chargeCardForWallet = async ctx => {
 
   const data = await chargeCard(chargeData)
 
+  await createTransactionForWallet(
+    'Deposit',
+    'Credit',
+    amount,
+    user.id,
+    `Deposit of ₦${data.amount}`,
+    `Deposit of ₦${data.amount}`
+  )
   let card_to_update = await UserCard.query().patchAndFetchById(card_id, {
     auth: data.authorization.authorization_code,
     signature: data.authorization.signature,
-    reusable: data.authorization.reusable,
+    reusable: data.authorization.reusable
+  }).catch((e)=>{
+    console.log(e)
+    throw UnprocessableEntity('User card not updated successfully')
   })
 }

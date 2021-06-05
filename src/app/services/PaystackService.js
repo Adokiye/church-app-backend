@@ -96,6 +96,7 @@ export const chargeCard = async data => {
         'Content-Type': 'application/json'
       }
     })
+    
     return {
       status: response.data.data.status,
       amount: response.data.data.amount,
