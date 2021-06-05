@@ -608,6 +608,8 @@ export const riderAcceptOrder = async ctx => {
 
   let order = await Order.query()
     .findById(body.order_id)
+  .withGraphFetched('[calculated_order]')
+
     .catch(e => {
       console.log(e)
       throw NotFound('Order not found')
@@ -618,6 +620,8 @@ export const riderAcceptOrder = async ctx => {
   .where('completed',false)
   .where('cancelled',false)
   .where('rider_assigned',true)
+  .withGraphFetched('[calculated_order]')
+
   .limit(1)
   .first()
   .catch(e => {
@@ -625,7 +629,9 @@ export const riderAcceptOrder = async ctx => {
     return false
   })
   if(rider_active_order){
-    
+    getLatLonDiffInMeters(rider_active_order.calculated_order.lat,
+      rider_active_order.calculated_order.lng,
+      order.calculated_order.lat,)
   }
   order = await Order.query()
     .patchAndFetchById(order.id, {
