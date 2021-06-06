@@ -121,7 +121,7 @@ export const create = async ctx => {
         educational_background,
         baptismal_status,
         role,
-        member_code: random(100000,999999)
+        member_code: random(100000,999999).toString()
       })
 
       .catch(() => false)
