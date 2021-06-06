@@ -29,7 +29,6 @@ export const up = knex =>
     table.boolean('rider_assigned').notNullable().defaultTo(false)
     table.boolean('paid').notNullable().defaultTo(false)
     table.string('order_code').unique().notNullable()
-
     table
       .uuid('calculated_order_id')
       .references('id')
