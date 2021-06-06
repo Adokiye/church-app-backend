@@ -92,7 +92,8 @@ export const create = async ctx => {
     marital_status,
     employment_status,
     educational_background,
-    baptismal_status
+    baptismal_status,
+    role
   } = ctx.request.body
 
   let userInDb = await User.query()
@@ -101,6 +102,9 @@ export const create = async ctx => {
     })
 
     .catch(() => false)
+
+
+    const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
   if (!userInDb) {
     const userData = await await User.query()
@@ -116,7 +120,8 @@ export const create = async ctx => {
         employment_status,
         educational_background,
         baptismal_status,
-        member_code: 
+        role,
+        member_code: random(100000,999999)
       })
 
       .catch(() => false)
