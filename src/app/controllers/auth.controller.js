@@ -4,23 +4,8 @@ import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
 import bcrypt from 'bcryptjs'
-import crypto from 'crypto'
-import {
-  newCustomerService,
-  updateNewUserService,
-  createUserSubTables
-} from '../services/UserService'
-import {
-  checkIfAdmin,
-  checkIfMarketingAdmin,
-  checkIfMarketing,
-  checkIfLogisticsAdmin,
-  checkIfRider
-} from '../services/RoleService'
 import {
   Unauthorized,
-  insidePolygon,
-  makeCode,
   encryptPassword,
   UnprocessableEntity
 } from '../helpers'
@@ -178,111 +163,6 @@ export const updateDeviceToken = async ctx => {
   }
 }
 
-//admin
-export const adminUpdateUser = async ctx => {
-  const { body } = ctx.request
-  const { role } = ctx.state.user.user
-
-  if (await checkIfAdmin(role)) {
-    if (body.password) {
-      body.password = await encryptPassword(body.password)
-    }
-    const user_data = await User.query().patchAndFetchById(body.user_id, body)
-
-    return {
-      status: 'success',
-      message: 'Update Successful',
-      ...user_data
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
-  }
-}
-
-//marketing admin
-export const marketingCreateStaff = async ctx => {
-  const { body } = ctx.request
-  const { role } = ctx.state.user.user
-
-  if (await checkIfMarketingAdmin(role)) {
-    body.role = 'MARKETING'
-    body.active = false
-    body.password = await encryptPassword(body.password)
-    const user_data = await User.query().insert(body)
-    return {
-      status: 'success',
-      message: 'Update Successful',
-      ...user_data
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
-  }
-}
-
-//register as marketing
-export const registerAsMarketing = async ctx => {
-  const { body } = ctx.request
-
-  body.role = 'MARKETING'
-  body.active = true
-  body.password = await encryptPassword(body.password)
-  const user_data = await User.query().insert(body)
-  await createUserSubTables(user_data)
-  return {
-    status: 'success',
-    message: 'Registration Successful',
-    ...user_data,
-    token: JwtService.sign({ user: user_data })
-  }
-}
-
-//register as logistics admin
-export const registerAsLogisticsAdmin = async ctx => {
-  const { body } = ctx.request
-
-  body.role = 'LOGISTICS_ADMIN'
-  body.active = true
-  body.password = await encryptPassword(body.password)
-  const user_data = await User.query().insert(body)
-  await createUserSubTables(user_data)
-  return {
-    status: 'success',
-    message: 'Registration Successful',
-    ...user_data,
-    token: JwtService.sign({ user: user_data })
-  }
-}
-
-export const adminGetUsers = async ctx => {
-  const { role } = ctx.state.user.user
-
-  if (await checkIfAdmin(role)) {
-    const data = await User.query()
-    return {
-      status: 'success',
-      message: 'Users returned Successfully',
-      data
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
-  }
-}
-
-export const adminGetUserRoles = async ctx => {
-  const { role } = ctx.state.user.user
-
-  if (await checkIfAdmin(role)) {
-    const data = await Role.query()
-    return {
-      status: 'success',
-      message: 'Update Successful',
-      data
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
-  }
-}
-
 export const login = async ctx => {
   const { body } = ctx.request
 
@@ -300,174 +180,11 @@ export const login = async ctx => {
     throw Unauthorized('Unauthorized, invalid password')
   }
 
-  if (!user.active) {
-    return {
-      status,
-      message:
-        'User account inactive, please verify your phone number to continue',
-      ...user,
-      token: JwtService.sign({ user })
-    }
-  } else {
-    return {
-      status,
-      message,
-      ...user,
-      token: JwtService.sign({ user })
-    }
-  }
-}
-
-export const loginMarketing = async ctx => {
-  const { body } = ctx.request
-
-  const user = await User.query()
-    .findOne({
-      email: body.email
-    })
-
-    .catch(() => {
-      throw Unauthorized('User not found. Please sign up')
-    })
-
-  const isValid = await bcrypt.compare(body.password, user.password)
-
-  if (!isValid) {
-    throw Unauthorized('Unauthorized, invalid password')
-  }
-
-  if (!user.active) {
-    return {
-      status,
-      message:
-        'User account inactive, please verify your phone number to continue',
-      ...user,
-      token: JwtService.sign({ user })
-    }
-  } else {
-    if (await checkIfMarketing(user.role)) {
-      return {
-        status,
-        message,
-        ...user,
-        token: JwtService.sign({ user })
-      }
-    } else {
-      throw Unauthorized('Unauthorized')
-    }
-  }
-}
-
-export const loginLogisticsAdmin = async ctx => {
-  const { body } = ctx.request
-
-  const user = await User.query()
-    .findOne({
-      email: body.email
-    })
-
-    .catch(() => {
-      throw Unauthorized('User not found. Please sign up')
-    })
-
-  const isValid = await bcrypt.compare(body.password, user.password)
-
-  if (!isValid) {
-    throw Unauthorized('Unauthorized, invalid password')
-  }
-
-  if (!user.active) {
-    return {
-      status,
-      message:
-        'User account inactive, please verify your phone number to continue',
-      ...user,
-      token: JwtService.sign({ user })
-    }
-  } else {
-    if (await checkIfLogisticsAdmin(user.role)) {
-      return {
-        status,
-        message,
-        ...user,
-        token: JwtService.sign({ user })
-      }
-    } else {
-      throw Unauthorized('Unauthorized')
-    }
-  }
-}
-
-export const loginRider = async ctx => {
-  const { body } = ctx.request
-
-  const user = await User.query()
-    .findOne({
-      email: body.email
-    })
-
-    .catch(() => {
-      throw Unauthorized('User not found. Please sign up')
-    })
-
-  const isValid = await bcrypt.compare(body.password, user.password)
-
-  if (!isValid) {
-    throw Unauthorized('Unauthorized, invalid password')
-  }
-
-  if (!user.active) {
-    return {
-      status,
-      message:
-        'User account inactive, please verify your phone number to continue',
-      ...user,
-      token: JwtService.sign({ user })
-    }
-  } else {
-    if (await checkIfRider(user.role)) {
-      return {
-        status,
-        message,
-        ...user,
-        token: JwtService.sign({ user })
-      }
-    } else {
-      throw Unauthorized('Unauthorized')
-    }
-  }
-}
-
-export const verifyUser = async ctx => {
-  const { body } = ctx.request
-  body.active = true
-  const user_data = await User.query().patchAndFetchById(body.user_id, body)
-
   return {
     status,
     message,
-    ...user_data,
+    ...user,
     token: JwtService.sign({ user })
-  }
-}
-
-export const findUserName = async ctx => {
-  const { body } = ctx.request
-
-  const user = await User.query()
-    .findOne({
-      username: body.username
-    })
-    .catch(() => false)
-
-  if (!user) {
-    return {
-      status,
-      message: 'Username available',
-      ...user
-    }
-  } else {
-    throw UnprocessableEntity('Username not available')
   }
 }
 
@@ -478,7 +195,7 @@ export const me = async ctx => {
     .findOne({
       id: user.id
     })
-    .withGraphFetched('[free_deliveries, referral_code]')
+    //  .withGraphFetched('[free_deliveries, referral_code]')
     .catch(e => {
       console.log(e)
       return false
@@ -495,20 +212,3 @@ export const me = async ctx => {
   }
 }
 
-export const getAllUsers = async ctx => {
-  const { role } = ctx.state.user.user
-
-  if (await checkIfMarketing(role)) {
-    const user_data = await User.query().catch(e => {
-      console.log(e)
-      return []
-    })
-    return {
-      status,
-      message: 'Users gotten successfully',
-      data: user_data
-    }
-  } else {
-    throw Unauthorized('Unauthorized')
-  }
-}
