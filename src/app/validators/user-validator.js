@@ -60,7 +60,7 @@ const UserValidator = {
           ),
         address: Joi.string(),
         profile_url: Joi.string(),
-        marital_status: Joi.string().valid('SINGLE', 'MARRIED',).required(),
+        marital_status: Joi.string().valid('single', 'married',).required(),
         employment_status: Joi.string(),
         educational_background: Joi.string(),
         baptismal_status: Joi.string(),
