@@ -28,6 +28,6 @@ router.post(
   Auth.create
 )
 
-router.post('/auth/login', UserValidator.login(), Auth.login)
+router.post('/internal/login', UserValidator.login(), Auth.login)
 
 export default router.routes()
