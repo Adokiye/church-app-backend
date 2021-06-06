@@ -1,6 +1,5 @@
 exports.up = function (knex) {
   return knex.schema
-    .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('user_validated_histories', table => {
       table.uuid('id').unique().primary().notNullable()
       table
