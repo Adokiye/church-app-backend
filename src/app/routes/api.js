@@ -11,7 +11,7 @@ const router = new Router()
 //send otp
 router.post('/internal/send-otp', UserValidator.send_otp(), Auth.sendOtp)
 
-router.put('/auth/user', UserValidator.update(), Auth.update)
+router.put('/user', UserValidator.update(), Auth.update)
 
 router.get('/me', Auth.me)
 
