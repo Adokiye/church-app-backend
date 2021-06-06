@@ -153,12 +153,15 @@ export const updateBrandWorkingHours = async ctx => {
   switch (action) {
     case 'create':
       const prev_brand_working_hours = await BrandWorkingHour.query()
-      .where('brand_id', brand_id)
-      .where('name', name.toLowerCase())
-      .catch(e => {
-        console.log(e)
-        return []
-      })
+        .where('brand_id', brand_id)
+        .where('name', name.toLowerCase())
+        .catch(e => {
+          console.log(e)
+          return []
+        })
+      if(prev_brand_working_hours.length > 0){
+        throw UnprocessableEntity(`${name} already exists for this brand`)
+      }
       break
     case 'update':
       break
