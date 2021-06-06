@@ -88,8 +88,12 @@ export const create = async ctx => {
 
     let roleInDb = await Role.query()
     .where('name', role)
+    .limit(1)
+    .first()
 
-    .catch(() => false)
+    .catch((e) => {
+      console.log(e)
+    })
 
   const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
