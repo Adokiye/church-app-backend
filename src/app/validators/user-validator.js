@@ -58,17 +58,21 @@ const UserValidator = {
         first_name: Joi.string(),
         last_name: Joi.string(),
         other_name: Joi.string(),
-        username: Joi.string(),
         dob: Joi.date(),
-        user_gender: Joi.string().valid('Male', 'Female', 'Unspecified'),
+        user_gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email(),
         password: Joi.string()
           .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
           .message(
             'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
           ),
-        lat: Joi.string(),
-        lng: Joi.string()
+        address: Joi.string(),
+        profile_url: Joi.string(),
+        marital_status: Joi.string(),
+        employment_status: Joi.string(),
+        educational_background: Joi.string(),
+        baptismal_status: Joi.string(),
+        role: Joi.string()
       }
     }),
   updateDeviceToken: () =>

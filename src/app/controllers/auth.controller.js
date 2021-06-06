@@ -86,6 +86,11 @@ export const create = async ctx => {
 
     .catch(() => false)
 
+    let roleInDb = await Role.query()
+    .where('name', role)
+
+    .catch(() => false)
+
   const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
   if (!userInDb) {
@@ -108,7 +113,7 @@ export const create = async ctx => {
 
       .catch(e => {
         console.log(e)
-        throw UnprocessableEntity('Ivalid Body')
+        throw UnprocessableEntity('Invalid Body')
       })
     return {
       status,
