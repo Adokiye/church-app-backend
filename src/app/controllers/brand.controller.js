@@ -2,6 +2,7 @@ import Brand from '../models/brand'
 import Cokitchen from '../models/cokitchen'
 import CokitchenPolygon from '../models/cokitchen_polygon'
 import MealCategory from '../models/meal_category'
+import BrandWorkingHour from '../models/brand_working_hour'
 import { checkIfAdmin, checkIfMarketing } from '../services/RoleService'
 import { Unauthorized, insidePolygon, UnprocessableEntity } from '../helpers'
 
@@ -127,5 +128,18 @@ export const getBrandsForMarketing = async ctx => {
   return {
     status: 'success',
     data: brands
+  }
+}
+
+export const getBrandWorkingHours = async ctx => {
+  const { brand_id } = ctx.params
+  const brand_working_hours = await BrandWorkingHour.query()
+  .where('brand_id',brand_id).catch(e => {
+    console.log(e)
+    return []
+  })
+  return {
+    status: 'success',
+    data: brand_working_hours
   }
 }
