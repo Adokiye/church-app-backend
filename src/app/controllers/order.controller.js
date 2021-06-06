@@ -279,9 +279,9 @@ export const calculateOrder = async ctx => {
 export const createOrder = async ctx => {
   const { body } = ctx.request
   const { id } = ctx.state.user.user
-  
+
   let use_wallet = false
-  if (body.use_wallet) {
+  if (body.order_details.use_wallet) {
     use_wallet = true
   }
   let order_details = false
@@ -405,6 +405,16 @@ export const createOrder = async ctx => {
         })
       break
     case 'CASH':
+      if(use_wallet){
+        await createTransactionForWallet(
+          'Transfer',
+          'Debit',
+          body.order_details.wallet_amount,
+          id,
+          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`,
+          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`
+        )
+      }
       order_data = {
         order_type_id: orderTypeInDb.id,
         calculated_order_id: calculatedOrderInDb.id
