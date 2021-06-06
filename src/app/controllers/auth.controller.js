@@ -80,6 +80,8 @@ export const verifyOtp = async (ctx, next) => {
 }
 
 export const create = async ctx => {
+  ctx.request.body.password = await encryptPassword(ctx.request.body.password)
+
   const {
     phone_number,
     email,
@@ -142,12 +144,12 @@ export const update = async ctx => {
   const { body } = ctx.request
   const { user } = ctx.state.user
 
-    const user_data = await User.query().patchAndFetchById(body.user_id, body)
+  const user_data = await User.query().patchAndFetchById(user.id, body)
 
   return {
     status: 'success',
     message: 'Update Successful',
-    ...userData
+    ...user_data
   }
 }
 
