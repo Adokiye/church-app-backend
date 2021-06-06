@@ -148,8 +148,9 @@ export const getBrandWorkingHours = async ctx => {
 export const updateBrandWorkingHours = async ctx => {
   const { body } = ctx.request
   const { id } = ctx.state.user.user
-  const {action, data} = body
-  switch (action){
+  const { action, data } = body
+  const {brand_id, name, opening_time, closing_time} = data
+  switch (action) {
     case 'create':
       break
     case 'update':
