@@ -7,6 +7,10 @@ import UserValidator from '../validators/user-validator'
 const router = new Router()
 
 //authentication and user routes
+
+//send otp
+router.post('/internal/send-otp', UserValidator.send_otp(), Auth.sendOtp)
+
 router.put('/auth/user', UserValidator.update(), Auth.update)
 
 router.get('/me', Auth.me)
