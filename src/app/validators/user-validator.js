@@ -44,14 +44,6 @@ const UserValidator = {
         password: Joi.string().min(1).required()
       }
     }),
-  verifyUser: () =>
-    validationMiddleware({
-      body: {
-        user_id: Joi.string().required(),
-        phone_number: Joi.string().min(11).max(11).required(),
-        otp: Joi.string().required()
-      }
-    }),
   update: () =>
     validationMiddleware({
       body: {

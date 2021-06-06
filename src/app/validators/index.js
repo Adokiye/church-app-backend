@@ -1,9 +1,1 @@
-export * from './user-validator'
-export * as CokitchenValidator from './cokitchen-validator'
-export * as CokitchenPolygonValidator from './cokitchen-polygon-validator'
-export * as BrandValidator from './brand-validator'
-export * as LogisticsValidator from './logistics-validator'
-export * as DealsValidator from './deal-validator'
-export * as KeywordValidator from './keyword-validator'
-export * as UserSettingsValidator from './user-settings-validator'
-export * as FaqValidator from './faq-validator'
+
