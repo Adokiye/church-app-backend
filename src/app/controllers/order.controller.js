@@ -405,7 +405,7 @@ export const createOrder = async ctx => {
         })
       break
     case 'CASH':
-      if(use_wallet){
+      if (use_wallet) {
         await createTransactionForWallet(
           'Transfer',
           'Debit',
