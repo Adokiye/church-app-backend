@@ -1,8 +1,5 @@
 import User from '../models/user'
 import Role from '../models/role'
-import FreeDelivery from '../models/free_delivery'
-import UserSetting from '../models/user_setting'
-import ReferralCode from '../models/referral_code'
 import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
@@ -83,7 +80,19 @@ export const verifyOtp = async (ctx, next) => {
 }
 
 export const create = async ctx => {
-  const { phone_number } = ctx.request.body
+  const { phone_number,
+  email,
+  first_name,
+  last_name,
+  other_name,
+  user_gender,
+  password,
+  address,
+  marital_status,
+  employment_status,
+  educational_background,
+  baptismal_status,
+    } = ctx.request.body
 
   let userInDb = await User.query()
     .findOne({
@@ -93,7 +102,13 @@ export const create = async ctx => {
     .catch(() => false)
 
   if (!userInDb) {
-    const userData = await newCustomerService(phone_number)
+    const userData = await await User.query()
+    .insert({
+      email,
+      first
+    })
+
+    .catch(() => false)
     return {
       status,
       message,
