@@ -159,9 +159,10 @@ export const updateBrandWorkingHours = async ctx => {
           console.log(e)
           return []
         })
-      if(prev_brand_working_hours.length > 0){
+      if (prev_brand_working_hours.length > 0) {
         throw UnprocessableEntity(`${name} already exists for this brand`)
       }
+      
       break
     case 'update':
       break

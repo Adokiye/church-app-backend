@@ -17,8 +17,6 @@ exports.up = function (knex) {
       table.string('phone_number').unique().notNullable()
       table
         .enu('user_gender', ['Male', 'Female', 'Unspecified'], {
-          // useNative: true,
-          // enumName: 'user_gender',
         })
         .defaultTo('Unspecified')
       table.date('dob')
@@ -26,13 +24,16 @@ exports.up = function (knex) {
       table.string('balance').notNullable().defaultTo('0')
 
       table.string('password_reset_token').unique()
-      table.string('lat')
-      table.string('lng')
+      table.string('address').notNullable()
       table
-        .uuid('logistics_company_id')
-        .references('id')
-        .inTable('logistics_companies')
-        .onDelete('CASCADE')
+        .enu('marital_status', ['Single', 'Married'], {
+        })
+        .defaultTo('Single')
+      table.string('employment_status').notNullable()
+      table.string('educational_background').notNullable()
+      table.string('baptismal_status').notNullable()
+      table.string('profile_url').unique().notNullable()
+      table.string('member_code').unique().notNullable()
 
       table.timestamps(true, true)
     })
@@ -40,9 +41,4 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema.dropTable('users')
-  // return knex.raw(
-  //   `
-  //   DROP TYPE "user_gender";
-  //   `
-  // );
 }

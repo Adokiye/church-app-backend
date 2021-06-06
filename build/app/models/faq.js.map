@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../src/app/models/faq.js"],"names":["Faq","baseModel"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;;;;;;IAEMA,G;;;;;;;;;;;EAAY,sBAAUC,gBAAV,C;;iCAAZD,G,eACe,M;eAGNA,G","sourcesContent":["import { baseModel, modelUuid } from './index'\n\nclass Faq extends modelUuid(baseModel) {\n  static tableName = 'faqs'\n}\n\nexport default Faq\n"],"file":"faq.js"}
