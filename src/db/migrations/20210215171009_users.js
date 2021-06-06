@@ -1,11 +1,10 @@
 exports.up = function (knex) {
   return knex.schema
-    .raw('CREATE EXTENSION IF NOT EXISTS CITEXT')
     .createTable('users', table => {
       table.uuid('id').primary().notNullable()
       table.boolean('active').notNullable().defaultTo(true)
       table.string('username').unique()
-      table.specificType('email', 'CITEXT')
+      table.string('email')
       table.boolean('email_confirmed').notNullable().defaultTo(false)
       table.string('email_confirm_token').unique()
       table.string('role').notNullable()
