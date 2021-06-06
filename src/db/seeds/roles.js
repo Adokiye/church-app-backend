@@ -9,31 +9,15 @@ export const seed = async knex => {
   await knex('roles').insert([
     {
       id: v4(),
-      name: 'CUSTOMER'
-    },
-    {
-      id: v4(),
-      name: 'RIDER'
-    },
-    {
-      id: v4(),
-      name: 'MARKETING'
-    },
-    {
-      id: v4(),
-      name: 'MARKETING_ADMIN'
-    },
-    {
-      id: v4(),
-      name: 'LOGISTICS_ADMIN'
-    },
-    {
-      id: v4(),
-      name: 'LOGISTICS_SUPER_ADMIN'
+      name: 'USER'
     },
     {
       id: v4(),
       name: 'ADMIN'
-    }
+    },
+    {
+      id: v4(),
+      name: 'SUPER_ADMIN'
+    },
   ])
 }
