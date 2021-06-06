@@ -30,11 +30,11 @@ const UserValidator = {
           .required(),
         address: Joi.string().required(),
         profile_url: Joi.string(),
-        marital_status: Joi.string().required(),
+        marital_status: Joi.string().valid('SINGLE', 'MARRIED',).required(),
         employment_status: Joi.string().required(),
         educational_background: Joi.string().required(),
         baptismal_status: Joi.string().required(),
-        role: Joi.string().required(),
+        role: Joi.string().valid('USER', 'ADMIN','SUPER_ADMIN').required(),
       }
     }),
   login: () =>
