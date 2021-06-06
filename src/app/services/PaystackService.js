@@ -29,6 +29,16 @@ export const handle = async data => {
 
   // create transaction if order true, else add amount to wallet if order false
   if (order) {
+    if (body.order_details.use_wallet) {
+      await createTransactionForWallet(
+        'Transfer',
+        'Debit',
+        body.order_details.wallet_amount,
+        user.id,
+        `Order Payment of ₦${body.order_details.wallet_amount} by Wallet`,
+        `Order Payment of ₦${body.order_details.wallet_amount} by Wallet`
+      )
+    }
     await createTransactionForOrder(
       'Transfer',
       'Debit',
