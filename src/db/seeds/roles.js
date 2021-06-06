@@ -18,6 +18,6 @@ export const seed = async knex => {
     {
       id: v4(),
       name: 'SUPER_ADMIN'
-    },
+    }
   ])
 }
