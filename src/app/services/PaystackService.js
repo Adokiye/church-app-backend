@@ -72,7 +72,7 @@ export const handle = async data => {
   if (order) {
     let ctx = {
       request: {
-        body:body
+        body: body
       },
       state: {
         user: {

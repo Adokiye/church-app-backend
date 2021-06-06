@@ -279,15 +279,16 @@ export const calculateOrder = async ctx => {
 export const createOrder = async ctx => {
   const { body } = ctx.request
   const { id } = ctx.state.user.user
-
-  let order_details = false
-  if (body.order_details) {
-    order_details = JSON.stringify(body.order_details)
-  }
+  
   let use_wallet = false
   if (body.use_wallet) {
     use_wallet = true
   }
+  let order_details = false
+  if (body.order_details) {
+    order_details = JSON.stringify(body.order_details)
+  }
+
   let [orderTypeInDb, calculatedOrderInDb] = await Promise.all([
     OrderType.query()
       .findById(body.order_type_id)
