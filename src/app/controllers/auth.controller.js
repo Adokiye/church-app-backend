@@ -4,7 +4,12 @@ import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
 import bcrypt from 'bcryptjs'
-import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
+import {
+  Unauthorized,
+  encryptPassword,
+  UnprocessableEntity,
+  NotFound
+} from '../helpers'
 import DeviceToken from '../models/device_token'
 const status = 'success'
 const message = 'Success!'
@@ -86,13 +91,14 @@ export const create = async ctx => {
 
     .catch(() => false)
 
-    let roleInDb = await Role.query()
+  let roleInDb = await Role.query()
     .where('name', role)
     .limit(1)
     .first()
 
-    .catch((e) => {
+    .catch(e => {
       console.log(e)
+      throw NotFound('Role not found')
     })
 
   const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
@@ -133,6 +139,18 @@ export const create = async ctx => {
 export const update = async ctx => {
   const { body } = ctx.request
   const { user } = ctx.state.user
+
+  if (body.role) {
+    let roleInDb = await Role.query()
+      .where('name', role)
+      .limit(1)
+      .first()
+
+      .catch(e => {
+        console.log(e)
+        throw NotFound('Role not found')
+      })
+  }
 
   const user_data = await User.query().patchAndFetchById(user.id, body)
 
