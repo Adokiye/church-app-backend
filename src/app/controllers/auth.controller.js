@@ -106,6 +106,7 @@ export const create = async ctx => {
   if (!userInDb) {
     const userData = await await User.query()
       .insert({
+        phone_number,
         email,
         first_name,
         last_name,
