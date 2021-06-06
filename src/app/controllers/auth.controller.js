@@ -103,8 +103,7 @@ export const create = async ctx => {
 
     .catch(() => false)
 
-
-    const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+  const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
   if (!userInDb) {
     const userData = await await User.query()
@@ -121,10 +120,13 @@ export const create = async ctx => {
         educational_background,
         baptismal_status,
         role,
-        member_code: random(100000,999999).toString()
+        member_code: random(100000, 999999).toString()
       })
 
-      .catch(() => false)
+      .catch(e => {
+        console.log(e)
+        throw UnprocessableEntity('Ivalid Body')
+      })
     return {
       status,
       message,
@@ -132,7 +134,7 @@ export const create = async ctx => {
       token: JwtService.sign({ user: userData.user })
     }
   } else {
-   throw UnprocessableEntity('User already exists')
+    throw UnprocessableEntity('User already exists')
   }
 }
 
@@ -140,7 +142,7 @@ export const update = async ctx => {
   const { body } = ctx.request
   const { user } = ctx.state.user
 
-  const userData = await updateNewUserService(body, user)
+    const user_data = await User.query().patchAndFetchById(body.user_id, body)
 
   return {
     status: 'success',
