@@ -60,11 +60,11 @@ const UserValidator = {
           ),
         address: Joi.string(),
         profile_url: Joi.string(),
-        marital_status: Joi.string(),
+        marital_status: Joi.string().valid('SINGLE', 'MARRIED',).required(),
         employment_status: Joi.string(),
         educational_background: Joi.string(),
         baptismal_status: Joi.string(),
-        role: Joi.string()
+        role: Joi.string().valid('USER', 'ADMIN','SUPER_ADMIN').required(),
       }
     }),
   updateDeviceToken: () =>
