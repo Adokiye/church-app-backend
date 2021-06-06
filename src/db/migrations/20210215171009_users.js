@@ -28,7 +28,7 @@ exports.up = function (knex) {
       table.string('employment_status').notNullable()
       table.string('educational_background').notNullable()
       table.string('baptismal_status').notNullable()
-      table.string('profile_url').unique().notNullable()
+      table.string('profile_url')
       table.string('member_code').unique().notNullable()
 
       table.timestamps(true, true)

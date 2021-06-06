@@ -80,19 +80,20 @@ export const verifyOtp = async (ctx, next) => {
 }
 
 export const create = async ctx => {
-  const { phone_number,
-  email,
-  first_name,
-  last_name,
-  other_name,
-  user_gender,
-  password,
-  address,
-  marital_status,
-  employment_status,
-  educational_background,
-  baptismal_status,
-    } = ctx.request.body
+  const {
+    phone_number,
+    email,
+    first_name,
+    last_name,
+    other_name,
+    user_gender,
+    password,
+    address,
+    marital_status,
+    employment_status,
+    educational_background,
+    baptismal_status
+  } = ctx.request.body
 
   let userInDb = await User.query()
     .findOne({
@@ -103,12 +104,22 @@ export const create = async ctx => {
 
   if (!userInDb) {
     const userData = await await User.query()
-    .insert({
-      email,
-      first
-    })
+      .insert({
+        email,
+        first_name,
+        last_name,
+        other_name,
+        user_gender,
+        password,
+        address,
+        marital_status,
+        employment_status,
+        educational_background,
+        baptismal_status,
+        member_code: 
+      })
 
-    .catch(() => false)
+      .catch(() => false)
     return {
       status,
       message,
@@ -116,16 +127,7 @@ export const create = async ctx => {
       token: JwtService.sign({ user: userData.user })
     }
   } else {
-    // set user to active
-    userInDb = await User.query().patchAndFetchById(userInDb.id, {
-      active: true
-    })
-    return {
-      status,
-      message,
-      ...userInDb,
-      token: JwtService.sign({ user: userInDb })
-    }
+   throw UnprocessableEntity('User already exists')
   }
 }
 
@@ -296,7 +298,6 @@ export const login = async ctx => {
         'User account inactive, please verify your phone number to continue',
       ...user,
       token: JwtService.sign({ user })
-
     }
   } else {
     return {
@@ -333,7 +334,6 @@ export const loginMarketing = async ctx => {
         'User account inactive, please verify your phone number to continue',
       ...user,
       token: JwtService.sign({ user })
-
     }
   } else {
     if (await checkIfMarketing(user.role)) {
@@ -374,7 +374,6 @@ export const loginLogisticsAdmin = async ctx => {
         'User account inactive, please verify your phone number to continue',
       ...user,
       token: JwtService.sign({ user })
-
     }
   } else {
     if (await checkIfLogisticsAdmin(user.role)) {
@@ -415,7 +414,6 @@ export const loginRider = async ctx => {
         'User account inactive, please verify your phone number to continue',
       ...user,
       token: JwtService.sign({ user })
-
     }
   } else {
     if (await checkIfRider(user.role)) {
