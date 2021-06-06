@@ -144,3 +144,22 @@ export const getBrandWorkingHours = async ctx => {
     data: brand_working_hours
   }
 }
+
+export const updateBrandWorkingHours = async ctx => {
+  const { body } = ctx.request
+  const { id } = ctx.state.user.user
+  const {action, data} = body
+  switch (action){
+    case
+  }
+  const brand_working_hours = await BrandWorkingHour.query()
+    .where('brand_id', brand_id)
+    .catch(e => {
+      console.log(e)
+      return []
+    })
+  return {
+    status: 'success',
+    data: brand_working_hours
+  }
+}
