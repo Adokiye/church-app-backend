@@ -150,7 +150,12 @@ export const updateBrandWorkingHours = async ctx => {
   const { id } = ctx.state.user.user
   const {action, data} = body
   switch (action){
-    case
+    case 'create':
+      break
+    case 'update':
+      break
+    default:
+      break
   }
   const brand_working_hours = await BrandWorkingHour.query()
     .where('brand_id', brand_id)
