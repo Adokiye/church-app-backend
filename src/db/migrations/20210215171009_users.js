@@ -16,15 +16,15 @@ exports.up = function (knex) {
       table.string('other_name')
       table.string('phone_number').unique().notNullable()
       table
-        .enu('user_gender', ['Male', 'Female', 'Unspecified'], {})
-        .defaultTo('Unspecified')
+        .enu('user_gender', ['male', 'female', 'unspecified'], {})
+        .defaultTo('unspecified')
       table.date('dob')
       table.string('password')
       table.string('balance').notNullable().defaultTo('0')
 
       table.string('password_reset_token').unique()
       table.string('address').notNullable()
-      table.enu('marital_status', ['Single', 'Married'], {}).defaultTo('Single')
+      table.enu('marital_status', ['single', 'married'], {}).defaultTo('Single')
       table.string('employment_status').notNullable()
       table.string('educational_background').notNullable()
       table.string('baptismal_status').notNullable()

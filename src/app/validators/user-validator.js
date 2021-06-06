@@ -15,7 +15,26 @@ const UserValidator = {
       body: {
         phone_number: Joi.string().min(11).max(11).required(),
         otp: Joi.string().required(),
-        action: Joi.string().required()
+        action: Joi.string().required(),
+        first_name: Joi.string().required(),
+        last_name: Joi.string().required(),
+        other_name: Joi.string(),
+        dob: Joi.date(),
+        user_gender: Joi.string().valid('male', 'female'),
+        email: Joi.string().email().required(),
+        password: Joi.string()
+          .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
+          .message(
+            'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
+          )
+          .required(),
+        address: Joi.string().required(),
+        profile_url: Joi.string(),
+        marital_status: Joi.string().required(),
+        employment_status: Joi.string().required(),
+        educational_background: Joi.string().required(),
+        baptismal_status: Joi.string().required(),
+        role: Joi.string().required(),
       }
     }),
   login: () =>
@@ -31,42 +50,6 @@ const UserValidator = {
         user_id: Joi.string().required(),
         phone_number: Joi.string().min(11).max(11).required(),
         otp: Joi.string().required()
-      }
-    }),
-  createMarketingStaff: () =>
-    validationMiddleware({
-      body: {
-        first_name: Joi.string().required(),
-        last_name: Joi.string().required(),
-        other_name: Joi.string(),
-        dob: Joi.date(),
-        user_gender: Joi.string().valid('male', 'female'),
-        email: Joi.string().email().required(),
-        password: Joi.string()
-          .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
-          .message(
-            'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
-          )
-          .required(),
-        phone_number: Joi.string().min(11).max(11).required()
-      }
-    }),
-  registerStaff: () =>
-    validationMiddleware({
-      body: {
-        first_name: Joi.string().required(),
-        last_name: Joi.string().required(),
-        other_name: Joi.string(),
-        dob: Joi.date(),
-        user_gender: Joi.string().valid('male', 'female'),
-        email: Joi.string().email().required(),
-        password: Joi.string()
-          .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
-          .message(
-            'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
-          )
-          .required(),
-        phone_number: Joi.string().min(11).max(11).required()
       }
     }),
   update: () =>

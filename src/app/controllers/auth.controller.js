@@ -4,11 +4,7 @@ import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
 import bcrypt from 'bcryptjs'
-import {
-  Unauthorized,
-  encryptPassword,
-  UnprocessableEntity
-} from '../helpers'
+import { Unauthorized, encryptPassword, UnprocessableEntity } from '../helpers'
 import DeviceToken from '../models/device_token'
 const status = 'success'
 const message = 'Success!'
@@ -211,4 +207,3 @@ export const me = async ctx => {
     }
   }
 }
-
