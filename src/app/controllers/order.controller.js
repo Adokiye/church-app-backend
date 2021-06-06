@@ -411,8 +411,8 @@ export const createOrder = async ctx => {
           'Debit',
           body.order_details.wallet_amount,
           id,
-          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`,
-          `Order Payment of ₦${calculatedOrderInDb.total_amount} by Wallet`
+          `Order Payment of ₦${body.order_details.wallet_amount} by Wallet`,
+          `Order Payment of ₦${body.order_details.wallet_amount} by Wallet`
         )
       }
       order_data = {
