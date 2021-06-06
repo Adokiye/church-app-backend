@@ -134,10 +134,11 @@ export const getBrandsForMarketing = async ctx => {
 export const getBrandWorkingHours = async ctx => {
   const { brand_id } = ctx.params
   const brand_working_hours = await BrandWorkingHour.query()
-  .where('brand_id',brand_id).catch(e => {
-    console.log(e)
-    return []
-  })
+    .where('brand_id', brand_id)
+    .catch(e => {
+      console.log(e)
+      return []
+    })
   return {
     status: 'success',
     data: brand_working_hours
