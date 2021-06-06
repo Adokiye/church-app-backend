@@ -22,7 +22,7 @@ router.post(
 )
 
 router.post(
-  '/auth/guest/authenticate',
+  '/internal/register',
   UserValidator.create(),
   Auth.verifyOtp,
   Auth.create
