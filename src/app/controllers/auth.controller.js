@@ -242,7 +242,7 @@ export const me = async ctx => {
 export const verifyMemberCode = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
-
+  console.log(user)
   if (await checkIfAdmin(user.role)) {
     const user_data = await User.query()
       .findOne({
