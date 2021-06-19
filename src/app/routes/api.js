@@ -30,4 +30,12 @@ router.post(
 
 router.post('/internal/login', UserValidator.login(), Auth.login)
 
+router.post(
+  '/admin/verifyMemberCode',
+  UserValidator.verify_member_code(),
+  Auth.verifyMemberCode
+)
+
+router.get('/superadmin/userValidatedHistories', Auth.getUserValidatedHistories)
+
 export default router.routes()

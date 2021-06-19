@@ -10,7 +10,10 @@ import {
   UnprocessableEntity,
   NotFound
 } from '../helpers'
+import moment from 'moment'
+import { checkIfSuperAdmin, checkIfAdmin } from '../services/RoleService'
 import DeviceToken from '../models/device_token'
+import UserValidatedHistory from '../models/user_validated_history'
 const status = 'success'
 const message = 'Success!'
 
@@ -233,5 +236,66 @@ export const me = async ctx => {
       message: 'User data gotten successfully',
       ...user_data
     }
+  }
+}
+
+export const verifyMemberCode = async ctx => {
+  const { user } = ctx.state.user
+  const { body } = ctx.request
+
+  if (await checkIfAdmin(user.role)) {
+    const user_data = await User.query()
+      .findOne({
+        member_code: body.member_code
+      })
+      //  .withGraphFetched('[free_deliveries, referral_code]')
+      .catch(e => {
+        console.log(e)
+        return false
+      })
+
+    if (!user_data) {
+      throw Unauthorized('User not found')
+    } else {
+      await UserValidatedHistory.query()
+        .insert({
+          user_id: user_data.id,
+          validated_date: moment().format('YYYY-MM-DD'),
+          validated_time: moment().format('HH:mm:ss'),
+          admin_id: user.id
+        })
+        .catch(e => {
+          console.log(e)
+          throw UnprocessableEntity('Invalid Body')
+        })
+      return {
+        status,
+        message: 'User data gotten successfully',
+        ...user_data
+      }
+    }
+  } else {
+    throw Unauthorized('User is not authorized to verify member code')
+  }
+}
+
+export const getUserValidatedHistories = async ctx => {
+  const { user } = ctx.state.user
+
+  if (await checkIfSuperAdmin(user.role)) {
+    const user_validated_histories = await UserValidatedHistory.query()
+      .withGraphFetched('[user, admin]')
+      .catch(e => {
+        console.log(e)
+        return []
+      })
+    return {
+      status,
+      data: user_validated_histories
+    }
+  } else {
+    throw Unauthorized(
+      'User is not authorized to view user validated histories'
+    )
   }
 }

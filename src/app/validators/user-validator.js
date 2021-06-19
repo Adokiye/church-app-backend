@@ -10,6 +10,12 @@ const UserValidator = {
         action: Joi.string().required()
       }
     }),
+  verify_member_code: () =>
+    validationMiddleware({
+      body: {
+        member_code: Joi.string().required()
+      }
+    }),
   create: () =>
     validationMiddleware({
       body: {
@@ -30,12 +36,12 @@ const UserValidator = {
           .required(),
         address: Joi.string().required(),
         profile_url: Joi.string(),
-        marital_status: Joi.string().valid('single', 'married',).required(),
+        marital_status: Joi.string().valid('single', 'married').required(),
 
         employment_status: Joi.string().required(),
         educational_background: Joi.string().required(),
         baptismal_status: Joi.string().required(),
-        role: Joi.string().valid('USER', 'ADMIN','SUPER_ADMIN').required(),
+        role: Joi.string().valid('USER', 'ADMIN', 'SUPER_ADMIN').required()
       }
     }),
   login: () =>
@@ -61,11 +67,11 @@ const UserValidator = {
           ),
         address: Joi.string(),
         profile_url: Joi.string(),
-        marital_status: Joi.string().valid('single', 'married',),
+        marital_status: Joi.string().valid('single', 'married'),
         employment_status: Joi.string(),
         educational_background: Joi.string(),
         baptismal_status: Joi.string(),
-        role: Joi.string().valid('USER', 'ADMIN','SUPER_ADMIN'),
+        role: Joi.string().valid('USER', 'ADMIN', 'SUPER_ADMIN')
       }
     }),
   updateDeviceToken: () =>
