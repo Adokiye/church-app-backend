@@ -133,7 +133,7 @@ export const create = async ctx => {
       status,
       message,
       ...userData,
-      token: JwtService.sign({ user: userData.user })
+      token: JwtService.sign({ user: userData })
     }
   } else {
     throw UnprocessableEntity('User already exists')
@@ -243,7 +243,7 @@ export const verifyMemberCode = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
   console.log(user)
-  if (await checkIfAdmin(user.role)) {
+  if (user && await checkIfAdmin(user.role)) {
     const user_data = await User.query()
       .findOne({
         member_code: body.member_code
@@ -282,7 +282,7 @@ export const verifyMemberCode = async ctx => {
 export const getUserValidatedHistories = async ctx => {
   const { user } = ctx.state.user
 
-  if (await checkIfSuperAdmin(user.role)) {
+  if (user && await checkIfSuperAdmin(user.role)) {
     const user_validated_histories = await UserValidatedHistory.query()
       .withGraphFetched('[user, admin]')
       .catch(e => {
