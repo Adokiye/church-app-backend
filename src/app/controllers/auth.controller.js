@@ -86,7 +86,7 @@ export const create = async ctx => {
     baptismal_status,
     role
   } = ctx.request.body
-
+  console.log(ctx.request.body)
   let userInDb = await User.query()
     .findOne({
       phone_number
@@ -136,6 +136,7 @@ export const create = async ctx => {
       token: JwtService.sign({ user: userData })
     }
   } else {
+    console.log(userInDb)
     throw UnprocessableEntity('User already exists')
   }
 }
