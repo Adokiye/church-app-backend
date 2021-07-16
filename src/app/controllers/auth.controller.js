@@ -5,7 +5,7 @@ import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
 import bcrypt from 'bcryptjs'
 import {
-  Unauthorized,
+  BadRequest,
   encryptPassword,
   NotFound
 } from '../helpers'
@@ -126,7 +126,7 @@ export const create = async ctx => {
 
       .catch(e => {
         console.log(e)
-        throw Unauthorized('Invalid Body')
+        throw BadRequest('Invalid Body')
       })
     return {
       status,
@@ -136,7 +136,7 @@ export const create = async ctx => {
     }
   } else {
     console.log(userInDb)
-    throw Unauthorized('User already exists')
+    throw BadRequest('User already exists')
   }
 }
 
@@ -171,7 +171,7 @@ export const updateDeviceToken = async ctx => {
   const user = await User.query()
     .findOne({ id })
     .catch(() => {
-      throw Unauthorized('User not found please register')
+      throw BadRequest('User not found please register')
     })
 
   const userData = await DeviceToken.query()
@@ -180,7 +180,7 @@ export const updateDeviceToken = async ctx => {
       ...body
     })
     .catch(() => {
-      throw Unauthorized('Invalid body')
+      throw BadRequest('Invalid body')
     })
 
   return {
@@ -198,13 +198,13 @@ export const login = async ctx => {
       email: body.email
     })
     .catch(() => {
-      throw Unauthorized('User not found. Please sign up')
+      throw BadRequest('User not found. Please sign up')
     })
 
   const isValid = await bcrypt.compare(body.password, user.password)
 
   if (!isValid) {
-    throw Unauthorized('Unauthorized, invalid password')
+    throw BadRequest('BadRequest, invalid password')
   }
 
   return {
@@ -229,7 +229,7 @@ export const me = async ctx => {
     })
 
   if (!user_data) {
-    throw Unauthorized('User not found. Please sign up')
+    throw BadRequest('User not found. Please sign up')
   } else {
     return {
       status,
@@ -255,7 +255,7 @@ export const verifyMemberCode = async ctx => {
       })
 
     if (!user_data) {
-      throw Unauthorized('User not found')
+      throw BadRequest('User not found')
     } else {
       await UserValidatedHistory.query()
         .insert({
@@ -266,7 +266,7 @@ export const verifyMemberCode = async ctx => {
         })
         .catch(e => {
           console.log(e)
-          throw Unauthorized('Invalid Body')
+          throw BadRequest('Invalid Body')
         })
       return {
         status,
@@ -275,7 +275,7 @@ export const verifyMemberCode = async ctx => {
       }
     }
   } else {
-    throw Unauthorized('User is not authorized to verify member code')
+    throw BadRequest('User is not authorized to verify member code')
   }
 }
 
@@ -294,7 +294,7 @@ export const getUserValidatedHistories = async ctx => {
       data: user_validated_histories
     }
   } else {
-    throw Unauthorized(
+    throw BadRequest(
       'User is not authorized to view user validated histories'
     )
   }
