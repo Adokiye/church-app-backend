@@ -7,7 +7,6 @@ import bcrypt from 'bcryptjs'
 import {
   Unauthorized,
   encryptPassword,
-  Unauthorized,
   NotFound
 } from '../helpers'
 import moment from 'moment'
