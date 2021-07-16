@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs'
 import {
   Unauthorized,
   encryptPassword,
-  UnprocessableEntity,
+  Unauthorized,
   NotFound
 } from '../helpers'
 import moment from 'moment'
@@ -127,7 +127,7 @@ export const create = async ctx => {
 
       .catch(e => {
         console.log(e)
-        throw UnprocessableEntity('Invalid Body')
+        throw Unauthorized('Invalid Body')
       })
     return {
       status,
@@ -137,7 +137,7 @@ export const create = async ctx => {
     }
   } else {
     console.log(userInDb)
-    throw UnprocessableEntity('User already exists')
+    throw Unauthorized('User already exists')
   }
 }
 
@@ -181,7 +181,7 @@ export const updateDeviceToken = async ctx => {
       ...body
     })
     .catch(() => {
-      throw UnprocessableEntity('Invalid body')
+      throw Unauthorized('Invalid body')
     })
 
   return {
@@ -267,7 +267,7 @@ export const verifyMemberCode = async ctx => {
         })
         .catch(e => {
           console.log(e)
-          throw UnprocessableEntity('Invalid Body')
+          throw Unauthorized('Invalid Body')
         })
       return {
         status,
