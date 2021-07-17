@@ -29,10 +29,6 @@ const UserValidator = {
         user_gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
         password: Joi.string()
-          .pattern(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'))
-          .message(
-            'Password must contain minimun 8 characters, at least 1 UPPERCASE letter, at least 1 lowercase letter and at least 1 digit'
-          )
           .required(),
         address: Joi.string().required(),
         profile_url: Joi.string(),
