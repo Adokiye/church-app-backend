@@ -38,4 +38,7 @@ router.post(
 
 router.get('/superadmin/userValidatedHistories', Auth.getUserValidatedHistories)
 
+router.get('/superadmin/users', Auth.getUsers)
+
+
 export default router.routes()

@@ -4,11 +4,7 @@ import JwtService from '../services/JwtService'
 import OtpService from '../services/OtpService'
 import Otp from '../models/otp'
 import bcrypt from 'bcryptjs'
-import {
-  BadRequest,
-  encryptPassword,
-  NotFound
-} from '../helpers'
+import { BadRequest, encryptPassword, NotFound } from '../helpers'
 import moment from 'moment'
 import { checkIfSuperAdmin, checkIfAdmin } from '../services/RoleService'
 import DeviceToken from '../models/device_token'
@@ -243,7 +239,7 @@ export const verifyMemberCode = async ctx => {
   const { user } = ctx.state.user
   const { body } = ctx.request
   console.log(user)
-  if (user && await checkIfAdmin(user.role)) {
+  if (user && (await checkIfAdmin(user.role))) {
     const user_data = await User.query()
       .findOne({
         member_code: body.member_code
@@ -282,7 +278,7 @@ export const verifyMemberCode = async ctx => {
 export const getUserValidatedHistories = async ctx => {
   const { user } = ctx.state.user
 
-  if (user && await checkIfSuperAdmin(user.role)) {
+  if (user && (await checkIfSuperAdmin(user.role))) {
     const user_validated_histories = await UserValidatedHistory.query()
       .withGraphFetched('[user, admin]')
       .catch(e => {
@@ -294,8 +290,25 @@ export const getUserValidatedHistories = async ctx => {
       data: user_validated_histories
     }
   } else {
-    throw BadRequest(
-      'User is not authorized to view user validated histories'
-    )
+    throw BadRequest('User is not authorized to view user validated histories')
+  }
+}
+
+export const getUsers = async ctx => {
+  const { user } = ctx.state.user
+
+  if (user && (await checkIfSuperAdmin(user.role))) {
+    const users = await User.query()
+      .withGraphJoined('[user_validated_histories]')
+      .catch(e => {
+        console.log(e)
+        return []
+      })
+    return {
+      status,
+      data: users
+    }
+  } else {
+    throw BadRequest('User is not authorized to view user validated histories')
   }
 }
