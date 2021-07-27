@@ -20,16 +20,15 @@ const UserValidator = {
     validationMiddleware({
       body: {
         phone_number: Joi.string().min(11).max(11).required(),
-        otp: Joi.string().required(),
-        action: Joi.string().required(),
+        // otp: Joi.string().required(),
+        // action: Joi.string().required(),
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
         other_name: Joi.string(),
         dob: Joi.date(),
         user_gender: Joi.string().valid('male', 'female'),
         email: Joi.string().email().required(),
-        password: Joi.string()
-          .required(),
+        password: Joi.string().required(),
         address: Joi.string().required(),
         profile_url: Joi.string(),
         marital_status: Joi.string().valid('single', 'married').required(),

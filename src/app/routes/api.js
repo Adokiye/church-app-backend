@@ -24,7 +24,7 @@ router.post(
 router.post(
   '/internal/register',
   UserValidator.create(),
-  Auth.verifyOtp,
+  //Auth.verifyOtp,
   Auth.create
 )
 
